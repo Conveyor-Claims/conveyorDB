@@ -1,0 +1,32 @@
+dest_column,airtable_field_id,airtable_name,airtable_type,notes
+airtable_id,,record id,recordId,match key; Airtable record id; not a field
+partner_name,fldIZhZ5peMjzfzlf,Partner Name,singleLineText,copy stored value as-is; blank stays blank
+status,fldoIIxUDrDis2d63,Status,singleSelect,copy stored choice as-is; blank stays blank
+partner_type,flddn7JSepogvn4Km,Partner Type,singleSelect,copy stored choice as-is; blank stays blank
+attorney_name,flditYGtkZxrlAHxl,Attorney Name,singleLineText,copy stored value as-is; blank stays blank
+rp_contact_name,fldmtmCdeUO6HMmy6,RP Contact Name,richText,copy stored value as-is; blank stays blank
+license_states,fldmdO8ydzDclRV10,License States,multipleSelects,copy stored choice as-is; blank stays blank
+clg_email,fldTrUA1mYdkkh2vP,CLG Email,email,copy stored value as-is; blank stays blank
+email,fldpd8nkYAswKsA0s,Email,email,copy stored value as-is; blank stays blank
+office_number,fldgncPvvNwDvXvaj,Office Number,phoneNumber,copy stored value as-is; blank stays blank
+mobile_number,fldI28x0z4nQawBFO,Mobile Number,phoneNumber,copy stored value as-is; blank stays blank
+fax_number,fldZtiJaxe4osWa2F,Fax Number,phoneNumber,copy stored value as-is; blank stays blank
+physical_address,fldf3sUZQrf6IChy9,Physical Address,richText,copy stored value as-is; blank stays blank
+mailing_address,fldHVdVObYxO2Nq0A,Mailing Address,richText,copy stored value as-is; blank stays blank
+bar_no,fldD292tQhaixzvSV,Bar No.,richText,copy stored value as-is; blank stays blank
+domain,fldwMaUDbjKo0Wa5w,Domain,url,copy stored value as-is; blank stays blank
+additional_details,fldsnT2lcIGAECOU9,Additional Details,richText,copy stored value as-is; blank stays blank
+rp_fee_percentages,fldaeB0zG9aFmX3Dx,RP Fee Percentages,singleSelect,copy stored choice as-is; blank stays blank; never invent a dollar
+rp_fee_percentages_2026,fldkQ5v9k8Nb4EL0C,RP Fee Percentages - 2026,singleSelect,copy stored choice as-is; blank stays blank; never invent a dollar
+counsel_id,fld0iFcqbjmB74IdY,Counsel ID,formula,formula; dest exists; stay nullable until P37; do not recompute.
+of_active_cases,fldYHTESheXvGGsq7,# of Active Cases,rollup,rollup; dest exists; stay nullable until P37; do not fill or recompute.
+assigned_cases,fld0VKACiUBGDdLkR,Assigned Cases,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+referred_cases,fldoltko2t58xccWw,Referred Cases,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+users,fldjgm3y8U7PGPlks,🤖 Users,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+draft_letter_of_representations,fld5ehZgFb0WXMWEW,Draft - Letter of Representations,url,copy stored value as-is; blank stays blank
+draft_retainer_agreements,fldXinPBqEKmOaLwy,Draft - Retainer Agreements,url,copy stored value as-is; blank stays blank
+co_counsel_start_date,fld1JLYpR4U7AmO1t,Co-Counsel Start Date,date,copy stored date as-is; blank stays blank
+managed_cases,fldlsdwmTd7ClAkkh,Managed Cases,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+draft_retainer_agreement_claimant,fldnXbNoX8tMiOv3o,Draft - Retainer Agreement - [Claimant],url,copy stored value as-is; blank stays blank
+draft_retainer_agreement_claimant_and_spouse_or_domestic_p,fldjSJLuld0if70ye,Draft - Retainer Agreement - [Claimant] & [Spouse or Domestic Partner],url,copy stored value as-is; blank stays blank
+draft_retainer_agreement_entity,fldAoSday9ECE9YlQ,Draft - Retainer Agreement - [Entity],url,copy stored value as-is; blank stays blank
