@@ -1,5 +1,5 @@
-import { createAdminClient } from "@/lib/supabase/admin";
-import { createAnonServerClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/clients/admin";
+import { createAnonServerClient } from "@/lib/clients/server";
 import {
   ALL_PUBLIC_TABLES,
   type PublicTableName,
