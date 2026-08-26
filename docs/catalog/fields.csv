@@ -1,0 +1,647 @@
+#,table,category,field_name,field_type,dropdown_id,on_c01985_screen,airtable_field_id
+1,Case,Header,Case Number,formula,,yes,fldgtfo2DzUKEBYV9
+2,Case,Case Overview,Referred Firm,link to record,,yes,fldCbuRKJLZOo1uFz
+3,Case,Case Overview,Associate Counsel,link to record,,yes,fldV6qUkkkkCVwl2Q
+4,Case,Case Overview,Resolutions Specialist,dropdown,D1,yes,fldYBUMkzPn2VzP2B
+5,Case,Case Overview,Paralegal,dropdown,D2,yes,fldDBQwUWqdz1kbVa
+6,Case,Case Overview,Department,dropdown,D3,yes,fldUbBRoVkDvGvkgm
+7,Case,Case Overview,Case Status,dropdown,D4,yes,fldiYDUIY6GKN2GZf
+8,Case,Case Overview,Next Steps,multi dropdown,D5,yes,fldg18SA1L4aDlylV
+9,Case,Case Overview,Category Type,multi dropdown,D6,yes,fldQuERHXQ2DDJMCH
+10,Case,Case Overview,DA/OC,dropdown,D7,yes,fldgrGdvGE2utozoB
+11,Case,Case Overview,RS Due Date,date,,yes,fldC4tCwwkLUDlF5u
+12,Case,Case Overview,PL Due Date,date,,yes,fldokz2afgvTrrwkZ
+13,Case,Case Overview,Atty Due Date,date,,yes,fld05In451iAhnDLQ
+14,Case,Case Overview,Atty Client Appt,date/time,,yes,fldWLSqnKRtFU1kMN
+15,Case,Case Overview,Recent Client Comm Date,date,,yes,fldWnM8P1rIHqupm9
+16,Case,Case Overview,Next Client Comm Due Date,formula,,yes,fldolGWAyYvyaRZ0F
+17,Case,Case Notes,Law Firm Notes,long text,,yes,fld0iowHKEtJKfmOo
+18,Case,Case Notes,Resolutions Notes,rich text,,yes,fldXZRJ3ZtJ5EGULM
+19,Case,Case Notes,Attorney Only Notes,long text,,yes,fldy4AoJoE5pyPR69
+20,Case,Case Notes,Accounting Notes,rich text,,yes,fldfNhcBHp4b0hJpH
+21,Case,Email Correspondence,Email Correspondence PDF,file,,yes,fldf0YxSVW4roPZls
+22,Case,Email Correspondence,Attorney Correspondence,file,,yes,fldeCwerZP21qxDfi
+23,Case,Call Recordings,Call Recordings,file,,yes,fldte6hBXvrCjB8rV
+24,Case,Client Details,Client Profile,rich text,,yes,fldBUVrIVp0uesl0e
+25,Case,Client Details,Associated Case(s),link to record,,yes,fldHpsEmylzAtGlzf
+26,Case,Client Details,Property Address,text,,yes,fldwDxMGyXKgbqA6y
+27,Case,Client Details,Mailing Address,text,,yes,fldiEGgKGpT8mOYP2
+28,Case,Client Details,Client Alt Phone Number,phone,,yes,fldxWJBShHjliRLfl
+29,Case,Client Details,Client Phone Number,phone,,yes,fldMLTpVPdvl5vdru
+30,Case,Client Details,Email,email,,yes,fld23ADDW0VeuYcpo
+31,Case,Client Details,SMS Consent,dropdown,D8,yes,fldnAhTecVAoCjoHt
+32,Case,Client Details,Client Rating,dropdown,D9,yes,fldQonfCXb9PsqDP2
+33,Case,Client Details,Client Name,link to record,,yes,fldcJpgdshlA1WsUL
+34,Case,Claim Details,Claim State,dropdown,D10,yes,flduWNWWULELPp2Jg
+35,Case,Claim Details,Property Type,dropdown,D11,yes,fldf4uGWBKU4NMNQU
+36,Case,Claim Details,Claim Number,text,,yes,fldiT1jmx3CQNCS8T
+37,Case,Claim Details,Policy Number,text,,yes,fldznX4N1GHPhCtct
+38,Case,Claim Details,Date of Loss,date,,yes,fld44cdvMJycDTGI7
+39,Case,Claim Details,SOL Deadline,formula,,yes,fldYxmn03YEIHOMAW
+40,Case,Claim Details,Date of Breach,date,,yes,fldk9IDNnTCKHOUSi
+41,Case,Claim Details,DOB Deadline,formula,,yes,fldKhqi74RqcCg3oR
+42,Case,Claim Details,Cause of Loss,multi dropdown,D12,yes,fld8A5gmr5Vvs3jZ2
+43,Case,Claim Details,Claim Type,multi dropdown,D13,yes,fld2OgPpFo08Wh3Q3
+44,Case,Claim Details,Contractor,dropdown,D14,yes,fldPQqRuhrfqzOEhq
+45,Case,Claim Details,Total Loss,dropdown,D15,yes,fldzwfDpUW1nmjyh2
+46,Case,Claim Details,RP Claim Summary for Litigation,long text,,yes,fld2ODyadsYbhBNPS
+47,Case,Repair Estimate & Settlement Progress,Client Estimate Amount,money,,yes,fldNayASYskikvcBr
+48,Case,Repair Estimate & Settlement Progress,Current IC Offer,money,,yes,fld9apmn2hbV0jYyy
+49,Case,Repair Estimate & Settlement Progress,% of Est,formula,,yes,flddme7f1oISfxwlv
+50,Case,Repair Estimate & Settlement Progress,IC RCV Estimate Amount,money,,yes,fldYgSYpvtvkqWxIx
+51,Case,Repair Estimate & Settlement Progress,RCV Disputed Amount,formula,,yes,fld9FvfsanY6NHQnK
+52,Case,Repair Estimate & Settlement Progress,Deductible Amount,money,,yes,fldtchNl4vABMkwlN
+53,Case,Repair Estimate & Settlement Progress,Total Paid to Date,money,,yes,fldJuK1i3rINHuU8W
+54,Case,Repair Estimate & Settlement Progress,Amount to Collect,formula,,yes,fldHezcQzyyU1qmNJ
+55,Case,Retained Client Checklist,Certified Policy Received,checkbox,,yes,fldME7AjDxkCUVHDS
+56,Case,Retained Client Checklist,IC Docs & Communications,checkbox,,yes,fld1D3iTdpOe3R61q
+57,Case,Retained Client Checklist,Payment Summary (SOL) Received,checkbox,,yes,fld7EHwOBVeInSY0H
+58,Case,Retained Client Checklist,NC Call Completed,checkbox,,yes,fld2eYCVKkHXri6hG
+59,Case,Retained Client Checklist,CLG - Settlement Statement Complete,checkbox,,yes,fldfE4qZuTaUrEBK1
+60,Case,Client Docs,Claim Valuation Documents,file,,yes,fldIgN0YdPywGfSwT
+61,Case,Client Docs,Proof of Loss Documents,file,,yes,fldNFIED1B3npGeB7
+62,Case,Client Docs,Expense Documents,file,,yes,fldTkSAeUTNeS2KLT
+63,Case,Client Docs,Client Photos,file,,yes,fld8oTgKFwwWgIxIN
+64,Case,Client Docs,Expert Documents,file,,yes,fldQabqTzMxP1p99o
+65,Case,Client Docs,Supporting Documents,file,,yes,fldX5EuOvCpINgpkd
+66,Case,Client Docs,Public Adjuster Documents,file,,yes,fld6oYVEUfoJdzEgv
+67,Case,Client Docs,Contractor Documents,file,,yes,fldzkufOPm6TQ1Yed
+68,Case,Client Docs,Property Damage Documents,file,,yes,fldPdoeyIfzuPvJ4J
+69,Case,Client Docs,Weather Reports,file,,yes,fldBY1yBVS79qBnsD
+70,Case,Client Docs,External Documentation Links,rich text,,yes,fldHnmSazu7oZxcM6
+71,Case,Insurance & OC Docs,Insurance Company,dropdown,D16,yes,fldiKAFhYTEYN1wkT
+72,Case,Insurance & OC Docs,Opposing Counsel Firm,dropdown,D17,yes,fldb4M4AAia7d9LJc
+73,Case,Insurance & OC Docs,Current Desk Adjuster,dropdown,D18,yes,fldcnFN4hgkpmp8wn
+74,Case,Insurance & OC Docs,Current Opposing Counsel,dropdown,D19,yes,fldRQkxjY9dHVkWBS
+75,Case,Insurance & OC Docs,Desk Adjuster Email,email,,yes,fldY7S06zFvY8MXdq
+76,Case,Insurance & OC Docs,Opposing Counsel Email,email,,yes,fldnaZXHGPOzjRaik
+77,Case,Insurance & OC Docs,IC Adjuster Contact Info,long text,,yes,fldzHlOi6dg0uShfh
+78,Case,Insurance & OC Docs,Opposing Counsel Contact Info,rich text,,yes,fldjRRqxF9GSUQF7y
+79,Case,Insurance & OC Docs,Policy Documents,file,,yes,fldfIDql9fOVW9KY7
+80,Case,Insurance & OC Docs,Carrier Estimate Documents,file,,yes,fldo4KJECzpMKdRig
+81,Case,Insurance & OC Docs,Carrier Payment Documents,file,,yes,fld4f5B8AvEQdntEU
+82,Case,Insurance & OC Docs,Carrier Coverage Documents,file,,yes,fldoeTcLkS1bYk6TZ
+83,Case,Insurance & OC Docs,Carrier Expert Documents,file,,yes,fld2mCZUg13GAVkHV
+84,Case,Insurance & OC Docs,Carrier Inspection Documents,file,,yes,fldyTRrx84PR90Qti
+85,Case,Insurance & OC Docs,Carrier Supporting Documents,file,,yes,fldh0WLd54RYlKdXX
+86,Case,Letter of Rep. & Retainers,🔵 RP LOR,file,,yes,fldJRPsbIPWBys78c
+87,Case,Letter of Rep. & Retainers,🔵 RP Contract,file,,yes,fldl33i3YKVNCXiUw
+88,Case,Letter of Rep. & Retainers,🔵 Completed Retainer Agreement,file,,yes,fldd3bElvNDTnkoiz
+89,Case,Letter of Rep. & Retainers,🔵 LOR/DL,file,,yes,fldn2IwvdDsXZQoeJ
+90,Case,Letter of Rep. & Retainers,Client Consent Forms,file,,yes,fldvFcaZ9LgY1gEmA
+91,Case,Letter of Rep. & Retainers,RP Claim Fee %,percent,,yes,fld0bbVesO5fox5Ei
+92,Case,Letter of Rep. & Retainers,Retainer Sent,date,,yes,fldcwPNRUvJElw4F8
+93,Case,Letter of Rep. & Retainers,Retainer Signed Date,date,,yes,flddWl7BHXQsYw2Lx
+94,Case,Letter of Rep. & Retainers,Welcome Email Sent,date,,yes,fldWGgKahuJ7XRn8X
+95,Case,Letter of Rep. & Retainers,LOR/DL Sent to IC,date,,yes,fldh5cxyaV1W1F5Yw
+96,Case,Letter of Rep. & Retainers,Days Since Retained,formula,,yes,fldEVb3g8dKcssEid
+97,Case,Appraisal Initiation & Appraiser Details,Appraisal Type,dropdown,D20,yes,fldk6JNhlC0FHdumy
+98,Case,Appraisal Initiation & Appraiser Details,Recommended Appraiser,dropdown,D21,yes,fldE3YQHYwfZx8vIf
+99,Case,Appraisal Initiation & Appraiser Details,Appraisal Consent,checkbox,,yes,fldtGYARmHWv1gmdk
+100,Case,Appraisal Initiation & Appraiser Details,Insured's Appraiser,link to record,,yes,fldoYMzEPz5XJZv64
+101,Case,Appraisal Initiation & Appraiser Details,Insured's Appraiser - Portal Access,link to record,,yes,fldp6d4OxVIdRSrt5
+102,Case,Appraisal Initiation & Appraiser Details,Carrier's Appraiser,text,,yes,fldSuHL2OrnRv3RnC
+103,Case,Appraisal Initiation & Appraiser Details,RP Appraiser,dropdown,D22,yes,fldW8GhCD9Oz6t13V
+104,Case,Firm Appraisal Demand,Appraisal Demand Letter Draft,url,,yes,fldcgakqkNI5sTmIM
+105,Case,Firm Appraisal Demand,Appraisal Demand Letter,file,,yes,fld71VLLdD7664DXp
+106,Case,Firm Appraisal Demand,Appraisal Demand sent to IC,date,,yes,fldWQTbSqKLwn2Clm
+107,Case,Firm Appraisal Demand,Appraisal Demand Response Due,formula,,yes,fld413A3xBATbIC58
+108,Case,Firm Appraisal Demand,Appraisal Demand Escalation sent to IC,date,,yes,fldA2wlIkGFFQLsLb
+109,Case,Firm Appraisal Demand,Appraisal Demand Escalation Response Due,formula,,yes,fldRRwZt2Nr7zRuwm
+110,Case,Carrier Appraisal Demand,Carrier Initiated Appraisal Demand,file,,yes,fldfv9vZPhqIO7U1F
+111,Case,Carrier Appraisal Demand,Appraisal Demand Rec'd from IC,date,,yes,fld5Bsn85FzQHrECV
+112,Case,Carrier Appraisal Demand,Firm Appraisal Response Due,formula,,yes,fldkNSBr2mUI4jRIC
+113,Case,Carrier Appraisal Demand,Appraisal Response Sent to IC,date,,yes,fld6aVYy8weQdH0eB
+114,Case,Appraisal Response(s) & Docs,Appraisal Response(s),file,,yes,fldlZeZL6WuMqy8XP
+115,Case,Appraisal Response(s) & Docs,Appraisal Documents,file,,yes,fldwyV3zBowIqY5MD
+116,Case,Appraisal Response(s) & Docs,Appraiser Client Agreement,file,,yes,fld4ZI2kCwxUYM2NI
+117,Case,Appraiser Progress & Notes,Appraiser Next Steps,multi dropdown,D23,yes,fldS0SSbcGy5grJHx
+118,Case,Appraiser Progress & Notes,Show Appraisal Milestone Steps,checkbox,,yes,fldSwjtUBnHRRfZPZ
+119,Case,Appraiser Progress & Notes,Notes for Appraiser,rich text,,yes,flduqIp5ECt8cIVG6
+120,Case,Appraiser Progress & Notes,Appraiser Response Notes,rich text,,yes,fld039PmqNMOnEu75
+121,Case,Appraisal Process Milestone Steps,Step 1: Initial Appraisal Inspection Scheduled,checkbox,,yes,fldtuqe7c4SAdMFLS
+122,Case,Appraisal Process Milestone Steps,Step 1 Completed 📅,date,,yes,fldwEyIvUpmI1iXIf
+123,Case,Appraisal Process Milestone Steps,Step 2: Site Inspection Completed,checkbox,,yes,fldA5F7KH8iaqRyyX
+124,Case,Appraisal Process Milestone Steps,Step 2 Completed 📅,date,,yes,fldHFqn9583TWX6xv
+125,Case,Appraisal Process Milestone Steps,Step 3: Appraisers Estimate Prepared,checkbox,,yes,fldBlvHCa6DB7ZeDF
+126,Case,Appraisal Process Milestone Steps,Step 3 Completed 📅,date,,yes,fldG5cMGJ3vEfwIVE
+127,Case,Appraisal Process Milestone Steps,Step 4: Appraiser Estimate Exchanged ,checkbox,,yes,fld0QlMTvDQJVZPzZ
+128,Case,Appraisal Process Milestone Steps,Step 4 Completed 📅,date,,yes,fldsROoq94OLrsTFS
+129,Case,Appraisal Process Milestone Steps,Step 5: Joint Scope Review Conducted,checkbox,,yes,fldOaU9o0qwHuFeSc
+130,Case,Appraisal Process Milestone Steps,Step 5 Completed 📅,date,,yes,fldF65LOUO6hPSIoh
+131,Case,Appraisal Process Milestone Steps,Step 6: Umpire Selected,checkbox,,yes,fldP2Q5n8LScV5Gj3
+132,Case,Appraisal Process Milestone Steps,Step 6 Completed 📅,date,,yes,fldR022G1tLVnpLFw
+133,Case,Appraisal Process Milestone Steps,Step 7: Umpire Discussions Initiated,checkbox,,yes,flduTgtCW0efl5gV2
+134,Case,Appraisal Process Milestone Steps,Step 7 Completed 📅,date,,yes,fldbKhzxXJtNcad8Q
+135,Case,Appraisal Process Milestone Steps,Step 8: Court Appointed Umpire Needed,checkbox,,yes,fldZFRnELIfg7Xb0y
+136,Case,Appraisal Process Milestone Steps,Step 8 Completed 📅,date,,yes,fldpI39fvpYG0W26F
+137,Case,Appraisal Process Milestone Steps,Step 9: Evidence Submitted to Umpire,checkbox,,yes,fldYylt1cOSKiRAPn
+138,Case,Appraisal Process Milestone Steps,Step 9 Completed 📅,date,,yes,fldyJkU41EhgbR6zb
+139,Case,Appraisal Process Milestone Steps,Step 10: Umpire Inspection Scheduled,checkbox,,yes,fldD59r8NZVVIf7B2
+140,Case,Appraisal Process Milestone Steps,Step 10 Completed 📅,date,,yes,fldhg4eamCvfJRiby
+141,Case,Appraisal Process Milestone Steps,Step 11: Umpire Site Inspection Completed,checkbox,,yes,fldlhClW9RP4MnmIB
+142,Case,Appraisal Process Milestone Steps,Step 11 Completed 📅,date,,yes,fldsvSOpHm2FnJ9Sx
+143,Case,Appraisal Process Milestone Steps,Step 12: Appraisal Award Finalized,checkbox,,yes,fldoWcb4CmebhZ2kj
+144,Case,Appraisal Process Milestone Steps,Step 12 Completed 📅,date,,yes,fldLH9MCgbsvhjs2y
+145,Case,Appraisal Process Milestone Steps,Step 13: Appraisal Award Signed & Completed,checkbox,,yes,fldZN6OE3tvJFAhtK
+146,Case,Appraisal Process Milestone Steps,Step 13 Completed 📅,date,,yes,fldJQw7s4afKefZj0
+147,Case,Umpire Selection & Docs,🔵 Umpire Documents,file,,yes,fldeuaZQ7QMudHA9S
+148,Case,Umpire Selection & Docs,U/P Served,file,,yes,fldyHrp4IFx9sidYV
+149,Case,Umpire Selection & Docs,Umpire,text,,yes,fldRsI1Fx6v0u49Im
+150,Case,Umpire Selection & Docs,Court Appointed Umpire,text,,yes,fld2w6YKgUMIaYAlC
+151,Case,Umpire Selection & Docs,U/P County,formula,,yes,fldkGSqkRyPDK9or9
+152,Case,Umpire Selection & Docs,U/P - Mailed or E-Filed,date,,yes,fldYXMjPJMBT3h9YV
+153,Case,Umpire Selection & Docs,U/P Sent to ABC Legal,date,,yes,fldqRqyqcAhGCe9j3
+154,Case,Umpire Selection & Docs,U/P Served Date,date,,yes,fldb5BP4eIV1dlGMu
+155,Case,Umpire Selection & Docs,Umpire Hearing Date,date,,yes,fldiaqeaA52SH9spH
+156,Case,Appraisal Award & Closing Package,Appraisal Closing Package,file,,yes,fldyqFSshJqX0pemi
+157,Case,Appraisal Award & Closing Package,Appraisal Closing Package Complete,checkbox,,yes,fldDzkbI0e40Ua6VC
+158,Case,Building Consultant Docs,Notes for Build. Consult. Review,long text,,yes,fldAkXhUDMWN71b2K
+159,Case,Building Consultant Docs,Build. Consult. Response Notes,long text,,yes,fldqK2bqliS6HbrQ4
+160,Case,Building Consultant Docs,Docs for Build. Consult. Review,file,,yes,fldAnkXdUqxbMJ5DQ
+161,Case,Building Consultant Docs,Building Consultant Package,file,,yes,fldL3iX1sxYLrnbS3
+162,Case,Building Consultant Docs,Building Consultant,link to record,,yes,fldAvWDxKCfzKEQCd
+163,Case,Building Consultant Docs,Building Consultant - Portal Access,link to record,,yes,fldgn3OtaZjuhRV1t
+164,Case,Building Consultant Docs,Building Cons. Firm Request,dropdown,D24,yes,fldW59OCtb6Fzz5pv
+165,Case,Building Consultant Docs,Building Cons. Next Steps,dropdown,D25,yes,fldeeiETOtcOVlNWz
+166,Case,Building Consultant Docs,Building Consult. Package Complete,checkbox,,yes,fld9BbK52ZR1hwZgS
+167,Case,Re-Inspection Details,Reinspection Notes,long text,,yes,fldGt4WM0npi5uSOs
+168,Case,Re-Inspection Details,🔵 Reinspection Docs,file,,yes,fld4kwEu2tG7P0DFR
+169,Case,Re-Inspection Details,Reinspection Scheduled Date,date/time,,yes,fldFpenlDCyetA7aI
+170,Case,Re-Inspection Details,Reinspection Completed,checkbox,,yes,fldE4gORojZSlrpNZ
+171,Case,EUO Details,EUO Docs,file,,yes,fldbSu6Y0dF2RU0Xp
+172,Case,EUO Details,EUO Date,date/time,,yes,fldGFp6sNqDjEBSwK
+173,Case,EUO Details,EUO Location,dropdown,D26,yes,fldw7LCqnl8FJwEkX
+174,Case,Expert Details & Docs,Notes for Experts Review,rich text,,yes,fld6SWfu0zWTMkgr1
+175,Case,Expert Details & Docs,Expert Response Notes,rich text,,yes,fldX5UmYNRcCmFlnH
+176,Case,Expert Details & Docs,Docs for Expert Review,file,,yes,fld5Rm8dyCv8CzNyc
+177,Case,Expert Details & Docs,Experts Finished Reports,file,,yes,fldP4xOxDdpGOhmFS
+178,Case,Expert Details & Docs,Experts Saved Reports,file,,yes,fldVknBjYfnhr105G
+179,Case,Expert Details & Docs,Selected Engineer/Experts,link to record,,yes,fldgOc346I53WkpTO
+180,Case,Expert Details & Docs,Engineer/Experts - Portal Access,link to record,,yes,fldHxDZGtkC8Uxvst
+181,Case,Expert Details & Docs,Expert Firm Request,dropdown,D27,yes,fldpENqBDxV2VCNaf
+182,Case,Expert Details & Docs,Expert Next Steps,dropdown,D28,yes,fldjBdtLQQqiwNFbr
+183,Case,Expert Details & Docs,Experts Identified Doc,url,,yes,fldCBjBthVQvMYn3E
+184,Case,Expert Details & Docs,Expert Report Complete,checkbox,,yes,fldyN9boKpFuvAjhl
+185,Case,Claim Analysis & Support,Cat 4 Notes,rich text,,yes,fld9w3JKcQ6OM8sod
+186,Case,Claim Analysis & Support,Claim Summary,file,,yes,fld6IJ6DJWO4bNVHK
+187,Case,Claim Analysis & Support,Claim Justification Reports,file,,yes,fldM9rZIhzBG1l88R
+188,Case,Summons & Complaint Details,🔵 Summons,file,,yes,fldumaprPxpu7DGyj
+189,Case,Summons & Complaint Details,🔵 Complaint,file,,yes,fldVLZFHhp8eBZaXL
+190,Case,Summons & Complaint Details,🔵 S/C Served,file,,yes,fldpMn7uKE8zblqLN
+191,Case,Summons & Complaint Details,Litigation Consent,checkbox,,yes,fldU7qwRsXHpMafMP
+192,Case,Summons & Complaint Details,County,dropdown,D29,yes,fld4gsbPFzqJhtMCU
+193,Case,Summons & Complaint Details,S/C Approved,checkbox,,yes,fldhdlT8XD0Sdhkhn
+194,Case,Summons & Complaint Details,S/C - Mailed or E-Filed,date,,yes,fldJBqxvngYB9oywg
+195,Case,Summons & Complaint Details,S/C sent for Service,date,,yes,fldGjtjCQgvODPuCY
+196,Case,Summons & Complaint Details,S/C Served Date,date,,yes,fld0ZhBH9gypKBqC9
+197,Case,Answer,Answer,file,,yes,fld65ycnWeVh6tU1W
+198,Case,Answer,Answer Due Date,date,,yes,fldpZz5oyBGpO81cy
+199,Case,Discovery to Defendant,🔵 Discovery to Defendant,file,,yes,fldm0x5WmEW2ruFaP
+200,Case,Discovery to Defendant,Discovery to Def Due Date,date,,yes,fld0hb8My3dJCylos
+201,Case,Discovery from Defendant,🔵 Discovery from Defendant,file,,yes,fldwrA73a378EFFPd
+202,Case,Discovery from Defendant,Discovery from Def Due Date,date,,yes,fldbHCpK5YKsyuwtj
+203,Case,Default,🔵 Default Docs,file,,yes,fldX75qsOUEhlW5AM
+204,Case,Depositions,🔵 Deposition Docs,file,,yes,fldf4an7eD1reXpRE
+205,Case,Depositions,Deposition Date,date/time,,yes,fld8yLGuSnq4RVuQE
+206,Case,Depositions,Deposition Location,dropdown,D30,yes,fldYOEjxme9mKGyFc
+207,Case,Depositions,Deposition Meeting Link,url,,yes,fldbxZI3EkVFUf96x
+208,Case,Subpoenas,🔵 Subpoena Docs,file,,yes,fldSxF0IH3jmebRAS
+209,Case,Subpoenas,Subpoena Docs Due,date/time,,yes,fldfzOjmg5VUUe1j9
+210,Case,Motions,🔵 Motions,file,,yes,fldEOPKjvTB6IXgO1
+211,Case,Motions,Motions Hearing Date,date/time,,yes,flduGUP1Yff85Ugwf
+212,Case,Motions,Motions Location,dropdown,D31,yes,fldhAU5kgYBVKY81C
+213,Case,Mediation,🔵 Mediation Docs,file,,yes,fldRM0fjgd606o0A7
+214,Case,Mediation,Mediation Date,date/time,,yes,fldnre9ZE41pE4tv9
+215,Case,Mediation,Mediation Deadline Date,date/time,,yes,fldoZZpfumhRokpP5
+216,Case,Mediation,Mediation Location,dropdown,D32,yes,fldx5E8mocQcsvmjm
+217,Case,Mediation,Selected Mediator,dropdown,D33,yes,fld51WQnRV3wNLOcR
+218,Case,Trial,Trial Date,date/time,,yes,fldX8LFW5aX05PH1A
+219,Case,"Appeals, Dismissals, and Refiling Deadlines",🔵 Appeal,file,,yes,fldLBH6eqmwA3M1Lc
+220,Case,"Appeals, Dismissals, and Refiling Deadlines",🔵 Voluntary Dismissal,file,,yes,fldodsYrOpxevOrJz
+221,Case,"Appeals, Dismissals, and Refiling Deadlines",VD Filing Date,date,,yes,fldbY30JQDflRj8WC
+222,Case,"Appeals, Dismissals, and Refiling Deadlines",Refiling Deadline,formula,,yes,fldpZphZS2qs7H4Ud
+223,Case,Litigation Docs,🔵 Litigation Documents,file,,yes,fldrHQqOq5k73Aoiq
+224,Case,Litigation Docs,Prior Counsel Litigation Documents,file,,yes,fldwzBTmk6hA0XO4O
+225,Case,Litigation Fees & Invoices,CLG Legal Fee %,dropdown,D34,yes,fld8rEsqO75cToCTe
+226,Case,Litigation Fees & Invoices,Litigation Invoices,file,,yes,fld9Fj7Dl4kO3djIC
+227,Case,Litigation Fees & Invoices,Filing Costs,money,,yes,fldORbN8JRlhMUDL2
+228,Case,Litigation Fees & Invoices,DOI Service Costs,money,,yes,fldsl9gvkSgKeSqkF
+229,Case,Litigation Fees & Invoices,Motion Costs,money,,yes,fld4bZ98ImKGYrMx6
+230,Case,Litigation Fees & Invoices,Weather Report Costs,money,,yes,fldyeWOX95pcRDYud
+231,Case,Litigation Fees & Invoices,Appraiser Costs,money,,yes,fld41dy1exZ3E6byh
+232,Case,Litigation Fees & Invoices,Building Consultant Costs,money,,yes,fldwZJbyA4JmEhsuw
+233,Case,Litigation Fees & Invoices,Certified Mailing,money,,yes,fldDSaksVPCwx5bly
+234,Case,Litigation Fees & Invoices,Deposition Costs,money,,yes,fld7uj61bFkkscZB8
+235,Case,Litigation Fees & Invoices,Mediation Costs,money,,yes,fldR3ofpA1V8dly0P
+236,Case,Litigation Fees & Invoices,Expert Costs,money,,yes,fldtpgcsTEDcE5zWQ
+237,Case,Litigation Fees & Invoices,Umpire Costs,money,,yes,fldApQmk0hsYjLps3
+238,Case,Settlement Docs & Disengagement,🔵 Settlement Release,file,,yes,fld5zguf1P1JmXkwL
+239,Case,Settlement Docs & Disengagement,🔵 Full and Final Release,file,,yes,fldd5tEGAIUXnA22R
+240,Case,Settlement Docs & Disengagement,Certificate of Completion,file,,yes,fld0W0qbw0i3AeVUz
+241,Case,Settlement Docs & Disengagement,🔵 Insurance Checks,file,,yes,fld2bYZYdJBJISFS0
+242,Case,Settlement Docs & Disengagement,Disengagement Letter,file,,yes,fldU5fpIQeK8ut0n1
+243,Case,Settlement Docs & Disengagement,Reason for Disengagement,rich text,,yes,fldGf94q874bJPplb
+244,Case,Settlement Docs & Disengagement,CLG - Settlement Statement,url,,yes,fldi7DRr2jyFXK25H
+245,Case,Settlement Docs & Disengagement,Settled Date,date,,yes,fldX7x5qadfouQs8V
+246,Case,Settlement Docs & Disengagement,Global Settlement Amount,money,,yes,fldsLEHZErQdTDpyn
+247,Case,Settlement Docs & Disengagement,Litigation Increase,money,,yes,fldhVZNTAZ4JQqlcM
+248,Case,Settlement Docs & Disengagement,Outstanding Funds,money,,yes,fldiAY3cnDqpJ3dDa
+249,Case,Settlement Docs & Disengagement,% RP Estimate,formula,,yes,fldIvUxwFL7pTfY62
+250,Case,Settlement Docs & Disengagement,Release/COC Sent to IC,date,,yes,fldcqhTywhUSq18eY
+251,Case,Referral Partner,RP Claims Contact,rich text,,yes,fldipuWgo6j7awtEG
+252,Case,Referral Partner,Referral Partner,link to record,,yes,fld9JAESdqYXE6CPS
+253,Case,Referral Partner,Referred Original Case,link to record,,yes,fld6l2h7Hu9DEQmDE
+254,Case,Portal Access,Referred Firm - Portal Access,link to record,,yes,fldSkUNoSQwWzACmi
+255,Case,Portal Access,Associate Counsel - Portal Access,link to record,,yes,fld6lUBUOWGZfPt8U
+256,Case,Portal Access,Referral Partner - Portal Access,link to record,,yes,fldH42pWcx8W88ynA
+257,Case,Conveyor Activity Log,Conveyor Activity Log,rich text,,yes,fldbtbAR2tg2BrCsz
+258,Case,Conveyor Drafts,Drafts,file,,yes,fldJmSrgwt0wDSDk4
+259,Case,hidden on C-01985 screen,CID Due Date,date,,no,fldCNfy6MrBUtpwcN
+260,Case,hidden on C-01985 screen,Attorney Rep'd,checkbox,,no,fldBWVPvY71CuybiV
+261,Case,hidden on C-01985 screen,Squares,number,,no,fldySKVZz7BS8koUb
+262,Case,hidden on C-01985 screen,Demand Letter (Editable),url,,no,fldLyxksiPsfVMV9Q
+263,Case,hidden on C-01985 screen,🔵 Demand Package,file,,no,fldYmlbEM66t0yR1A
+264,Case,hidden on C-01985 screen,Referral Email Rec'd,checkbox,,no,fldJmhnAwt2JPxYcy
+265,Case,hidden on C-01985 screen,Create Time,created time,,no,fldxWGRRezlV6XiwQ
+266,Case,hidden on C-01985 screen,Case Documents,url,,no,fldrExWrToq4cWzZQ
+267,Case,hidden on C-01985 screen,Referral Case ID,long text,,no,fld5Ji3sZlWAMZx0p
+268,Case,hidden on C-01985 screen,Autonum,auto number,,no,fldmUX5na6CIdPTWG
+269,Case,hidden on C-01985 screen,RP Next Steps,multi dropdown,D35,no,flduJh6HOkAV10LUv
+270,Case,hidden on C-01985 screen,Case ID,formula,,no,fld4o6nwMKUilIjr6
+271,Case,hidden on C-01985 screen,Last Modified,last modified time,,no,fldCjfTIANWqYQnQV
+272,Case,hidden on C-01985 screen,Last Modified By,last modified by,,no,fldPlH1Bb8v9ZuTj6
+273,Case,hidden on C-01985 screen,Invoices,link to record,,no,fldFZJTA66Bn9JZmQ
+274,Case,hidden on C-01985 screen,Create Invoice,checkbox,,no,fldSAz1mMrCIZwBde
+275,Case,hidden on C-01985 screen,Emails,link to record,,no,fldE2ZBCbuSi8PRh7
+276,Case,hidden on C-01985 screen,Case Status Sort,sort,,no,fldKhbFuUPKWT1eKw
+277,Case,hidden on C-01985 screen,❌ Temp Case Docs,checkbox,,no,fldBKE7u2H2Q6pAmL
+278,Case,hidden on C-01985 screen,Counsel Legal Name,lookup,,no,fldoydt6vbYbPpnNP
+279,Case,hidden on C-01985 screen,Created By,created by,,no,fld6jDS9xcSH2q8Ai
+280,Case,hidden on C-01985 screen,Mediation Paid,checkbox,,no,fldEo6m8X8HDSyiAa
+281,Case,hidden on C-01985 screen,Experts Paid,checkbox,,no,fldXo7t4cKqMuAV8G
+282,Case,hidden on C-01985 screen,Deposition Paid,checkbox,,no,fldrCQjiFI9rYhvoo
+283,Case,hidden on C-01985 screen,Umpire Paid,checkbox,,no,fldrK38lEyGYbgCJ1
+284,Case,hidden on C-01985 screen,Building Consultant Paid,checkbox,,no,fldhZibcpYVM9sKM0
+285,Case,hidden on C-01985 screen,Latest Undisp Check Amt,money,,no,fldO5Do6ZtBHRYvrX
+286,Case,hidden on C-01985 screen,Settlement Check Amt,money,,no,fld40L2FRhfPkDZEh
+287,Case,hidden on C-01985 screen,Motions Paid,checkbox,,no,fldCiSYyevGypTLAz
+288,Case,hidden on C-01985 screen,Check (1) Amount,money,,no,fld7dhJ0lbbceLl8y
+289,Case,hidden on C-01985 screen,Check (1) Type,dropdown,D36,no,fldnAULmtKz6VbVrN
+290,Case,hidden on C-01985 screen,Check (1) Legal Fee %,percent,,no,fld1qjBRjtfnSRyhw
+291,Case,hidden on C-01985 screen,Check (2) Amount,money,,no,fld0zbOfreW9SXPmd
+292,Case,hidden on C-01985 screen,Check (2) Type,dropdown,D37,no,fldoEO7jDRAMR7les
+293,Case,hidden on C-01985 screen,Check (2) Legal Fee %,percent,,no,fldGasyYVVHttEhex
+294,Case,hidden on C-01985 screen,Co-Counsel Fee Split %,dropdown,D38,no,flddzD27kezMfsGmA
+295,Case,hidden on C-01985 screen,Check (1) Image,file,,no,fldzSEgwnXfKmGCyL
+296,Case,hidden on C-01985 screen,Check (2) Image,file,,no,fld3wYXpgaZBtJSZt
+297,Case,hidden on C-01985 screen,Check (1) Legal Fee,formula,,no,fldv2FL6az5i23ZA2
+298,Case,hidden on C-01985 screen,Check (1) Client Net Disb.,formula,,no,fldMQIKeGEAt8cFlS
+299,Case,hidden on C-01985 screen,Check (1) Co-Counsel Fee,formula,,no,fldOrwZVEcg1Cr6FW
+300,Case,hidden on C-01985 screen,Check (1) RS Bonus,formula,,no,fld1OKckAmisdLi3e
+301,Case,hidden on C-01985 screen,Check (1) Disb. Directions,file,,no,fldTrb1vkoSTg6ckC
+302,Case,hidden on C-01985 screen,Check (1) CLG Net,formula,,no,fldIuMFXcuLEkOJkV
+303,Case,hidden on C-01985 screen,Check (1) Assoc. Co. Fee,formula,,no,fldTnUmItlCu9t8D9
+304,Case,hidden on C-01985 screen,Assoc. Counsel Fee Split %,dropdown,D39,no,fldg1IkHcWqdFIhoq
+305,Case,hidden on C-01985 screen,Check (1) Deposit Date,date,,no,fldPovJXDwclnh19G
+306,Case,hidden on C-01985 screen,Check (1) Co-Counsel Fee %,percent,,no,fldz457FyRnOpB5hF
+307,Case,hidden on C-01985 screen,Check (1) Assoc. Co Fee %,percent,,no,fldbRqkYGkbbwlYg3
+308,Case,hidden on C-01985 screen,Check (1) RS Bonus %,percent,,no,fldrIeNrbV72TIda6
+309,Case,hidden on C-01985 screen,RS Bonus %,dropdown,D40,no,fldVPA9sJAAKaQ8yV
+310,Case,hidden on C-01985 screen,Litigation Fees & Costs,formula,,no,fldJKTtdGbYnvPOua
+311,Case,hidden on C-01985 screen,Check (1) Settl. Client Net Disb.,formula,,no,fldhZdUbHgwKCqshI
+312,Case,hidden on C-01985 screen,Check (2) Deposit Date,date,,no,fldtsoh5JesagrJ2X
+313,Case,hidden on C-01985 screen,Check (2) Disb. Directions,file,,no,fldoqbTXySnQk34hy
+314,Case,hidden on C-01985 screen,Check (2) Co-Counsel Fee %,percent,,no,fld51tEmzz5lh4jIH
+315,Case,hidden on C-01985 screen,Check (2) Assoc. Co Fee %,percent,,no,fldZlX65y3vO4uSX0
+316,Case,hidden on C-01985 screen,Check (2) RS Bonus %,percent,,no,fldvsbz7wfyPD7Kns
+317,Case,hidden on C-01985 screen,Check (2) Legal Fee,formula,,no,fld6QmAnIlFsZqe6j
+318,Case,hidden on C-01985 screen,Check (2) Client Net Disb.,formula,,no,fldZ6GYNS9SmLLXYR
+319,Case,hidden on C-01985 screen,Check (2) Co-Counsel Fee,formula,,no,fldbFw1Kb6JhGHZXa
+320,Case,hidden on C-01985 screen,Check (2) Assoc. Co. Fee,formula,,no,fldygWrBS9c9LiFwm
+321,Case,hidden on C-01985 screen,Check (2) RS Bonus,formula,,no,fldqSIYJWZTAdMKgy
+322,Case,hidden on C-01985 screen,Check (2) CLG Net,formula,,no,fldQ85zlCXrJyn8gh
+323,Case,hidden on C-01985 screen,Check (2) Settl. Client Net Disb.,formula,,no,fld9jJqBj05NSvCwW
+324,Case,hidden on C-01985 screen,Check (3) Deposit Date,date,,no,fldJ9AKwMGqOINP07
+325,Case,hidden on C-01985 screen,Check (3) Image,file,,no,fld66vEc9VTsI9o4B
+326,Case,hidden on C-01985 screen,Check (3) Type,dropdown,D41,no,fldi1Zqc5orHiVG8u
+327,Case,hidden on C-01985 screen,Check (3) Amount,money,,no,fldka6NICoPPzDvVx
+328,Case,hidden on C-01985 screen,Check (3) Disb. Directions,file,,no,fld43es9SvIv8deGy
+329,Case,hidden on C-01985 screen,Check (3) Legal Fee %,percent,,no,fldkS3JxRx1jS68xq
+330,Case,hidden on C-01985 screen,Check (3) Co-Counsel Fee %,percent,,no,fldRFGd51HR0neurm
+331,Case,hidden on C-01985 screen,Check (3) Assoc. Co Fee %,percent,,no,fldQnkHYmt5qj9PFn
+332,Case,hidden on C-01985 screen,Check (3) RS Bonus %,percent,,no,fldF3mFKQwwptorIx
+333,Case,hidden on C-01985 screen,Check (3) Legal Fee,formula,,no,fld8XaGfMtfi9OOxd
+334,Case,hidden on C-01985 screen,Check (3) Client Net Disb.,formula,,no,fld2vfb4VywG0rCIX
+335,Case,hidden on C-01985 screen,Check (3) Co-Counsel Fee,formula,,no,fldmTjI6arXZfpKB2
+336,Case,hidden on C-01985 screen,Check (3) Assoc. Co. Fee,formula,,no,fldOy0LC6mCim7hpX
+337,Case,hidden on C-01985 screen,Check (3) RS Bonus,formula,,no,fldkRHc8YQ5udfjxm
+338,Case,hidden on C-01985 screen,Check (3) CLG Net,formula,,no,fldKy1ZOYK6vbkalP
+339,Case,hidden on C-01985 screen,Check (3) Settl. Client Net Disb.,formula,,no,fldXTWDNnVdGGpzNY
+340,Case,hidden on C-01985 screen,Check (4) Deposit Date,date,,no,fldtFO47hjpTEEtS5
+341,Case,hidden on C-01985 screen,Check (4) Image,file,,no,fldykoV6vEky5WJqD
+342,Case,hidden on C-01985 screen,Check (4) Type,dropdown,D42,no,fldpybkzIX92jk5CR
+343,Case,hidden on C-01985 screen,Check (4) Amount,money,,no,fldgIqp1yQu7sZPzX
+344,Case,hidden on C-01985 screen,Check (4) Disb. Directions,file,,no,fldMFhc8lIgxEOTQR
+345,Case,hidden on C-01985 screen,Check (4) Legal Fee %,percent,,no,fldNi6IziheIDwIwL
+346,Case,hidden on C-01985 screen,Check (4) Co-Counsel Fee %,percent,,no,fldSiry5IZJyXkHpE
+347,Case,hidden on C-01985 screen,Check (4) Assoc. Co Fee %,percent,,no,fldo7Xn9rwLpT0djl
+348,Case,hidden on C-01985 screen,Check (4) RS Bonus %,percent,,no,flddYQI4uQio7Mxd8
+349,Case,hidden on C-01985 screen,Check (4) Legal Fee,formula,,no,fld6JtJ4gGWya5yOQ
+350,Case,hidden on C-01985 screen,Check (4) Client Net Disb.,formula,,no,fldKuunsf5LXrl7ai
+351,Case,hidden on C-01985 screen,Check (4) Co-Counsel Fee,formula,,no,fld5n7AaCOkDxoy1O
+352,Case,hidden on C-01985 screen,Check (4) Assoc. Co Fee,formula,,no,fldDHChSRwVFPY85S
+353,Case,hidden on C-01985 screen,Check (4) RS Bonus,formula,,no,fldEv9sDCAuDnZmSR
+354,Case,hidden on C-01985 screen,Check (4) CLG Net,formula,,no,fldP8TJGADzqaFjMI
+355,Case,hidden on C-01985 screen,Check (4) Settl. Client Net Disb.,formula,,no,fldPdcGbZdPqwCphZ
+356,Case,hidden on C-01985 screen,Check (5) Deposit Date,date,,no,fldeh7xvWxPcvCJmm
+357,Case,hidden on C-01985 screen,Check (5) Image,file,,no,fldQANruXqateuuUd
+358,Case,hidden on C-01985 screen,Check (5) Type,dropdown,D43,no,fldNZlxdtBmsX2nXH
+359,Case,hidden on C-01985 screen,Check (5) Amount,money,,no,flde0edr469jyHAus
+360,Case,hidden on C-01985 screen,Check (5) Disb. Directions,file,,no,fldUNC235cu6IWtrA
+361,Case,hidden on C-01985 screen,Check (5) Legal Fee %,percent,,no,fldV2TweziVxYue9Z
+362,Case,hidden on C-01985 screen,Check (5) Co-Counsel Fee %,percent,,no,fldnchIUmIsBkrWBg
+363,Case,hidden on C-01985 screen,Check (5) Assoc. Co Fee %,percent,,no,fldfJJrOhaHixpELB
+364,Case,hidden on C-01985 screen,Check (5) RS Bonus %,percent,,no,fldkJK3LinxJHKHzU
+365,Case,hidden on C-01985 screen,Check (5) Legal Fee,formula,,no,fldaImhnDcvCqJbXI
+366,Case,hidden on C-01985 screen,Check (5) Client Net Disb.,formula,,no,fldoWz3IC4mYPoMvj
+367,Case,hidden on C-01985 screen,Check (5) Co-Counsel Fee,formula,,no,fld8SAZUR1KAENg4e
+368,Case,hidden on C-01985 screen,Check (5) Assoc. Co. Fee,formula,,no,fldJ3ut70XbnERZsD
+369,Case,hidden on C-01985 screen,Check (5) RS Bonus,formula,,no,fldSKiOioZYeJo79s
+370,Case,hidden on C-01985 screen,RP Fee Split %,dropdown,D44,no,fldWwfkOhdVPCvagV
+371,Case,hidden on C-01985 screen,Check (1) RP Fee Split %,percent,,no,fldO1gN4NEDZlRcj7
+372,Case,hidden on C-01985 screen,Check (2) RP Fee Split %,percent,,no,fldTOF52xB03obvCB
+373,Case,hidden on C-01985 screen,Check (3) RP Fee Split %,percent,,no,fldF8moymnpe4RsBw
+374,Case,hidden on C-01985 screen,Check (4) RP Fee Split %,percent,,no,fldiYpAqxs14tN3cR
+375,Case,hidden on C-01985 screen,Check (5) RP Fee Split %,percent,,no,fldJfL6weYF0ranvD
+376,Case,hidden on C-01985 screen,Check (1) RP Fee Split,formula,,no,fldHXQvKodKnUDxHK
+377,Case,hidden on C-01985 screen,Check (2) RP Fee Split,formula,,no,fldXyUpUvKBrqFdCF
+378,Case,hidden on C-01985 screen,Check (3) RP Fee Split,formula,,no,flddeK8vNAdRMEdsj
+379,Case,hidden on C-01985 screen,Check (4) RP Fee Split,formula,,no,fldn3iXnB6X6dd0bL
+380,Case,hidden on C-01985 screen,Check (5) RP Fee Split,formula,,no,fldKhhbRblq3O3lpN
+381,Case,hidden on C-01985 screen,Check (5) CLG Net,formula,,no,fldXxSpPfNIPe67ji
+382,Case,hidden on C-01985 screen,Check (5) Settl. Client Net Disb.,formula,,no,fldlCTh67XPKTfH8L
+383,Case,hidden on C-01985 screen,SUM of Checks Received,formula,,no,fldDs0prFMjsWSsjn
+384,Case,hidden on C-01985 screen,Insurance Co.,formula,,no,fld5QvuJUg7oo6MMR
+385,Case,hidden on C-01985 screen,DOL,formula,,no,fld5Bpelzb1PObKlX
+386,Case,hidden on C-01985 screen,Claim No.,formula,,no,fldWU9dzHd9decehm
+387,Case,hidden on C-01985 screen,Settlement Statement Sent,checkbox,,no,fldPZMyQ8V1hr2QlY
+388,Case,hidden on C-01985 screen,Co-Counsel Attorney & Staff (from Conveyor Users 2),lookup,,no,fldeHuj7SaBHB20wi
+389,Case,hidden on C-01985 screen,CLG Staff (from Conveyor Users 2),lookup,,no,fldOa6h1aS7LDBq6u
+390,Case,hidden on C-01985 screen,CLG Demo Staff (from Conveyor Users 2),lookup,,no,fldeokPYlCBnY2hIT
+391,Case,hidden on C-01985 screen,RS Email,formula,,no,fldtuQqgIyGHS82ap
+392,Case,hidden on C-01985 screen,Appraisers (from Appraiser User),lookup,,no,fldrBU1MCHTXM2cUs
+393,Case,hidden on C-01985 screen,Building Consultant (from Building Consultant User),lookup,,no,fldEaMk20mXNKDDoY
+394,Case,hidden on C-01985 screen,Engineer/Expert (from Expert Users),lookup,,no,fldXC8nCxM96eeHDo
+395,Case,hidden on C-01985 screen,Referral Partner (from Referral Partner User),lookup,,no,fldxl5VM2lWxHcVCd
+396,Case,hidden on C-01985 screen,CLG Staff (from Building Consult. User),lookup,,no,fldy0upmglY8R8maO
+397,Case,hidden on C-01985 screen,CLG Staff (from Referral Partner User),lookup,,no,fldQtNKbb02FzD9tI
+398,Case,hidden on C-01985 screen,CLG Staff (from Engineer/Expert User),lookup,,no,fldgmL4h4arDkMHxu
+399,Case,hidden on C-01985 screen,CLG Staff (from Appraiser User),lookup,,no,fldnedr4so7TRTQqr
+400,Case,hidden on C-01985 screen,PL Email,formula,,no,fldSYEmgq5duQJWSU
+401,Case,hidden on C-01985 screen,Co-Counsel Email,lookup,,no,flddpl1aOOBnKP1K1
+402,Case,hidden on C-01985 screen,SOL Deadline Notification,formula,,no,fld1JnMeZHvn2UASd
+403,Case,hidden on C-01985 screen,Co-Counsel Email (text),rollup,,no,fldvzcXKY3ma5qDFN
+404,Case,hidden on C-01985 screen,60 day Notice Sent,checkbox,,no,fldrnef1jDxXD2VPF
+405,Case,hidden on C-01985 screen,60 day Notice Date,date,,no,fldWeRwUjGc1rtj7Y
+406,Case,hidden on C-01985 screen,Appraiser Paid,checkbox,,no,fldX9s7j7vMxp3yts
+407,Case,hidden on C-01985 screen,PA Fee %,dropdown,D45,no,fldXC3k5xEATH7yBZ
+408,Case,hidden on C-01985 screen,Check (1) PA Fee %,percent,,no,fldhBExMhIEUV1dLd
+409,Case,hidden on C-01985 screen,Check (3) PA Fee %,percent,,no,fldMbQPMv6UfSlb5u
+410,Case,hidden on C-01985 screen,Check (4) PA Fee %,percent,,no,fldU2Je9Nm2gxaS4r
+411,Case,hidden on C-01985 screen,Check (5) PA Fee %,percent,,no,fldZNcqJQ13YTW48u
+412,Case,hidden on C-01985 screen,Check (1) PA Invoice,money,,no,fldcZxMBK0CR3ZNXL
+413,Case,hidden on C-01985 screen,Check (2) PA Invoice,money,,no,fldulnB5S1HZmvSwI
+414,Case,hidden on C-01985 screen,Check (3) PA Invoice,money,,no,fldDhKTJOt1UI0TXW
+415,Case,hidden on C-01985 screen,Check (4) PA Invoice,money,,no,fldFb1IcTllR65fnW
+416,Case,hidden on C-01985 screen,Check (5) PA Invoice,money,,no,fldVCJVgL4lAn3iKe
+417,Case,hidden on C-01985 screen,Check (2) PA Fee %,percent,,no,fldinAslGelodpoCQ
+418,Case,hidden on C-01985 screen,Check (1) PA Fee Percent.,formula,,no,fldfjggx7Iz5ekBli
+419,Case,hidden on C-01985 screen,Check (2) PA Fee Percent.,formula,,no,fld8GHLOfyfpZWS1Y
+420,Case,hidden on C-01985 screen,Check (3) PA Fee Percent.,formula,,no,fldk2GtkftQRNFWzZ
+421,Case,hidden on C-01985 screen,Check (4) PA Fee Percent.,formula,,no,fldEzbvgiwjPNu21o
+422,Case,hidden on C-01985 screen,Check (5) PA Fee Percent.,formula,,no,fldFrVZbfT5m4PTFE
+423,Case,hidden on C-01985 screen,SUM of Legal Fees,formula,,no,fldOMFDHfHd3mVy75
+424,Case,hidden on C-01985 screen,SUM of PA Fee Percent,formula,,no,fldG6bVobmkcuXc1D
+425,Case,hidden on C-01985 screen,SUM of Client Net Disb.,formula,,no,fldnobp4Q6TXZY7Sh
+426,Case,hidden on C-01985 screen,SUM of Settle. Client Net Disb.,formula,,no,fldR3M81uhIcnF9nf
+427,Case,hidden on C-01985 screen,SUM of Co-Counsel Fee,formula,,no,fldrsiZ6WiM16ES4k
+428,Case,hidden on C-01985 screen,SUM of Assoc. Co Fee,formula,,no,fldWaO0HzR0ENUkVy
+429,Case,hidden on C-01985 screen,SUM of RS Fee,formula,,no,fldbiiyPcLbXXQM7m
+430,Case,hidden on C-01985 screen,SUM of RP Fee Split Fee,formula,,no,fldIlptg4v7zKVdad
+431,Case,hidden on C-01985 screen,SUM of CLG Net,formula,,no,fldiirJ4KcA9jIXXQ
+432,Case,hidden on C-01985 screen,Accounting Next Steps,dropdown,D46,no,flduHNbSbrKDOqLqF
+433,Case,hidden on C-01985 screen,Insured's Appraiser Assigned,last modified time,,no,fldB0BgVXqUxpb3kz
+434,Case,hidden on C-01985 screen,Appraisal Completed Date (checkbox),last modified time,,no,fld8XtuIx9nCYYXuj
+435,Case,hidden on C-01985 screen,Days Pending w/ Appraiser,formula,,no,fld7v2f7Q3Clwq4zp
+436,Case,hidden on C-01985 screen,Referral Partner Email Lookup,lookup,,no,fldmhp5MboNvwwwMw
+437,Case,hidden on C-01985 screen,Diseng. Email to RP Sent,checkbox,,no,fldUdgFz1aIkHQq9f
+438,Case,hidden on C-01985 screen,From field: Associated Client Cases,link to record,,no,fldvNofjKcFW2iI58
+439,Case,hidden on C-01985 screen,Appraiser Email,rollup,,no,fldtRYIHzPRnolV4e
+440,Case,hidden on C-01985 screen,CLG Demo Staff (from Associate Counsel - Portal Access),lookup,,no,fldS57segDjUbhUvc
+441,Case,hidden on C-01985 screen,Associate Counsel (from Associate Counsel - Portal Access),lookup,,no,fldG8N5w8bx1Cj8ge
+442,Case,hidden on C-01985 screen,CLG Staff (from Associate Counsel - Portal Access),lookup,,no,fld0YweY8gU41jaAX
+443,Case,hidden on C-01985 screen,Claim Tasks,link to record,,no,fld0D2I0286AcI1AC
+444,Case,hidden on C-01985 screen,💬 Comments,link to record,,no,fldNJyWVV8JiIE78v
+445,Case,hidden on C-01985 screen,Everson Files,dropdown,D47,no,fld6tNBTUqn0uANKk
+446,Referred Cases,Referred Cases,Client Name,text,,n/a,fld7WNhxkIkeSvpNN
+447,Referred Cases,Referred Cases,Create Managed Case,checkbox,,n/a,fld9Z1vGSMgkRK2pG
+448,Referred Cases,Referred Cases,Associated Case,link to record,,n/a,fldM11FDP7sdkFy7w
+449,Referred Cases,Referred Cases,Insurance Estimate & Docs,file,,n/a,fldSDpVL10ucoKhpj
+450,Referred Cases,Referred Cases,Insurance Checks,file,,n/a,fldorOUbDypyLoC7V
+451,Referred Cases,Referred Cases,JPA Estimate,file,,n/a,fldKFP73USC8QZwPD
+452,Referred Cases,Referred Cases,JPA Strategy Docs,file,,n/a,fld4K7mORCGAR9S7f
+453,Referred Cases,Referred Cases,Insurance Policy PDF,file,,n/a,fldTSN2gmHU6cvFQv
+454,Referred Cases,Referred Cases,Contract,file,,n/a,fldwE9cKJlugvYF0F
+455,Referred Cases,Referred Cases,Roof Report,file,,n/a,fld09rLk4EDDNZdE7
+456,Referred Cases,Referred Cases,Contractor Photos,file,,n/a,flddOlu8yY7iHLMd1
+457,Referred Cases,Referred Cases,Hail Report,file,,n/a,fldLhl4qnwNk1Chr0
+458,Referred Cases,Referred Cases,Inspection Report,file,,n/a,fldDPMfPl83JEGT8f
+459,Referred Cases,Referred Cases,LOR,file,,n/a,fldGPAXiRMLFddWsj
+460,Referred Cases,Referred Cases,Cases copy,text,,n/a,fldj3UXN1pqTtFWBF
+461,Referred Cases,Referred Cases,Claim State,multi dropdown,D48,n/a,fldAXR6iHz3hmQUL0
+462,Referred Cases,Referred Cases,Property Type,dropdown,D49,n/a,fldt68Dq6b0jPnrCn
+463,Referred Cases,Referred Cases,Insurance Company,dropdown,D50,n/a,fldgDe3J956swG3QH
+464,Referred Cases,Referred Cases,Cause of Loss,multi dropdown,D51,n/a,fldR065qfU0oWQJjd
+465,Referred Cases,Referred Cases,Address,long text,,n/a,fldgOmGrNi3Nwefgh
+466,Referred Cases,Referred Cases,Contractor,dropdown,D52,n/a,fldD5orLL7QWDfv4g
+467,Referred Cases,Referred Cases,Claim Type,multi dropdown,D53,n/a,fldmvlnJe05YizTBl
+468,Referred Cases,Referred Cases,Client Phone Number,text,,n/a,fldNmD0vxYHOxSudc
+469,Referred Cases,Referred Cases,Email,email,,n/a,fldFrpnuCf5azxCHU
+470,Referred Cases,Referred Cases,Estimate Amount,money,,n/a,fldGbwVLtbMSYGDiY
+471,Referred Cases,Referred Cases,Date of Loss,date,,n/a,fldKMh0VNSzhsGvLa
+472,Referred Cases,Referred Cases,Policy Number,text,,n/a,fldgkQaHaRJjFTrwK
+473,Referred Cases,Referred Cases,Claim Number,text,,n/a,fldH1GWKlU6UJgJ08
+474,Referred Cases,Referred Cases,Claim Summary for Litigation,long text,,n/a,fldC2vbxHIp083oHa
+475,Referred Cases,Referred Cases,IC Adjuster Contact Info,long text,,n/a,flduE9fyPCOgBYEzr
+476,Referred Cases,Referred Cases,Opposing Appraiser,text,,n/a,fldGmY9b59QQlel3T
+477,Referred Cases,Referred Cases,Appraiser,dropdown,D54,n/a,fld1oH9nVf3vPI5KL
+478,Referred Cases,Referred Cases,Create Date,created time,,n/a,fldn7OhuxgN6I82Wh
+479,Referred Cases,Referred Cases,Fail Test A,text,,n/a,fldJDudNhiLE0UdFO
+480,Referred Cases,Referred Cases,Referred Attorney,multi dropdown,D55,n/a,fldKxzsj9zDkbpjvg
+481,Referred Cases,Referred Cases,First Name,text,,n/a,fldjFTn5GJ76VUMe4
+482,Referred Cases,Referred Cases,Last Name,text,,n/a,fldtxYloxuNndFxx8
+483,Referred Cases,Referred Cases,ITEL/NTS Report,file,,n/a,fldv3TeFQ0Yhl4YeF
+484,Referred Cases,Referred Cases,Client Phone Number 2,phone,,n/a,fldmkQg8Kl0IZiozn
+485,Referred Cases,Referred Cases,CompanyCam Link,url,,n/a,fldhWFClXWFa1KbZO
+486,Referred Cases,Referred Cases,Damage Overview Slides Link,url,,n/a,fldwi68f0E3WJqpUo
+487,Referred Cases,Referred Cases,Certificate of Completion,file,,n/a,fldzR78ETNroTKuWg
+488,Referred Cases,Referred Cases,Sync Source,externalSyncSource,,n/a,fldKHTn0Tx98gPMFp
+489,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Partner Name,text,,n/a,fldIZhZ5peMjzfzlf
+490,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Status,dropdown,D56,n/a,fldoIIxUDrDis2d63
+491,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Partner Type,dropdown,D57,n/a,flddn7JSepogvn4Km
+492,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Logo,file,,n/a,fldA1spgPltlDWy95
+493,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Attorney Name,text,,n/a,flditYGtkZxrlAHxl
+494,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,RP Contact Name,rich text,,n/a,fldmtmCdeUO6HMmy6
+495,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,License States,multi dropdown,D58,n/a,fldmdO8ydzDclRV10
+496,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,CLG Email,email,,n/a,fldTrUA1mYdkkh2vP
+497,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Email,email,,n/a,fldpd8nkYAswKsA0s
+498,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Office Number,phone,,n/a,fldgncPvvNwDvXvaj
+499,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Mobile Number,phone,,n/a,fldI28x0z4nQawBFO
+500,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Fax Number,phone,,n/a,fldZtiJaxe4osWa2F
+501,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Physical Address,rich text,,n/a,fldf3sUZQrf6IChy9
+502,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Mailing Address,rich text,,n/a,fldHVdVObYxO2Nq0A
+503,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Bar No.,rich text,,n/a,fldD292tQhaixzvSV
+504,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Domain,url,,n/a,fldwMaUDbjKo0Wa5w
+505,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,W9,file,,n/a,fld5jMUyqt0D8QifF
+506,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Additional Details,rich text,,n/a,fldsnT2lcIGAECOU9
+507,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,RP Fee Percentages,dropdown,D59,n/a,fldaeB0zG9aFmX3Dx
+508,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,RP Fee Percentages - 2026,dropdown,D60,n/a,fldkQ5v9k8Nb4EL0C
+509,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Counsel ID,formula,,n/a,fld0iFcqbjmB74IdY
+510,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,# of Active Cases,rollup,,n/a,fldYHTESheXvGGsq7
+511,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Assigned Cases,link to record,,n/a,fld0VKACiUBGDdLkR
+512,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Referred Cases,link to record,,n/a,fldoltko2t58xccWw
+513,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,🤖 Users,link to record,,n/a,fldjgm3y8U7PGPlks
+514,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Draft - Letter of Representations,url,,n/a,fld5ehZgFb0WXMWEW
+515,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Draft - Retainer Agreements,url,,n/a,fldXinPBqEKmOaLwy
+516,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel Start Date,date,,n/a,fld1JLYpR4U7AmO1t
+517,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Managed Cases,link to record,,n/a,fldlsdwmTd7ClAkkh
+518,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Draft - Retainer Agreement - [Claimant],url,,n/a,fldnXbNoX8tMiOv3o
+519,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Draft - Retainer Agreement - [Claimant] & [Spouse or Domestic Partner],url,,n/a,fldjSJLuld0if70ye
+520,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Draft - Retainer Agreement - [Entity],url,,n/a,fldAoSday9ECE9YlQ
+521,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Co-Counsel & Referral Partners 🧑‍⚖️🦺,Draft - Retainer Agreement - [Claimant]  (.docx file),file,,n/a,fldhsX1fDz0vYCJCr
+522,Invoices,Invoices,Invoice Number,text,,n/a,fld0nIrFLyL2LfDeZ
+523,Invoices,Invoices,Reference Number,text,,n/a,fldBF0pLEC4ZQ35R8
+524,Invoices,Invoices,Amount,money,,n/a,fld4IV51nYuWFN08Y
+525,Invoices,Invoices,Invoice Status,dropdown,D61,n/a,flddcHu6A7P3tSo2e
+526,Invoices,Invoices,Attachement,file,,n/a,fldUVmPTdx7x6bBat
+527,Invoices,Invoices,QBO ID,text,,n/a,fld2wOGsv3vsjRzlV
+528,Invoices,Invoices,Associated Case,link to record,,n/a,fldLIoY0KLyFTIyJ7
+529,Invoices,Invoices,Associated Payments,link to record,,n/a,fldo2cQyiMg5sKMk0
+530,Invoices,Invoices,Sent Date,date,,n/a,fldxmBbvjiTg2rD42
+531,Invoices,Invoices,Create Date,created time,,n/a,fld2kRi5jZA104J9I
+532,Invoices,Invoices,Invoice ID,formula,,n/a,fldFPbugVuuMOVXGl
+533,Payments,Payments,Payment Index,formula,,n/a,fldDD6nvQAbixlAJI
+534,Payments,Payments,Payment Notes,long text,,n/a,fldj32RZWiE03jll7
+535,Payments,Payments,Payment Date,date,,n/a,flduq5beO7M40XHrW
+536,Payments,Payments,Payment Amount,money,,n/a,fld15MVawrlDOzjY7
+537,Payments,Payments,Payment Type,dropdown,D62,n/a,fldBFjwUHxnRJHfCA
+538,Payments,Payments,Associated Invoice,link to record,,n/a,fldzfRrAktnw6w1SA
+539,Payments,Payments,Payment ID,formula,,n/a,fldv2pl5l89hdk31U
+540,Emails,Emails,Email Subject,text,,n/a,fld1MGfAGQFi5tmtc
+541,Emails,Emails,Body,long text,,n/a,fldcrhGR5bW6dOgRs
+542,Emails,Emails,Received Date,date,,n/a,fldNSJ4htg7h1RH7x
+543,Emails,Emails,Associated Case,link to record,,n/a,fldf3cv4qFuwwS3qO
+544,Client Folders,Client Folders,Folder Name,text,,n/a,fldKLyKhdTpjDYMja
+545,Client Folders,Client Folders,Folder Status,dropdown,D63,n/a,fldKruQk2qQhcAll4
+546,Client Folders,Client Folders,Folder ID,formula,,n/a,fldyuVt3AsFGgNcjC
+547,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Company & Contact,text,,n/a,fldODXWX8UMx9DgOY
+548,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Status,dropdown,D64,n/a,fldlHEIhNI8yaEmS8
+549,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Professional Partner Role,dropdown,D65,n/a,fldUgIW9lXpW3T8Hq
+550,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Company,rich text,,n/a,fldNbevNqA3rm2gtF
+551,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Contact,rich text,,n/a,fldbVP3tmzwbsUZT8
+552,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Email,email,,n/a,fldqynJQmYFHTWgWS
+553,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Ring Central Direct Dial,phone,,n/a,fldVVBzjrh5i5zLrq
+554,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Office Number,phone,,n/a,fldhsg2FpjSadpQkY
+555,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Mobile Number,phone,,n/a,fldGiqiYQ7QsQ3UuL
+556,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Fax Number,phone,,n/a,fld9jVWBUDm0V9J2e
+557,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Physical Address,rich text,,n/a,fldhVn4XTcaJRBDeY
+558,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Mailing Address,rich text,,n/a,fldSEDVYyfb8FmsbH
+559,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Additional Details,rich text,,n/a,fldBsVg0MXcT4iPHM
+560,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Claim $ Threshold,rich text,,n/a,fldYR54SYqM8cES5e
+561,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,State(s) of Operation,multi dropdown,D66,n/a,fldAbjY1BWeT419N8
+562,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,CV & Additional Docs,file,,n/a,fldOTpOl9k3Ohwrb6
+563,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Requires Client Agreement,dropdown,D67,n/a,fldY0lXNvGsbc6ANh
+564,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Managed Cases,link to record,,n/a,fldAr4UHxHDotyo9d
+565,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Managed Cases 2,link to record,,n/a,flda6OGRGl6MbnOby
+566,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Appraiser Type,dropdown,D68,n/a,fld9RvxBC4mBQoLeA
+567,Professional Partners 🧑‍💻,Professional Partners 🧑‍💻,Managed Cases 3,link to record,,n/a,fld9oyBD7Yp20PaA8
+568,Conveyor Users 👤,Conveyor Users 👤,Conveyor User Groups,text,,n/a,fldGQVnfdXHSiyPqS
+569,Conveyor Users 👤,Conveyor Users 👤,Conveyor User Type,multi dropdown,D69,n/a,fldj4ftLnxPp0qECA
+570,Conveyor Users 👤,Conveyor Users 👤,CLG Resolutions Specialist,multi dropdown,D70,n/a,fldYRAfCWDjnlUNGs
+571,Conveyor Users 👤,Conveyor Users 👤,CLG Paralegal,multi dropdown,D71,n/a,fldpAjEdQo3TeNtBm
+572,Conveyor Users 👤,Conveyor Users 👤,CLG Accounting,multi dropdown,D72,n/a,fldOU0KgaVz0Gm0aU
+573,Conveyor Users 👤,Conveyor Users 👤,CLG Leadership,multi dropdown,D73,n/a,fldEyAyfeQymUIZ8n
+574,Conveyor Users 👤,Conveyor Users 👤,CLG Staff,multipleCollaborators,,n/a,fldyADG5eDKLLsDcQ
+575,Conveyor Users 👤,Conveyor Users 👤,Attorney & Staff,multipleCollaborators,,n/a,flduXcrm0ndtrNVcf
+576,Conveyor Users 👤,Conveyor Users 👤,Associate Counsel,multipleCollaborators,,n/a,fldfxbKa7HQFrhu0n
+577,Conveyor Users 👤,Conveyor Users 👤,CLG Demo Staff,multipleCollaborators,,n/a,fldRdYHSp6DtPvxez
+578,Conveyor Users 👤,Conveyor Users 👤,Appraisers,multipleCollaborators,,n/a,fldjKMJYHwvclUaSD
+579,Conveyor Users 👤,Conveyor Users 👤,Appraiser Email,email,,n/a,flddKwQ888Ya8YGop
+580,Conveyor Users 👤,Conveyor Users 👤,Referral Partner,multipleCollaborators,,n/a,fldwNcY64xpdc78zt
+581,Conveyor Users 👤,Conveyor Users 👤,Building Consultant,multipleCollaborators,,n/a,fld8jyGu0jnWXFUmI
+582,Conveyor Users 👤,Conveyor Users 👤,Building Consultant Email,email,,n/a,fldpCnRXgl2wgqUvk
+583,Conveyor Users 👤,Conveyor Users 👤,Engineer/Expert,multipleCollaborators,,n/a,fldypi9zyTxKROtu1
+584,Conveyor Users 👤,Conveyor Users 👤,Engineer/Expert Email,email,,n/a,fldhDcn8r9v6yqFG2
+585,Conveyor Users 👤,Conveyor Users 👤,Managed Cases (RF),link to record,,n/a,fld89DLsa94YVjj2w
+586,Conveyor Users 👤,Conveyor Users 👤,Managed Cases (App),link to record,,n/a,fldJzC4dxfR3PulkF
+587,Conveyor Users 👤,Conveyor Users 👤,Managed Cases (BC),link to record,,n/a,fldZSNdOIsICBW554
+588,Conveyor Users 👤,Conveyor Users 👤,Managed Cases (EE),link to record,,n/a,fldpdLVsyl8baz653
+589,Conveyor Users 👤,Conveyor Users 👤,Managed Cases (RP),link to record,,n/a,fldZfIDrzoaUkQAGX
+590,Conveyor Users 👤,Conveyor Users 👤,Managed Cases (AC),link to record,,n/a,fldOMX5yjJ3Rv2Kre
+591,📉 Claim Tasks,📉 Claim Tasks,Task Name,formula,,n/a,fldU9FAHLaF7TQUZs
+592,📉 Claim Tasks,📉 Claim Tasks,Task Type,dropdown,D74,n/a,fldRHD8ctGc1zO2sT
+593,📉 Claim Tasks,📉 Claim Tasks,Task Manager,multipleCollaborators,,n/a,fldLhrkXL10Wojrap
+594,📉 Claim Tasks,📉 Claim Tasks,Case Number,link to record,,n/a,flddfRD9W2mpxLRji
+595,📉 Claim Tasks,📉 Claim Tasks,Assigned To,multipleCollaborators,,n/a,fldjrBNX7Y3mrpfHO
+596,📉 Claim Tasks,📉 Claim Tasks,Owner Role,dropdown,D75,n/a,fldzvqdtLJJf8B7yn
+597,📉 Claim Tasks,📉 Claim Tasks,Task Status,dropdown,D76,n/a,fldi1xpHeSJ6v5axC
+598,📉 Claim Tasks,📉 Claim Tasks,Assigned Date,date,,n/a,fldmc7zeBoPldvlg4
+599,📉 Claim Tasks,📉 Claim Tasks,Due Date,date,,n/a,flduKc5T4PBumRKcz
+600,📉 Claim Tasks,📉 Claim Tasks,Completed Date,date,,n/a,fldQ9KttKnuK2rkHR
+601,📉 Claim Tasks,📉 Claim Tasks,Priority,dropdown,D77,n/a,fldthqJ70N0PnsO0x
+602,📉 Claim Tasks,📉 Claim Tasks,Case Status,lookup,,n/a,flduDTANgk7ZEDRH7
+603,📉 Claim Tasks,📉 Claim Tasks,Next Steps,lookup,,n/a,fldzjFHuYifEWuZ7Z
+604,📉 Claim Tasks,📉 Claim Tasks,Resolutions Specialist,lookup,,n/a,fldH2oanOEaXYIR2U
+605,📉 Claim Tasks,📉 Claim Tasks,Paralegal,lookup,,n/a,fldcAUa0pjmbBVQv4
+606,📉 Claim Tasks,📉 Claim Tasks,Referred Firm,lookup,,n/a,fldZCR7rrxvOS6gEF
+607,📉 Claim Tasks,📉 Claim Tasks,Task Notes,rich text,,n/a,fldggpAkdVHQjTeQ0
+608,📉 Claim Tasks,📉 Claim Tasks,Attachments,file,,n/a,fld5CFUaEc0GUaXjY
+609,📉 Claim Tasks,📉 Claim Tasks,Related Links,rich text,,n/a,fld4dKPxgauG2A5p3
+610,💬 Comments,💬 Comments,Comment,long text,,n/a,fldaJExTV4Bpg0vf6
+611,💬 Comments,💬 Comments,Case,link to record,,n/a,fldVf6inNnQjKMgot
+612,💬 Comments,💬 Comments,Author,singleCollaborator,,n/a,fldMPCNzc4iZcax5k
+613,💬 Comments,💬 Comments,Created Time,created time,,n/a,fld1im46yfTPtdEY3
+614,💬 Comments,💬 Comments,Mentioned Users,multipleCollaborators,,n/a,fldipjBEzPNZYWGdZ
+615,💬 Comments,💬 Comments,Parent Comment,link to record,,n/a,fldIBDv4wk4yuNl1T
+616,💬 Comments,💬 Comments,Replies,link to record,,n/a,flduZYG72sphUMu43
+617,Contacts,Contacts,Full Name,text,,n/a,fldUm2YMn7Q6imKgX
+618,Contacts,Contacts,First Name,formula,,n/a,fldW2THX9GsMnMI1i
+619,Contacts,Contacts,Last Name,formula,,n/a,fldzCP0OMNA2TNFPc
+620,Contacts,Contacts,Relationship to Insured,dropdown,D78,n/a,fldl6UOCHJOPKcxY7
+621,Contacts,Contacts,Policy Party Type,dropdown,D79,n/a,fldVdgZEnRfqorC9S
+622,Contacts,Contacts,Email,email,,n/a,fldf2CgSPMpkiX1UQ
+623,Contacts,Contacts,Primary Phone,phone,,n/a,fldVBktcYBWtDB2By
+624,Contacts,Contacts,Secondary Phone Number,phone,,n/a,fld55vOTHMBpVqaWq
+625,Contacts,Contacts,Preferred Contact Method,dropdown,D80,n/a,fldaZ8XBAV09tCGE5
+626,Contacts,Contacts,Best Time to Contact,dropdown,D81,n/a,fldkevOmtJvlzAvEM
+627,Contacts,Contacts,Authorized Representative Name,text,,n/a,fldRkXIChalsXxsCM
+628,Contacts,Contacts,Authorized Representative Title,dropdown,D82,n/a,fldf0LMWTSzeXoycV
+629,Contacts,Contacts,QBO Customer ID,text,,n/a,fldAqr1acFcHsxzOP
+630,Contacts,Contacts,Associated Cases,link to record,,n/a,fldLPcazacouANahr
+631,Contacts,Contacts,Contact ID,formula,,n/a,fldBr1YSHgOWxPxvN
+632,Users,Users,Full Name,formula,,n/a,fldsc8HG9l3GpS0pP
+633,Users,Users,First Name,text,,n/a,fldPG6gFIhK53ZeOM
+634,Users,Users,Last Name,text,,n/a,fldoQ2bX0MJHZ0GKR
+635,Users,Users,Email Address,email,,n/a,fldnJeMDqNts4Tczp
+636,Users,Users,Direct Number,phone,,n/a,fldVePW3smDwXyIUn
+637,Users,Users,Alternative Number,phone,,n/a,fld5lKicpXIBs2Z4q
+638,Users,Users,Profile Picture,file,,n/a,fldzOZdwQ5vLDVDo9
+639,Users,Users,Associated Partner,link to record,,n/a,fld1VPEHuBqEpv5SZ
+640,Users,Users,Partner Name-lookup,lookup,,n/a,fldLPXdkYGX5mEg8k
+641,Users,Users,Partner Type,lookup,,n/a,fldZ9TbSOHdcR5ldv
+642,Users,Users,Partner ID,lookup,,n/a,fld9BzvM2pHe9pPBn
+643,Users,Users,Create Date,created time,,n/a,fld0llG1YaiC44dBj
+644,Users,Users,Conveyor ID,text,,n/a,flds9q1zElMNriYfk
+645,Users,Users,User ID,formula,,n/a,fldZTsPyPr9tWmU40
+646,Users,Users,Managed Cases,text,,n/a,fldJG8jmYNneuWYXk
