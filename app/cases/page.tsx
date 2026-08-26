@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   ALL_CASES_COLUMNS,
   displayCaseValue,
@@ -72,7 +73,16 @@ export default async function AllCasesPage() {
                         key={column.key}
                         className="whitespace-nowrap px-4 py-3 align-top"
                       >
-                        {displayCaseValue(row[column.key])}
+                        {column.key === "case_number" ? (
+                          <Link
+                            href={`/cases/${row.id}`}
+                            className="text-zinc-900 underline-offset-2 hover:underline dark:text-zinc-100"
+                          >
+                            {displayCaseValue(row.case_number) || row.id}
+                          </Link>
+                        ) : (
+                          displayCaseValue(row[column.key])
+                        )}
                       </td>
                     ))}
                   </tr>

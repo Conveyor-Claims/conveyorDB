@@ -32,5 +32,6 @@ npm run dev
 
 - `/` standing-up page
 - `/cases` read-only All Cases list from `public.cases` (empty tables render an empty list)
+- `/cases/[id]` read-only 42-section case page from stored `public.cases` fields (C-01985 catalog). File slots are omitted. Blank fields stay blank.
 - `/login` staff Google login stub
 - `/health` lists P11 cabinets and P12 High tables and probes the live schema

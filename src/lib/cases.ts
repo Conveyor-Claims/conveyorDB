@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createAdminClient } from "@/lib/clients/admin";
 import { createAnonServerClient } from "@/lib/clients/server";
 import type { Database } from "@/lib/database.types";
@@ -36,12 +37,34 @@ export type AllCasesList = {
   usingServiceRole: boolean;
 };
 
-export async function listAllCases(): Promise<AllCasesList> {
+export type CaseById = {
+  row: CasesRow | null;
+  error: string | null;
+  missingEnv: string[];
+  usingServiceRole: boolean;
+};
+
+const CASE_ID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export function isCaseId(id: string): boolean {
+  return CASE_ID_RE.test(id);
+}
+
+function casesClient() {
   const env = readAppEnv();
   const missingEnv = missingEnvNames(env);
   const admin = createAdminClient();
   const anon = createAnonServerClient();
-  const client = admin ?? anon;
+  return {
+    client: admin ?? anon,
+    missingEnv,
+    usingServiceRole: Boolean(admin),
+  };
+}
+
+export async function listAllCases(): Promise<AllCasesList> {
+  const { client, missingEnv, usingServiceRole } = casesClient();
 
   if (!client) {
     return {
@@ -64,7 +87,7 @@ export async function listAllCases(): Promise<AllCasesList> {
       rows: [],
       error: error.message,
       missingEnv,
-      usingServiceRole: Boolean(admin),
+      usingServiceRole,
     };
   }
 
@@ -72,14 +95,60 @@ export async function listAllCases(): Promise<AllCasesList> {
     rows: data ?? [],
     error: null,
     missingEnv,
-    usingServiceRole: Boolean(admin),
+    usingServiceRole,
   };
 }
 
+export const getCaseById = cache(async (id: string): Promise<CaseById> => {
+  const { client, missingEnv, usingServiceRole } = casesClient();
+
+  if (!client) {
+    return {
+      row: null,
+      error: "Supabase client is not configured.",
+      missingEnv,
+      usingServiceRole: false,
+    };
+  }
+
+  if (!isCaseId(id)) {
+    return {
+      row: null,
+      error: null,
+      missingEnv,
+      usingServiceRole,
+    };
+  }
+
+  const { data, error } = await client
+    .from("cases")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    return {
+      row: null,
+      error: error.message,
+      missingEnv,
+      usingServiceRole,
+    };
+  }
+
+  return {
+    row: data,
+    error: null,
+    missingEnv,
+    usingServiceRole,
+  };
+});
+
 /** Stored values only. Null/empty stay blank — no placeholders. */
-export function displayCaseValue(
-  value: AllCasesRow[AllCasesColumnKey],
-): string {
+export function displayCaseValue(value: unknown): string {
   if (value == null) return "";
-  return value;
+  if (Array.isArray(value)) {
+    return value.length === 0 ? "" : value.map(String).join(", ");
+  }
+  if (typeof value === "boolean") return value ? "true" : "false";
+  return String(value);
 }
