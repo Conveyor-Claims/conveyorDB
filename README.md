@@ -31,4 +31,6 @@ npm run dev
 ```
 
 - `/` standing-up page
+- `/cases` read-only All Cases list from `public.cases` (empty tables render an empty list)
+- `/login` staff Google login stub
 - `/health` lists P11 cabinets and P12 High tables and probes the live schema
