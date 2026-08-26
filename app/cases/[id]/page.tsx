@@ -6,7 +6,7 @@ import {
   caseSectionAnchor,
   type CasePageField,
 } from "@/lib/case-page";
-import { displayCaseValue, getCaseById } from "@/lib/cases";
+import { displayCaseValue, getCaseById, isCaseId } from "@/lib/cases";
 import type { Database } from "@/lib/database.types";
 import { StaffChrome } from "../../staff-chrome";
 
@@ -105,9 +105,13 @@ function CaseField({
 
 export default async function CasePage({ params }: PageProps) {
   const { id } = await params;
-  const { row, error, missingEnv } = await getCaseById(id);
+  if (!isCaseId(id)) {
+    notFound();
+  }
 
-  if (!row && !error) {
+  const { row, error, missingEnv, usingServiceRole } = await getCaseById(id);
+
+  if (!row && !error && usingServiceRole) {
     notFound();
   }
 
