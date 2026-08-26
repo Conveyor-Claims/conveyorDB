@@ -1,0 +1,17 @@
+dest_column,airtable_field_id,airtable_name,airtable_type,notes
+airtable_id,,record id,recordId,match key; Airtable record id; not a field
+full_name,fldUm2YMn7Q6imKgX,Full Name,singleLineText,copy stored value as-is; blank stays blank
+first_name,fldW2THX9GsMnMI1i,First Name,formula,formula; dest exists; stay nullable until P37; do not recompute.
+last_name,fldzCP0OMNA2TNFPc,Last Name,formula,formula; dest exists; stay nullable until P37; do not recompute.
+relationship_to_insured,fldl6UOCHJOPKcxY7,Relationship to Insured,singleSelect,copy stored choice as-is; blank stays blank
+policy_party_type,fldVdgZEnRfqorC9S,Policy Party Type,singleSelect,copy stored choice as-is; blank stays blank
+email,fldf2CgSPMpkiX1UQ,Email,email,copy stored value as-is; blank stays blank
+primary_phone,fldVBktcYBWtDB2By,Primary Phone,phoneNumber,copy stored value as-is; blank stays blank
+secondary_phone_number,fld55vOTHMBpVqaWq,Secondary Phone Number,phoneNumber,copy stored value as-is; blank stays blank
+preferred_contact_method,fldaZ8XBAV09tCGE5,Preferred Contact Method,singleSelect,copy stored choice as-is; blank stays blank
+best_time_to_contact,fldkevOmtJvlzAvEM,Best Time to Contact,singleSelect,copy stored choice as-is; blank stays blank
+authorized_representative_name,fldRkXIChalsXxsCM,Authorized Representative Name,singleLineText,copy stored value as-is; blank stays blank
+authorized_representative_title,fldf0LMWTSzeXoycV,Authorized Representative Title,singleSelect,copy stored choice as-is; blank stays blank
+qbo_customer_id,fldAqr1acFcHsxzOP,QBO Customer ID,singleLineText,copy stored value as-is; blank stays blank
+associated_cases,fldLPcazacouANahr,Associated Cases,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+contact_id,fldBr1YSHgOWxPxvN,Contact ID,formula,formula; dest exists; stay nullable until P37; do not recompute.
