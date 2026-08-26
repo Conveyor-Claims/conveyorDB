@@ -1,0 +1,372 @@
+dest_column,airtable_field_id,airtable_name,airtable_type,notes
+airtable_id,,record id,recordId,match key; Airtable record id; not a field
+case_number,fldgtfo2DzUKEBYV9,Case Number,formula,formula; dest exists; stay nullable until P37; do not recompute.
+referred_firm,fldCbuRKJLZOo1uFz,Referred Firm,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+associate_counsel,fldV6qUkkkkCVwl2Q,Associate Counsel,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+resolutions_specialist,fldYBUMkzPn2VzP2B,Resolutions Specialist,singleSelect,copy stored choice as-is; blank stays blank
+paralegal,fldDBQwUWqdz1kbVa,Paralegal,singleSelect,copy stored choice as-is; blank stays blank
+department,fldUbBRoVkDvGvkgm,Department,singleSelect,copy stored choice as-is; blank stays blank
+case_status,fldiYDUIY6GKN2GZf,Case Status,singleSelect,copy stored choice as-is; blank stays blank
+next_steps,fldg18SA1L4aDlylV,Next Steps,multipleSelects,copy stored choice as-is; blank stays blank
+category_type,fldQuERHXQ2DDJMCH,Category Type,multipleSelects,copy stored choice as-is; blank stays blank
+da_oc,fldgrGdvGE2utozoB,DA/OC,singleSelect,copy stored choice as-is; blank stays blank
+rs_due_date,fldC4tCwwkLUDlF5u,RS Due Date,date,copy stored date as-is; blank stays blank
+pl_due_date,fldokz2afgvTrrwkZ,PL Due Date,date,copy stored date as-is; blank stays blank
+atty_due_date,fld05In451iAhnDLQ,Atty Due Date,date,copy stored date as-is; blank stays blank
+atty_client_appt,fldWLSqnKRtFU1kMN,Atty Client Appt,dateTime,copy stored date as-is; blank stays blank
+recent_client_comm_date,fldWnM8P1rIHqupm9,Recent Client Comm Date,date,copy stored date as-is; blank stays blank
+next_client_comm_due_date,fldolGWAyYvyaRZ0F,Next Client Comm Due Date,formula,formula; dest exists; stay nullable until P37; do not recompute.
+law_firm_notes,fld0iowHKEtJKfmOo,Law Firm Notes,multilineText,copy stored value as-is; blank stays blank
+resolutions_notes,fldXZRJ3ZtJ5EGULM,Resolutions Notes,richText,copy stored value as-is; blank stays blank
+attorney_only_notes,fldy4AoJoE5pyPR69,Attorney Only Notes,multilineText,copy stored value as-is; blank stays blank
+accounting_notes,fldfNhcBHp4b0hJpH,Accounting Notes,richText,copy stored value as-is; blank stays blank
+client_profile,fldBUVrIVp0uesl0e,Client Profile,richText,copy stored value as-is; blank stays blank
+associated_cases,fldHpsEmylzAtGlzf,Associated Case(s),multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+property_address,fldwDxMGyXKgbqA6y,Property Address,singleLineText,copy stored value as-is; blank stays blank
+mailing_address,fldiEGgKGpT8mOYP2,Mailing Address,singleLineText,copy stored value as-is; blank stays blank
+client_alt_phone_number,fldxWJBShHjliRLfl,Client Alt Phone Number,phoneNumber,copy stored value as-is; blank stays blank
+client_phone_number,fldMLTpVPdvl5vdru,Client Phone Number,phoneNumber,copy stored value as-is; blank stays blank
+email,fld23ADDW0VeuYcpo,Email,email,copy stored value as-is; blank stays blank
+sms_consent,fldnAhTecVAoCjoHt,SMS Consent,singleSelect,copy stored choice as-is; blank stays blank
+client_rating,fldQonfCXb9PsqDP2,Client Rating,singleSelect,copy stored choice as-is; blank stays blank
+client_name,fldcJpgdshlA1WsUL,Client Name,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+claim_state,flduWNWWULELPp2Jg,Claim State,singleSelect,copy stored choice as-is; blank stays blank
+property_type,fldf4uGWBKU4NMNQU,Property Type,singleSelect,copy stored choice as-is; blank stays blank
+claim_number,fldiT1jmx3CQNCS8T,Claim Number,singleLineText,copy stored value as-is; blank stays blank
+policy_number,fldznX4N1GHPhCtct,Policy Number,singleLineText,copy stored value as-is; blank stays blank
+date_of_loss,fld44cdvMJycDTGI7,Date of Loss,date,copy stored date as-is; blank stays blank
+sol_deadline,fldYxmn03YEIHOMAW,SOL Deadline,formula,formula; dest exists; stay nullable until P37; do not recompute SOL/DOB.
+date_of_breach,fldk9IDNnTCKHOUSi,Date of Breach,date,copy stored date as-is; blank stays blank
+dob_deadline,fldKhqi74RqcCg3oR,DOB Deadline,formula,formula; dest exists; stay nullable until P37; do not recompute SOL/DOB.
+cause_of_loss,fld8A5gmr5Vvs3jZ2,Cause of Loss,multipleSelects,copy stored choice as-is; blank stays blank
+claim_type,fld2OgPpFo08Wh3Q3,Claim Type,multipleSelects,copy stored choice as-is; blank stays blank
+contractor,fldPQqRuhrfqzOEhq,Contractor,singleSelect,copy stored choice as-is; blank stays blank
+total_loss,fldzwfDpUW1nmjyh2,Total Loss,singleSelect,copy stored choice as-is; blank stays blank
+rp_claim_summary_for_litigation,fld2ODyadsYbhBNPS,RP Claim Summary for Litigation,multilineText,copy stored value as-is; blank stays blank
+client_estimate_amount,fldNayASYskikvcBr,Client Estimate Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+current_ic_offer,fld9apmn2hbV0jYyy,Current IC Offer,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+of_est,flddme7f1oISfxwlv,% of Est,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+ic_rcv_estimate_amount,fldYgSYpvtvkqWxIx,IC RCV Estimate Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+rcv_disputed_amount,fld9FvfsanY6NHQnK,RCV Disputed Amount,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+deductible_amount,fldtchNl4vABMkwlN,Deductible Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+total_paid_to_date,fldJuK1i3rINHuU8W,Total Paid to Date,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+amount_to_collect,fldHezcQzyyU1qmNJ,Amount to Collect,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+certified_policy_received,fldME7AjDxkCUVHDS,Certified Policy Received,checkbox,copy stored checkbox as-is; blank stays blank
+ic_docs_and_communications,fld1D3iTdpOe3R61q,IC Docs & Communications,checkbox,copy stored checkbox as-is; blank stays blank
+payment_summary_sol_received,fld7EHwOBVeInSY0H,Payment Summary (SOL) Received,checkbox,copy stored checkbox as-is; blank stays blank
+nc_call_completed,fld2eYCVKkHXri6hG,NC Call Completed,checkbox,copy stored checkbox as-is; blank stays blank
+clg_settlement_statement_complete,fldfE4qZuTaUrEBK1,CLG - Settlement Statement Complete,checkbox,copy stored checkbox as-is; blank stays blank
+external_documentation_links,fldHnmSazu7oZxcM6,External Documentation Links,richText,copy stored value as-is; blank stays blank
+insurance_company,fldiKAFhYTEYN1wkT,Insurance Company,singleSelect,copy stored choice as-is; blank stays blank
+opposing_counsel_firm,fldb4M4AAia7d9LJc,Opposing Counsel Firm,singleSelect,copy stored choice as-is; blank stays blank
+current_desk_adjuster,fldcnFN4hgkpmp8wn,Current Desk Adjuster,singleSelect,copy stored choice as-is; blank stays blank
+current_opposing_counsel,fldRQkxjY9dHVkWBS,Current Opposing Counsel,singleSelect,copy stored choice as-is; blank stays blank
+desk_adjuster_email,fldY7S06zFvY8MXdq,Desk Adjuster Email,email,copy stored value as-is; blank stays blank
+opposing_counsel_email,fldnaZXHGPOzjRaik,Opposing Counsel Email,email,copy stored value as-is; blank stays blank
+ic_adjuster_contact_info,fldzHlOi6dg0uShfh,IC Adjuster Contact Info,multilineText,copy stored value as-is; blank stays blank
+opposing_counsel_contact_info,fldjRRqxF9GSUQF7y,Opposing Counsel Contact Info,richText,copy stored value as-is; blank stays blank
+rp_claim_fee,fld0bbVesO5fox5Ei,RP Claim Fee %,percent,copy stored percent as-is; blank stays blank
+retainer_sent,fldcwPNRUvJElw4F8,Retainer Sent,date,copy stored date as-is; blank stays blank
+retainer_signed_date,flddWl7BHXQsYw2Lx,Retainer Signed Date,date,copy stored date as-is; blank stays blank
+welcome_email_sent,fldWGgKahuJ7XRn8X,Welcome Email Sent,date,copy stored date as-is; blank stays blank
+lor_dl_sent_to_ic,fldh5cxyaV1W1F5Yw,LOR/DL Sent to IC,date,copy stored date as-is; blank stays blank
+days_since_retained,fldEVb3g8dKcssEid,Days Since Retained,formula,formula; dest exists; stay nullable until P37; do not recompute.
+appraisal_type,fldk6JNhlC0FHdumy,Appraisal Type,singleSelect,copy stored choice as-is; blank stays blank
+recommended_appraiser,fldE3YQHYwfZx8vIf,Recommended Appraiser,singleSelect,copy stored choice as-is; blank stays blank
+appraisal_consent,fldtGYARmHWv1gmdk,Appraisal Consent,checkbox,copy stored checkbox as-is; blank stays blank
+insureds_appraiser,fldoYMzEPz5XJZv64,Insured's Appraiser,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+insureds_appraiser_portal_access,fldp6d4OxVIdRSrt5,Insured's Appraiser - Portal Access,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+carriers_appraiser,fldSuHL2OrnRv3RnC,Carrier's Appraiser,singleLineText,copy stored value as-is; blank stays blank
+rp_appraiser,fldW8GhCD9Oz6t13V,RP Appraiser,singleSelect,copy stored choice as-is; blank stays blank
+appraisal_demand_letter_draft,fldcgakqkNI5sTmIM,Appraisal Demand Letter Draft,url,copy stored value as-is; blank stays blank
+appraisal_demand_sent_to_ic,fldWQTbSqKLwn2Clm,Appraisal Demand sent to IC,date,copy stored date as-is; blank stays blank
+appraisal_demand_response_due,fld413A3xBATbIC58,Appraisal Demand Response Due,formula,formula; dest exists; stay nullable until P37; do not recompute.
+appraisal_demand_escalation_sent_to_ic,fldA2wlIkGFFQLsLb,Appraisal Demand Escalation sent to IC,date,copy stored date as-is; blank stays blank
+appraisal_demand_escalation_response_due,fldRRwZt2Nr7zRuwm,Appraisal Demand Escalation Response Due,formula,formula; dest exists; stay nullable until P37; do not recompute.
+appraisal_demand_recd_from_ic,fld5Bsn85FzQHrECV,Appraisal Demand Rec'd from IC,date,copy stored date as-is; blank stays blank
+firm_appraisal_response_due,fldkNSBr2mUI4jRIC,Firm Appraisal Response Due,formula,formula; dest exists; stay nullable until P37; do not recompute.
+appraisal_response_sent_to_ic,fld6aVYy8weQdH0eB,Appraisal Response Sent to IC,date,copy stored date as-is; blank stays blank
+appraiser_next_steps,fldS0SSbcGy5grJHx,Appraiser Next Steps,multipleSelects,copy stored choice as-is; blank stays blank
+show_appraisal_milestone_steps,fldSwjtUBnHRRfZPZ,Show Appraisal Milestone Steps,checkbox,copy stored checkbox as-is; blank stays blank
+notes_for_appraiser,flduqIp5ECt8cIVG6,Notes for Appraiser,richText,copy stored value as-is; blank stays blank
+appraiser_response_notes,fld039PmqNMOnEu75,Appraiser Response Notes,richText,copy stored value as-is; blank stays blank
+step_1_initial_appraisal_inspection_scheduled,fldtuqe7c4SAdMFLS,Step 1: Initial Appraisal Inspection Scheduled,checkbox,copy stored checkbox as-is; blank stays blank
+step_1_completed,fldwEyIvUpmI1iXIf,Step 1 Completed 📅,date,copy stored date as-is; blank stays blank
+step_2_site_inspection_completed,fldA5F7KH8iaqRyyX,Step 2: Site Inspection Completed,checkbox,copy stored checkbox as-is; blank stays blank
+step_2_completed,fldHFqn9583TWX6xv,Step 2 Completed 📅,date,copy stored date as-is; blank stays blank
+step_3_appraisers_estimate_prepared,fldBlvHCa6DB7ZeDF,Step 3: Appraisers Estimate Prepared,checkbox,copy stored checkbox as-is; blank stays blank
+step_3_completed,fldG5cMGJ3vEfwIVE,Step 3 Completed 📅,date,copy stored date as-is; blank stays blank
+step_4_appraiser_estimate_exchanged,fld0QlMTvDQJVZPzZ,Step 4: Appraiser Estimate Exchanged ,checkbox,copy stored checkbox as-is; blank stays blank
+step_4_completed,fldsROoq94OLrsTFS,Step 4 Completed 📅,date,copy stored date as-is; blank stays blank
+step_5_joint_scope_review_conducted,fldOaU9o0qwHuFeSc,Step 5: Joint Scope Review Conducted,checkbox,copy stored checkbox as-is; blank stays blank
+step_5_completed,fldF65LOUO6hPSIoh,Step 5 Completed 📅,date,copy stored date as-is; blank stays blank
+step_6_umpire_selected,fldP2Q5n8LScV5Gj3,Step 6: Umpire Selected,checkbox,copy stored checkbox as-is; blank stays blank
+step_6_completed,fldR022G1tLVnpLFw,Step 6 Completed 📅,date,copy stored date as-is; blank stays blank
+step_7_umpire_discussions_initiated,flduTgtCW0efl5gV2,Step 7: Umpire Discussions Initiated,checkbox,copy stored checkbox as-is; blank stays blank
+step_7_completed,fldbKhzxXJtNcad8Q,Step 7 Completed 📅,date,copy stored date as-is; blank stays blank
+step_8_court_appointed_umpire_needed,fldZFRnELIfg7Xb0y,Step 8: Court Appointed Umpire Needed,checkbox,copy stored checkbox as-is; blank stays blank
+step_8_completed,fldpI39fvpYG0W26F,Step 8 Completed 📅,date,copy stored date as-is; blank stays blank
+step_9_evidence_submitted_to_umpire,fldYylt1cOSKiRAPn,Step 9: Evidence Submitted to Umpire,checkbox,copy stored checkbox as-is; blank stays blank
+step_9_completed,fldyJkU41EhgbR6zb,Step 9 Completed 📅,date,copy stored date as-is; blank stays blank
+step_10_umpire_inspection_scheduled,fldD59r8NZVVIf7B2,Step 10: Umpire Inspection Scheduled,checkbox,copy stored checkbox as-is; blank stays blank
+step_10_completed,fldhg4eamCvfJRiby,Step 10 Completed 📅,date,copy stored date as-is; blank stays blank
+step_11_umpire_site_inspection_completed,fldlhClW9RP4MnmIB,Step 11: Umpire Site Inspection Completed,checkbox,copy stored checkbox as-is; blank stays blank
+step_11_completed,fldsvSOpHm2FnJ9Sx,Step 11 Completed 📅,date,copy stored date as-is; blank stays blank
+step_12_appraisal_award_finalized,fldoWcb4CmebhZ2kj,Step 12: Appraisal Award Finalized,checkbox,copy stored checkbox as-is; blank stays blank
+step_12_completed,fldLH9MCgbsvhjs2y,Step 12 Completed 📅,date,copy stored date as-is; blank stays blank
+step_13_appraisal_award_signed_and_completed,fldZN6OE3tvJFAhtK,Step 13: Appraisal Award Signed & Completed,checkbox,copy stored checkbox as-is; blank stays blank
+step_13_completed,fldJQw7s4afKefZj0,Step 13 Completed 📅,date,copy stored date as-is; blank stays blank
+umpire,fldRsI1Fx6v0u49Im,Umpire,singleLineText,copy stored value as-is; blank stays blank
+court_appointed_umpire,fld2w6YKgUMIaYAlC,Court Appointed Umpire,singleLineText,copy stored value as-is; blank stays blank
+u_p_county,fldkGSqkRyPDK9or9,U/P County,formula,formula; dest exists; stay nullable until P37; do not recompute.
+u_p_mailed_or_e_filed,fldYXMjPJMBT3h9YV,U/P - Mailed or E-Filed,date,copy stored date as-is; blank stays blank
+u_p_sent_to_abc_legal,fldqRqyqcAhGCe9j3,U/P Sent to ABC Legal,date,copy stored date as-is; blank stays blank
+u_p_served_date,fldb5BP4eIV1dlGMu,U/P Served Date,date,copy stored date as-is; blank stays blank
+umpire_hearing_date,fldiaqeaA52SH9spH,Umpire Hearing Date,date,copy stored date as-is; blank stays blank
+appraisal_closing_package_complete,fldDzkbI0e40Ua6VC,Appraisal Closing Package Complete,checkbox,copy stored checkbox as-is; blank stays blank
+notes_for_build_consult_review,fldAkXhUDMWN71b2K,Notes for Build. Consult. Review,multilineText,copy stored value as-is; blank stays blank
+build_consult_response_notes,fldqK2bqliS6HbrQ4,Build. Consult. Response Notes,multilineText,copy stored value as-is; blank stays blank
+building_consultant,fldAvWDxKCfzKEQCd,Building Consultant,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+building_consultant_portal_access,fldgn3OtaZjuhRV1t,Building Consultant - Portal Access,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+building_cons_firm_request,fldW59OCtb6Fzz5pv,Building Cons. Firm Request,singleSelect,copy stored choice as-is; blank stays blank
+building_cons_next_steps,fldeeiETOtcOVlNWz,Building Cons. Next Steps,singleSelect,copy stored choice as-is; blank stays blank
+building_consult_package_complete,fld9BbK52ZR1hwZgS,Building Consult. Package Complete,checkbox,copy stored checkbox as-is; blank stays blank
+reinspection_notes,fldGt4WM0npi5uSOs,Reinspection Notes,multilineText,copy stored value as-is; blank stays blank
+reinspection_scheduled_date,fldFpenlDCyetA7aI,Reinspection Scheduled Date,dateTime,copy stored date as-is; blank stays blank
+reinspection_completed,fldE4gORojZSlrpNZ,Reinspection Completed,checkbox,copy stored checkbox as-is; blank stays blank
+euo_date,fldGFp6sNqDjEBSwK,EUO Date,dateTime,copy stored date as-is; blank stays blank
+euo_location,fldw7LCqnl8FJwEkX,EUO Location,singleSelect,copy stored choice as-is; blank stays blank
+notes_for_experts_review,fld6SWfu0zWTMkgr1,Notes for Experts Review,richText,copy stored value as-is; blank stays blank
+expert_response_notes,fldX5UmYNRcCmFlnH,Expert Response Notes,richText,copy stored value as-is; blank stays blank
+selected_engineer_experts,fldgOc346I53WkpTO,Selected Engineer/Experts,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+engineer_experts_portal_access,fldHxDZGtkC8Uxvst,Engineer/Experts - Portal Access,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+expert_firm_request,fldpENqBDxV2VCNaf,Expert Firm Request,singleSelect,copy stored choice as-is; blank stays blank
+expert_next_steps,fldjBdtLQQqiwNFbr,Expert Next Steps,singleSelect,copy stored choice as-is; blank stays blank
+experts_identified_doc,fldCBjBthVQvMYn3E,Experts Identified Doc,url,copy stored value as-is; blank stays blank
+expert_report_complete,fldyN9boKpFuvAjhl,Expert Report Complete,checkbox,copy stored checkbox as-is; blank stays blank
+cat_4_notes,fld9w3JKcQ6OM8sod,Cat 4 Notes,richText,copy stored value as-is; blank stays blank
+litigation_consent,fldU7qwRsXHpMafMP,Litigation Consent,checkbox,copy stored checkbox as-is; blank stays blank
+county,fld4gsbPFzqJhtMCU,County,singleSelect,copy stored county as-is; blank stays blank; never invent a court name
+s_c_approved,fldhdlT8XD0Sdhkhn,S/C Approved,checkbox,copy stored checkbox as-is; blank stays blank
+s_c_mailed_or_e_filed,fldJBqxvngYB9oywg,S/C - Mailed or E-Filed,date,copy stored date as-is; blank stays blank
+s_c_sent_for_service,fldGjtjCQgvODPuCY,S/C sent for Service,date,copy stored date as-is; blank stays blank
+s_c_served_date,fld0ZhBH9gypKBqC9,S/C Served Date,date,copy stored date as-is; blank stays blank
+answer_due_date,fldpZz5oyBGpO81cy,Answer Due Date,date,copy stored date as-is; blank stays blank
+discovery_to_def_due_date,fld0hb8My3dJCylos,Discovery to Def Due Date,date,copy stored date as-is; blank stays blank
+discovery_from_def_due_date,fldbHCpK5YKsyuwtj,Discovery from Def Due Date,date,copy stored date as-is; blank stays blank
+deposition_date,fld8yLGuSnq4RVuQE,Deposition Date,dateTime,copy stored date as-is; blank stays blank
+deposition_location,fldYOEjxme9mKGyFc,Deposition Location,singleSelect,copy stored choice as-is; blank stays blank
+deposition_meeting_link,fldbxZI3EkVFUf96x,Deposition Meeting Link,url,copy stored value as-is; blank stays blank
+subpoena_docs_due,fldfzOjmg5VUUe1j9,Subpoena Docs Due,dateTime,copy stored date as-is; blank stays blank
+motions_hearing_date,flduGUP1Yff85Ugwf,Motions Hearing Date,dateTime,copy stored date as-is; blank stays blank
+motions_location,fldhAU5kgYBVKY81C,Motions Location,singleSelect,copy stored choice as-is; blank stays blank
+mediation_date,fldnre9ZE41pE4tv9,Mediation Date,dateTime,copy stored date as-is; blank stays blank
+mediation_deadline_date,fldoZZpfumhRokpP5,Mediation Deadline Date,dateTime,copy stored date as-is; blank stays blank
+mediation_location,fldx5E8mocQcsvmjm,Mediation Location,singleSelect,copy stored choice as-is; blank stays blank
+selected_mediator,fld51WQnRV3wNLOcR,Selected Mediator,singleSelect,copy stored choice as-is; blank stays blank
+trial_date,fldX8LFW5aX05PH1A,Trial Date,dateTime,copy stored date as-is; blank stays blank
+vd_filing_date,fldbY30JQDflRj8WC,VD Filing Date,date,copy stored date as-is; blank stays blank
+refiling_deadline,fldpZphZS2qs7H4Ud,Refiling Deadline,formula,formula; dest exists; stay nullable until P37; do not recompute.
+clg_legal_fee,fld8rEsqO75cToCTe,CLG Legal Fee %,singleSelect,copy stored choice as-is; blank stays blank
+filing_costs,fldORbN8JRlhMUDL2,Filing Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+doi_service_costs,fldsl9gvkSgKeSqkF,DOI Service Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+motion_costs,fld4bZ98ImKGYrMx6,Motion Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+weather_report_costs,fldyeWOX95pcRDYud,Weather Report Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+appraiser_costs,fld41dy1exZ3E6byh,Appraiser Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+building_consultant_costs,fldwZJbyA4JmEhsuw,Building Consultant Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+certified_mailing,fldDSaksVPCwx5bly,Certified Mailing,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+deposition_costs,fld7uj61bFkkscZB8,Deposition Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+mediation_costs,fldR3ofpA1V8dly0P,Mediation Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+expert_costs,fldtpgcsTEDcE5zWQ,Expert Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+umpire_costs,fldApQmk0hsYjLps3,Umpire Costs,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+reason_for_disengagement,fldGf94q874bJPplb,Reason for Disengagement,richText,copy stored value as-is; blank stays blank
+clg_settlement_statement,fldi7DRr2jyFXK25H,CLG - Settlement Statement,url,copy stored value as-is; blank stays blank
+settled_date,fldX7x5qadfouQs8V,Settled Date,date,copy stored date as-is; blank stays blank
+global_settlement_amount,fldsLEHZErQdTDpyn,Global Settlement Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+litigation_increase,fldhVZNTAZ4JQqlcM,Litigation Increase,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+outstanding_funds,fldiAY3cnDqpJ3dDa,Outstanding Funds,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+rp_estimate,fldIvUxwFL7pTfY62,% RP Estimate,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+release_coc_sent_to_ic,fldcqhTywhUSq18eY,Release/COC Sent to IC,date,copy stored date as-is; blank stays blank
+rp_claims_contact,fldipuWgo6j7awtEG,RP Claims Contact,richText,copy stored value as-is; blank stays blank
+referral_partner,fld9JAESdqYXE6CPS,Referral Partner,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+referred_original_case,fld6l2h7Hu9DEQmDE,Referred Original Case,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+referred_firm_portal_access,fldSkUNoSQwWzACmi,Referred Firm - Portal Access,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+associate_counsel_portal_access,fld6lUBUOWGZfPt8U,Associate Counsel - Portal Access,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+referral_partner_portal_access,fldH42pWcx8W88ynA,Referral Partner - Portal Access,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+conveyor_activity_log,fldbtbAR2tg2BrCsz,Conveyor Activity Log,richText,copy stored value as-is; blank stays blank
+cid_due_date,fldCNfy6MrBUtpwcN,CID Due Date,date,copy stored date as-is; blank stays blank
+attorney_repd,fldBWVPvY71CuybiV,Attorney Rep'd,checkbox,copy stored checkbox as-is; blank stays blank
+squares,fldySKVZz7BS8koUb,Squares,number,copy stored value as-is; blank stays blank
+demand_letter_editable,fldLyxksiPsfVMV9Q,Demand Letter (Editable),url,copy stored value as-is; blank stays blank
+referral_email_recd,fldJmhnAwt2JPxYcy,Referral Email Rec'd,checkbox,copy stored checkbox as-is; blank stays blank
+create_time,fldxWGRRezlV6XiwQ,Create Time,createdTime,Airtable system/computed; copy current value as-is; blank stays blank; do not recompute
+case_documents,fldrExWrToq4cWzZQ,Case Documents,url,copy stored value as-is; blank stays blank
+referral_case_id,fld5Ji3sZlWAMZx0p,Referral Case ID,multilineText,copy stored value as-is; blank stays blank
+autonum,fldmUX5na6CIdPTWG,Autonum,autoNumber,Airtable system/computed; copy current value as-is; blank stays blank; do not recompute
+rp_next_steps,flduJh6HOkAV10LUv,RP Next Steps,multipleSelects,copy stored choice as-is; blank stays blank
+case_id,fld4o6nwMKUilIjr6,Case ID,formula,formula; dest exists; stay nullable until P37; do not recompute.
+last_modified,fldCjfTIANWqYQnQV,Last Modified,lastModifiedTime,Airtable system/computed; copy current value as-is; blank stays blank; do not recompute
+last_modified_by,fldPlH1Bb8v9ZuTj6,Last Modified By,lastModifiedBy,Airtable system/computed; copy current value as-is; blank stays blank; do not recompute
+invoices,fldFZJTA66Bn9JZmQ,Invoices,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+create_invoice,fldSAz1mMrCIZwBde,Create Invoice,checkbox,copy stored checkbox as-is; blank stays blank
+emails,fldE2ZBCbuSi8PRh7,Emails,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+case_status_sort,fldKhbFuUPKWT1eKw,Case Status Sort,manualSort,Airtable system/computed; copy current value as-is; blank stays blank; do not recompute
+temp_case_docs,fldBKE7u2H2Q6pAmL,❌ Temp Case Docs,checkbox,copy stored checkbox as-is; blank stays blank
+counsel_legal_name,fldoydt6vbYbPpnNP,Counsel Legal Name,multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+created_by,fld6jDS9xcSH2q8Ai,Created By,createdBy,Airtable system/computed; copy current value as-is; blank stays blank; do not recompute
+mediation_paid,fldEo6m8X8HDSyiAa,Mediation Paid,checkbox,copy stored checkbox as-is; blank stays blank
+experts_paid,fldXo7t4cKqMuAV8G,Experts Paid,checkbox,copy stored checkbox as-is; blank stays blank
+deposition_paid,fldrCQjiFI9rYhvoo,Deposition Paid,checkbox,copy stored checkbox as-is; blank stays blank
+umpire_paid,fldrK38lEyGYbgCJ1,Umpire Paid,checkbox,copy stored checkbox as-is; blank stays blank
+building_consultant_paid,fldhZibcpYVM9sKM0,Building Consultant Paid,checkbox,copy stored checkbox as-is; blank stays blank
+latest_undisp_check_amt,fldO5Do6ZtBHRYvrX,Latest Undisp Check Amt,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+settlement_check_amt,fld40L2FRhfPkDZEh,Settlement Check Amt,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+motions_paid,fldCiSYyevGypTLAz,Motions Paid,checkbox,copy stored checkbox as-is; blank stays blank
+check_1_amount,fld7dhJ0lbbceLl8y,Check (1) Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_1_type,fldnAULmtKz6VbVrN,Check (1) Type,singleSelect,copy stored choice as-is; blank stays blank
+check_1_legal_fee,fld1qjBRjtfnSRyhw,Check (1) Legal Fee %,percent,copy stored percent as-is; blank stays blank
+check_2_amount,fld0zbOfreW9SXPmd,Check (2) Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_2_type,fldoEO7jDRAMR7les,Check (2) Type,singleSelect,copy stored choice as-is; blank stays blank
+check_2_legal_fee,fldGasyYVVHttEhex,Check (2) Legal Fee %,percent,copy stored percent as-is; blank stays blank
+co_counsel_fee_split,flddzD27kezMfsGmA,Co-Counsel Fee Split %,singleSelect,copy stored choice as-is; blank stays blank
+check_1_legal_fee_i23za2,fldv2FL6az5i23ZA2,Check (1) Legal Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_1_client_net_disb,fldMQIKeGEAt8cFlS,Check (1) Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_1_co_counsel_fee,fldOrwZVEcg1Cr6FW,Check (1) Co-Counsel Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_1_rs_bonus,fld1OKckAmisdLi3e,Check (1) RS Bonus,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_1_clg_net,fldIuMFXcuLEkOJkV,Check (1) CLG Net,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_1_assoc_co_fee,fldTnUmItlCu9t8D9,Check (1) Assoc. Co. Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+assoc_counsel_fee_split,fldg1IkHcWqdFIhoq,Assoc. Counsel Fee Split %,singleSelect,copy stored choice as-is; blank stays blank
+check_1_deposit_date,fldPovJXDwclnh19G,Check (1) Deposit Date,date,copy stored date as-is; blank stays blank
+check_1_co_counsel_fee_opb5hf,fldz457FyRnOpB5hF,Check (1) Co-Counsel Fee %,percent,copy stored percent as-is; blank stays blank
+check_1_assoc_co_fee_bwlyg3,fldbRqkYGkbbwlYg3,Check (1) Assoc. Co Fee %,percent,copy stored percent as-is; blank stays blank
+check_1_rs_bonus_2tida6,fldrIeNrbV72TIda6,Check (1) RS Bonus %,percent,copy stored percent as-is; blank stays blank
+rs_bonus,fldVPA9sJAAKaQ8yV,RS Bonus %,singleSelect,copy stored choice as-is; blank stays blank
+litigation_fees_and_costs,fldJKTtdGbYnvPOua,Litigation Fees & Costs,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_1_settl_client_net_disb,fldhZdUbHgwKCqshI,Check (1) Settl. Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_2_deposit_date,fldtsoh5JesagrJ2X,Check (2) Deposit Date,date,copy stored date as-is; blank stays blank
+check_2_co_counsel_fee,fld51tEmzz5lh4jIH,Check (2) Co-Counsel Fee %,percent,copy stored percent as-is; blank stays blank
+check_2_assoc_co_fee,fldZlX65y3vO4uSX0,Check (2) Assoc. Co Fee %,percent,copy stored percent as-is; blank stays blank
+check_2_rs_bonus,fldvsbz7wfyPD7Kns,Check (2) RS Bonus %,percent,copy stored percent as-is; blank stays blank
+check_2_legal_fee_szqe6j,fld6QmAnIlFsZqe6j,Check (2) Legal Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_2_client_net_disb,fldZ6GYNS9SmLLXYR,Check (2) Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_2_co_counsel_fee_hghzxa,fldbFw1Kb6JhGHZXa,Check (2) Co-Counsel Fee,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_2_assoc_co_fee_9lifwm,fldygWrBS9c9LiFwm,Check (2) Assoc. Co. Fee,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_2_rs_bonus_admkgy,fldqSIYJWZTAdMKgy,Check (2) RS Bonus,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_2_clg_net,fldQ85zlCXrJyn8gh,Check (2) CLG Net,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_2_settl_client_net_disb,fld9jJqBj05NSvCwW,Check (2) Settl. Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_3_deposit_date,fldJ9AKwMGqOINP07,Check (3) Deposit Date,date,copy stored date as-is; blank stays blank
+check_3_type,fldi1Zqc5orHiVG8u,Check (3) Type,singleSelect,copy stored choice as-is; blank stays blank
+check_3_amount,fldka6NICoPPzDvVx,Check (3) Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_3_legal_fee,fldkS3JxRx1jS68xq,Check (3) Legal Fee %,percent,copy stored percent as-is; blank stays blank
+check_3_co_counsel_fee,fldRFGd51HR0neurm,Check (3) Co-Counsel Fee %,percent,copy stored percent as-is; blank stays blank
+check_3_assoc_co_fee,fldQnkHYmt5qj9PFn,Check (3) Assoc. Co Fee %,percent,copy stored percent as-is; blank stays blank
+check_3_rs_bonus,fldF3mFKQwwptorIx,Check (3) RS Bonus %,percent,copy stored percent as-is; blank stays blank
+check_3_legal_fee_i9ooxd,fld8XaGfMtfi9OOxd,Check (3) Legal Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_3_client_net_disb,fld2vfb4VywG0rCIX,Check (3) Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_3_co_counsel_fee_zfpkb2,fldmTjI6arXZfpKB2,Check (3) Co-Counsel Fee,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_3_assoc_co_fee_im7hpx,fldOy0LC6mCim7hpX,Check (3) Assoc. Co. Fee,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_3_rs_bonus_udfjxm,fldkRHc8YQ5udfjxm,Check (3) RS Bonus,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_3_clg_net,fldKy1ZOYK6vbkalP,Check (3) CLG Net,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_3_settl_client_net_disb,fldXTWDNnVdGGpzNY,Check (3) Settl. Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_4_deposit_date,fldtFO47hjpTEEtS5,Check (4) Deposit Date,date,copy stored date as-is; blank stays blank
+check_4_type,fldpybkzIX92jk5CR,Check (4) Type,singleSelect,copy stored choice as-is; blank stays blank
+check_4_amount,fldgIqp1yQu7sZPzX,Check (4) Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_4_legal_fee,fldNi6IziheIDwIwL,Check (4) Legal Fee %,percent,copy stored percent as-is; blank stays blank
+check_4_co_counsel_fee,fldSiry5IZJyXkHpE,Check (4) Co-Counsel Fee %,percent,copy stored percent as-is; blank stays blank
+check_4_assoc_co_fee,fldo7Xn9rwLpT0djl,Check (4) Assoc. Co Fee %,percent,copy stored percent as-is; blank stays blank
+check_4_rs_bonus,flddYQI4uQio7Mxd8,Check (4) RS Bonus %,percent,copy stored percent as-is; blank stays blank
+check_4_legal_fee_ya5yoq,fld6JtJ4gGWya5yOQ,Check (4) Legal Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_4_client_net_disb,fldKuunsf5LXrl7ai,Check (4) Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_4_co_counsel_fee_dxoy1o,fld5n7AaCOkDxoy1O,Check (4) Co-Counsel Fee,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_4_assoc_co_fee_fpy85s,fldDHChSRwVFPY85S,Check (4) Assoc. Co Fee,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_4_rs_bonus_dnzmsr,fldEv9sDCAuDnZmSR,Check (4) RS Bonus,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_4_clg_net,fldP8TJGADzqaFjMI,Check (4) CLG Net,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_4_settl_client_net_disb,fldPdcGbZdPqwCphZ,Check (4) Settl. Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_5_deposit_date,fldeh7xvWxPcvCJmm,Check (5) Deposit Date,date,copy stored date as-is; blank stays blank
+check_5_type,fldNZlxdtBmsX2nXH,Check (5) Type,singleSelect,copy stored choice as-is; blank stays blank
+check_5_amount,flde0edr469jyHAus,Check (5) Amount,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_5_legal_fee,fldV2TweziVxYue9Z,Check (5) Legal Fee %,percent,copy stored percent as-is; blank stays blank
+check_5_co_counsel_fee,fldnchIUmIsBkrWBg,Check (5) Co-Counsel Fee %,percent,copy stored percent as-is; blank stays blank
+check_5_assoc_co_fee,fldfJJrOhaHixpELB,Check (5) Assoc. Co Fee %,percent,copy stored percent as-is; blank stays blank
+check_5_rs_bonus,fldkJK3LinxJHKHzU,Check (5) RS Bonus %,percent,copy stored percent as-is; blank stays blank
+check_5_legal_fee_cqjbxi,fldaImhnDcvCqJbXI,Check (5) Legal Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_5_client_net_disb,fldoWz3IC4mYPoMvj,Check (5) Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_5_co_counsel_fee_aeng4e,fld8SAZUR1KAENg4e,Check (5) Co-Counsel Fee,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_5_assoc_co_fee_nerzsd,fldJ3ut70XbnERZsD,Check (5) Assoc. Co. Fee,formula,formula; dest exists; stay nullable until P37; do not recompute.
+check_5_rs_bonus_ejo79s,fldSKiOioZYeJo79s,Check (5) RS Bonus,formula,formula; dest exists; stay nullable until P37; do not recompute.
+rp_fee_split,fldWwfkOhdVPCvagV,RP Fee Split %,singleSelect,copy stored choice as-is; blank stays blank
+check_1_rp_fee_split,fldO1gN4NEDZlRcj7,Check (1) RP Fee Split %,percent,copy stored percent as-is; blank stays blank
+check_2_rp_fee_split,fldTOF52xB03obvCB,Check (2) RP Fee Split %,percent,copy stored percent as-is; blank stays blank
+check_3_rp_fee_split,fldF8moymnpe4RsBw,Check (3) RP Fee Split %,percent,copy stored percent as-is; blank stays blank
+check_4_rp_fee_split,fldiYpAqxs14tN3cR,Check (4) RP Fee Split %,percent,copy stored percent as-is; blank stays blank
+check_5_rp_fee_split,fldJfL6weYF0ranvD,Check (5) RP Fee Split %,percent,copy stored percent as-is; blank stays blank
+check_1_rp_fee_split_nudxhk,fldHXQvKodKnUDxHK,Check (1) RP Fee Split,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_2_rp_fee_split_rqfdcf,fldXyUpUvKBrqFdCF,Check (2) RP Fee Split,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_3_rp_fee_split_rmedsj,flddeK8vNAdRMEdsj,Check (3) RP Fee Split,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_4_rp_fee_split_6dd0bl,fldn3iXnB6X6dd0bL,Check (4) RP Fee Split,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_5_rp_fee_split_3o3lpn,fldKhhbRblq3O3lpN,Check (5) RP Fee Split,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_5_clg_net,fldXxSpPfNIPe67ji,Check (5) CLG Net,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_5_settl_client_net_disb,fldlCTh67XPKTfH8L,Check (5) Settl. Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_checks_received,fldDs0prFMjsWSsjn,SUM of Checks Received,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+insurance_co,fld5QvuJUg7oo6MMR,Insurance Co.,formula,formula; dest exists; stay nullable until P37; do not recompute.
+dol,fld5Bpelzb1PObKlX,DOL,formula,formula; dest exists; stay nullable until P37; do not recompute.
+claim_no,fldWU9dzHd9decehm,Claim No.,formula,formula; dest exists; stay nullable until P37; do not recompute.
+settlement_statement_sent,fldPZMyQ8V1hr2QlY,Settlement Statement Sent,checkbox,copy stored checkbox as-is; blank stays blank
+co_counsel_attorney_and_staff_from_conveyor_users_2,fldeHuj7SaBHB20wi,Co-Counsel Attorney & Staff (from Conveyor Users 2),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+clg_staff_from_conveyor_users_2,fldOa6h1aS7LDBq6u,CLG Staff (from Conveyor Users 2),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+clg_demo_staff_from_conveyor_users_2,fldeokPYlCBnY2hIT,CLG Demo Staff (from Conveyor Users 2),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+rs_email,fldtuQqgIyGHS82ap,RS Email,formula,formula; dest exists; stay nullable until P37; do not recompute.
+appraisers_from_appraiser_user,fldrBU1MCHTXM2cUs,Appraisers (from Appraiser User),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+building_consultant_from_building_consultant_user,fldEaMk20mXNKDDoY,Building Consultant (from Building Consultant User),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+engineer_expert_from_expert_users,fldXC8nCxM96eeHDo,Engineer/Expert (from Expert Users),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+referral_partner_from_referral_partner_user,fldxl5VM2lWxHcVCd,Referral Partner (from Referral Partner User),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+clg_staff_from_building_consult_user,fldy0upmglY8R8maO,CLG Staff (from Building Consult. User),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+clg_staff_from_referral_partner_user,fldQtNKbb02FzD9tI,CLG Staff (from Referral Partner User),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+clg_staff_from_engineer_expert_user,fldgmL4h4arDkMHxu,CLG Staff (from Engineer/Expert User),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+clg_staff_from_appraiser_user,fldnedr4so7TRTQqr,CLG Staff (from Appraiser User),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+pl_email,fldSYEmgq5duQJWSU,PL Email,formula,formula; dest exists; stay nullable until P37; do not recompute.
+co_counsel_email,flddpl1aOOBnKP1K1,Co-Counsel Email,multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+sol_deadline_notification,fld1JnMeZHvn2UASd,SOL Deadline Notification,formula,formula; dest exists; stay nullable until P37; do not recompute SOL/DOB.
+co_counsel_email_text,fldvzcXKY3ma5qDFN,Co-Counsel Email (text),rollup,Airtable rollup; copy current value as-is; blank stays blank; do not recompute
+f_60_day_notice_sent,fldrnef1jDxXD2VPF,60 day Notice Sent,checkbox,copy stored checkbox as-is; blank stays blank
+f_60_day_notice_date,fldWeRwUjGc1rtj7Y,60 day Notice Date,date,copy stored date as-is; blank stays blank
+appraiser_paid,fldX9s7j7vMxp3yts,Appraiser Paid,checkbox,copy stored checkbox as-is; blank stays blank
+pa_fee,fldXC3k5xEATH7yBZ,PA Fee %,singleSelect,copy stored choice as-is; blank stays blank
+check_1_pa_fee,fldhBExMhIEUV1dLd,Check (1) PA Fee %,percent,copy stored percent as-is; blank stays blank
+check_3_pa_fee,fldMbQPMv6UfSlb5u,Check (3) PA Fee %,percent,copy stored percent as-is; blank stays blank
+check_4_pa_fee,fldU2Je9Nm2gxaS4r,Check (4) PA Fee %,percent,copy stored percent as-is; blank stays blank
+check_5_pa_fee,fldZNcqJQ13YTW48u,Check (5) PA Fee %,percent,copy stored percent as-is; blank stays blank
+check_1_pa_invoice,fldcZxMBK0CR3ZNXL,Check (1) PA Invoice,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_2_pa_invoice,fldulnB5S1HZmvSwI,Check (2) PA Invoice,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_3_pa_invoice,fldDhKTJOt1UI0TXW,Check (3) PA Invoice,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_4_pa_invoice,fldFb1IcTllR65fnW,Check (4) PA Invoice,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_5_pa_invoice,fldVCJVgL4lAn3iKe,Check (5) PA Invoice,currency,copy stored dollar as-is; blank stays blank; never invent a dollar
+check_2_pa_fee,fldinAslGelodpoCQ,Check (2) PA Fee %,percent,copy stored percent as-is; blank stays blank
+check_1_pa_fee_percent,fldfjggx7Iz5ekBli,Check (1) PA Fee Percent.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_2_pa_fee_percent,fld8GHLOfyfpZWS1Y,Check (2) PA Fee Percent.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_3_pa_fee_percent,fldk2GtkftQRNFWzZ,Check (3) PA Fee Percent.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_4_pa_fee_percent,fldEzbvgiwjPNu21o,Check (4) PA Fee Percent.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+check_5_pa_fee_percent,fldFrVZbfT5m4PTFE,Check (5) PA Fee Percent.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_legal_fees,fldOMFDHfHd3mVy75,SUM of Legal Fees,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_pa_fee_percent,fldG6bVobmkcuXc1D,SUM of PA Fee Percent,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_client_net_disb,fldnobp4Q6TXZY7Sh,SUM of Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_settle_client_net_disb,fldR3M81uhIcnF9nf,SUM of Settle. Client Net Disb.,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_co_counsel_fee,fldrsiZ6WiM16ES4k,SUM of Co-Counsel Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_assoc_co_fee,fldWaO0HzR0ENUkVy,SUM of Assoc. Co Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_rs_fee,fldbiiyPcLbXXQM7m,SUM of RS Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_rp_fee_split_fee,fldIlptg4v7zKVdad,SUM of RP Fee Split Fee,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+sum_of_clg_net,fldiirJ4KcA9jIXXQ,SUM of CLG Net,formula,formula; dest exists; stay nullable until P37; do not recompute money.
+accounting_next_steps,flduHNbSbrKDOqLqF,Accounting Next Steps,singleSelect,copy stored choice as-is; blank stays blank
+insureds_appraiser_assigned,fldB0BgVXqUxpb3kz,Insured's Appraiser Assigned,lastModifiedTime,Airtable system/computed; copy current value as-is; blank stays blank; do not recompute
+appraisal_completed_date_checkbox,fld8XtuIx9nCYYXuj,Appraisal Completed Date (checkbox),lastModifiedTime,Airtable system/computed; copy current value as-is; blank stays blank; do not recompute
+days_pending_w_appraiser,fld7v2f7Q3Clwq4zp,Days Pending w/ Appraiser,formula,formula; dest exists; stay nullable until P37; do not recompute.
+referral_partner_email_lookup,fldmhp5MboNvwwwMw,Referral Partner Email Lookup,multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+diseng_email_to_rp_sent,fldUdgFz1aIkHQq9f,Diseng. Email to RP Sent,checkbox,copy stored checkbox as-is; blank stays blank
+from_field_associated_client_cases,fldvNofjKcFW2iI58,From field: Associated Client Cases,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+appraiser_email,fldtRYIHzPRnolV4e,Appraiser Email,rollup,Airtable rollup; copy current value as-is; blank stays blank; do not recompute
+clg_demo_staff_from_associate_counsel_portal_access,fldS57segDjUbhUvc,CLG Demo Staff (from Associate Counsel - Portal Access),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+associate_counsel_from_associate_counsel_portal_access,fldG8N5w8bx1Cj8ge,Associate Counsel (from Associate Counsel - Portal Access),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+clg_staff_from_associate_counsel_portal_access,fld0YweY8gU41jaAX,CLG Staff (from Associate Counsel - Portal Access),multipleLookupValues,Airtable lookup; copy current value as-is; blank stays blank; do not recompute
+claim_tasks,fld0D2I0286AcI1AC,Claim Tasks,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+comments,fldNJyWVV8JiIE78v,💬 Comments,multipleRecordLinks,copy linked record id(s) as-is; blank stays blank
+everson_files,fld6tNBTUqn0uANKk,Everson Files,singleSelect,copy stored choice as-is; blank stays blank
