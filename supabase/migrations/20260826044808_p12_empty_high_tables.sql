@@ -1,8 +1,7 @@
--- P12 empty High tables from leftover catalog. Names from live conveyordb-testing.
--- Repo copy of the empty schema already applied on conveyordb-testing.
--- Do not apply this file to production. No invented fields. No field_map inserts.
--- Attachment / file-slot fields are omitted; PDFs live in files.
--- Formulas are nullable text. Inline comments are Airtable field ids from the catalog.
+-- P12 empty High tables copied from supabase_migrations.schema_migrations on conveyordb-testing.
+-- Repo copy only. Do not apply to production. No invented fields. No field_map inserts.
+-- Inline comments are the live Airtable field ids from the applied SQL.
+-- Attachment / file-slot fields omitted; PDFs live in files. Formulas are nullable text.
 
 create table if not exists public.referred_cases (
   id uuid primary key default gen_random_uuid(),

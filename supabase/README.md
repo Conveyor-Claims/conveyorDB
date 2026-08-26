@@ -9,5 +9,5 @@ These migrations document the **empty** public schema already applied on **conve
 
 | File | Tables |
 | --- | --- |
-| `migrations/20260826043800_p11_empty_cabinets.sql` | `cases` (374 cols), `contacts`, `partners`, `next_steps`, `files`, `field_map` |
+| `migrations/20260826043800_p11_empty_cabinets.sql` | `contacts`, `partners`, `cases` (374 cols from live applied SQL), `next_steps`, `files`, `field_map` |
 | `migrations/20260826044808_p12_empty_high_tables.sql` | `referred_cases`, `invoices`, `payments`, `emails`, `client_folders`, `professional_partners`, `conveyor_users`, `claim_tasks`, `comments`, `users` |

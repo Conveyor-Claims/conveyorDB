@@ -1,9 +1,69 @@
--- P11 empty cabinets: cases, contacts, partners, next_steps, files, field_map.
--- Repo copy of the empty schema already applied on conveyordb-testing.
--- Do not apply this file to production. No rows are inserted (including field_map).
--- Attachment / file-slot fields are omitted from cases; PDFs live in files.
--- Formulas are nullable text. Column names and types dumped from the live public schema.
+-- P11 empty cabinets copied from supabase_migrations.schema_migrations on conveyordb-testing.
+-- Repo copy only. Do not apply to production. No rows inserted (including field_map).
+-- Trusted source: live applied SQL + information_schema (374 cases columns, not guessed).
+-- Attachment / file-slot fields omitted; PDFs live in files. Formulas are nullable text.
+-- Applied order: contacts, partners, cases, next_steps, files, field_map.
 
+create table if not exists public.contacts (
+  id uuid primary key default gen_random_uuid(),
+  airtable_id text unique,
+  full_name text,
+  first_name text,
+  last_name text,
+  relationship_to_insured text,
+  policy_party_type text,
+  email text,
+  primary_phone text,
+  secondary_phone_number text,
+  preferred_contact_method text,
+  best_time_to_contact text,
+  authorized_representative_name text,
+  authorized_representative_title text,
+  qbo_customer_id text,
+  associated_cases text,
+  contact_id text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.partners (
+  id uuid primary key default gen_random_uuid(),
+  airtable_id text unique,
+  partner_name text,
+  status text,
+  partner_type text,
+  attorney_name text,
+  rp_contact_name text,
+  license_states text[],
+  clg_email text,
+  email text,
+  office_number text,
+  mobile_number text,
+  fax_number text,
+  physical_address text,
+  mailing_address text,
+  bar_no text,
+  domain text,
+  additional_details text,
+  rp_fee_percentages text,
+  rp_fee_percentages_2026 text,
+  counsel_id text,
+  of_active_cases text,
+  assigned_cases text,
+  referred_cases text,
+  users text,
+  draft_letter_of_representations text,
+  draft_retainer_agreements text,
+  co_counsel_start_date date,
+  managed_cases text,
+  draft_retainer_agreement_claimant text,
+  draft_retainer_agreement_claimant_and_spouse_or_domestic_p text,
+  draft_retainer_agreement_entity text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- cases: 374 columns copied from the applied p11_cases_next_steps_files statement on conveyordb-testing.
 create table if not exists public.cases (
   id uuid primary key default gen_random_uuid(),
   airtable_id text unique,
@@ -381,65 +441,6 @@ create table if not exists public.cases (
   updated_at timestamptz not null default now()
 );
 
-create table if not exists public.contacts (
-  id uuid primary key default gen_random_uuid(),
-  airtable_id text unique,
-  full_name text,
-  first_name text,
-  last_name text,
-  relationship_to_insured text,
-  policy_party_type text,
-  email text,
-  primary_phone text,
-  secondary_phone_number text,
-  preferred_contact_method text,
-  best_time_to_contact text,
-  authorized_representative_name text,
-  authorized_representative_title text,
-  qbo_customer_id text,
-  associated_cases text,
-  contact_id text,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
-create table if not exists public.partners (
-  id uuid primary key default gen_random_uuid(),
-  airtable_id text unique,
-  partner_name text,
-  status text,
-  partner_type text,
-  attorney_name text,
-  rp_contact_name text,
-  license_states text[],
-  clg_email text,
-  email text,
-  office_number text,
-  mobile_number text,
-  fax_number text,
-  physical_address text,
-  mailing_address text,
-  bar_no text,
-  domain text,
-  additional_details text,
-  rp_fee_percentages text,
-  rp_fee_percentages_2026 text,
-  counsel_id text,
-  of_active_cases text,
-  assigned_cases text,
-  referred_cases text,
-  users text,
-  draft_letter_of_representations text,
-  draft_retainer_agreements text,
-  co_counsel_start_date date,
-  managed_cases text,
-  draft_retainer_agreement_claimant text,
-  draft_retainer_agreement_claimant_and_spouse_or_domestic_p text,
-  draft_retainer_agreement_entity text,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
 create table if not exists public.next_steps (
   id uuid primary key default gen_random_uuid(),
   airtable_id text unique,
@@ -468,6 +469,7 @@ create table if not exists public.field_map (
   column_name text,
   skipped text
 );
+
 
 create index if not exists cases_airtable_id_idx on public.cases (airtable_id);
 create index if not exists contacts_airtable_id_idx on public.contacts (airtable_id);
