@@ -1,10 +1,10 @@
-import Link from "next/link";
 import { checkSchemaHealth, type TableProbe } from "@/lib/health";
 import {
   P11_CABINETS,
   P12_HIGH_TABLES,
   type PublicTableName,
 } from "@/lib/schema/tables";
+import { StaffChrome } from "../staff-chrome";
 
 export const dynamic = "force-dynamic";
 
@@ -92,23 +92,11 @@ export default async function HealthPage() {
   const p12Names = new Set(P12_HIGH_TABLES.map((table) => table.name));
 
   return (
-    <div className="flex flex-1 flex-col bg-background text-foreground">
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-12">
-        <div className="space-y-3">
-          <Link
-            href="/"
-            className="font-mono text-sm text-accent hover:text-accent-hover"
-          >
-            ConveyorDB
-          </Link>
-          <h1 className="text-3xl font-semibold tracking-tight">
-            Schema health
-          </h1>
-          <p className="max-w-2xl text-sm leading-6 text-muted">
-            Live check against conveyordb-testing. Tables are listed by name
-            only. Empty tables stay empty.
-          </p>
-        </div>
+    <StaffChrome title="Schema health">
+      <p className="max-w-2xl text-sm leading-6 text-muted">
+        Live check against conveyordb-testing. Tables are listed by name
+        only. Empty tables stay empty.
+      </p>
 
         <dl className="grid gap-3 text-sm sm:grid-cols-2">
           <div className="rounded-xl border border-border bg-background px-4 py-3">
@@ -177,7 +165,6 @@ export default async function HealthPage() {
             </p>
           </div>
         </section>
-      </main>
-    </div>
+    </StaffChrome>
   );
 }
