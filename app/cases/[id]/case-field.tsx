@@ -41,9 +41,7 @@ function dateInputValue(value: CasesRow[keyof CasesRow]): string {
 function dateTimeInputValue(value: CasesRow[keyof CasesRow]): string {
   const text = displayCaseValue(value);
   const match = text.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/);
-  if (match?.[1]) return match[1];
-  const dateOnly = dateInputValue(value);
-  return dateOnly ? `${dateOnly}T00:00` : "";
+  return match?.[1] ?? text;
 }
 
 function DirtyHint({ dirty }: { dirty: boolean }) {
@@ -359,11 +357,16 @@ export function CaseField({
       />
     );
   } else if (field.fieldType === "date/time") {
+    const raw = displayCaseValue(value);
+    const hasTime = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(raw);
+    const dateOnly = dateInputValue(value);
     control = (
       <TextControl
         field={field}
-        initial={dateTimeInputValue(value)}
-        inputType="datetime-local"
+        initial={hasTime ? dateTimeInputValue(value) : raw}
+        inputType={
+          hasTime ? "datetime-local" : dateOnly && raw === dateOnly ? "date" : "text"
+        }
       />
     );
   } else if (field.fieldType === "money" || field.fieldType === "percent") {
