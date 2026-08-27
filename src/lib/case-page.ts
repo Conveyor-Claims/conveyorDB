@@ -449,3 +449,21 @@ export function caseSectionAnchor(name: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+/** Dest columns already shown on the case page. Not identity keys. */
+export function listCasePageDestFields(): CasePageField[] {
+  return CASE_PAGE_SECTIONS.flatMap((section) => [...section.fields]);
+}
+
+export const CASE_NOTES_KEYS = [
+  "law_firm_notes",
+  "resolutions_notes",
+  "attorney_only_notes",
+  "accounting_notes",
+] as const satisfies ReadonlyArray<CasePageField["key"]>;
+
+export function isCaseNotesField(
+  key: string,
+): key is (typeof CASE_NOTES_KEYS)[number] {
+  return (CASE_NOTES_KEYS as readonly string[]).includes(key);
+}
+

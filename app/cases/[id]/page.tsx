@@ -7,7 +7,8 @@ import {
 } from "@/lib/case-page";
 import { getCaseById, isCaseId } from "@/lib/cases";
 import { StaffChrome } from "../../staff-chrome";
-import { CaseField } from "./field-value";
+import { CaseField } from "./case-field";
+import { CaseForm } from "./case-form";
 import { CaseSections } from "./case-sections";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +25,7 @@ export async function generateMetadata({
   const title = row?.case_number?.trim();
   return {
     title: title ? `${title} · ConveyorDB` : "Case · ConveyorDB",
-    description: "Read-only case page from public.cases.",
+    description: "Editable stored fields on public.cases.",
   };
 }
 
@@ -46,9 +47,9 @@ export default async function CasePage({ params }: PageProps) {
   return (
     <StaffChrome title={title}>
       <p className="max-w-2xl text-sm leading-6 text-muted">
-        Read-only view of stored fields on{" "}
-        <span className="font-mono">public.cases</span>. File slots are not
-        stored on this table. Blank fields stay blank.
+        Stored dest fields on <span className="font-mono">public.cases</span>{" "}
+        can be edited and saved. File slots are not stored on this table. Case
+        Number stays locked. Blank fields stay blank.
       </p>
 
       <p>
@@ -73,25 +74,28 @@ export default async function CasePage({ params }: PageProps) {
       ) : null}
 
       {row ? (
-        <CaseSections
-          sections={CASE_PAGE_SECTIONS.map((section) => ({
-            name: section.name,
-            anchor: caseSectionAnchor(section.name),
-            defaultOpen: section.name === overviewName,
-          }))}
-        >
-          {CASE_PAGE_SECTIONS.map((section) => (
-            <dl key={section.name} className="bg-background px-4">
-              {section.fields.map((field) => (
-                <CaseField
-                  key={field.key}
-                  field={field}
-                  value={row[field.key]}
-                />
-              ))}
-            </dl>
-          ))}
-        </CaseSections>
+        <CaseForm caseId={row.id}>
+          <CaseSections
+            sections={CASE_PAGE_SECTIONS.map((section) => ({
+              name: section.name,
+              anchor: caseSectionAnchor(section.name),
+              defaultOpen: section.name === overviewName,
+            }))}
+          >
+            {CASE_PAGE_SECTIONS.map((section) => (
+              <dl key={section.name} className="bg-background px-4">
+                {section.fields.map((field) => (
+                  <CaseField
+                    key={field.key}
+                    field={field}
+                    value={row[field.key]}
+                    caseId={row.id}
+                  />
+                ))}
+              </dl>
+            ))}
+          </CaseSections>
+        </CaseForm>
       ) : null}
     </StaffChrome>
   );

@@ -31,7 +31,7 @@ npm run dev
 ```
 
 - `/` standing-up page
-- `/cases` read-only All Cases list from `public.cases` (empty tables render an empty list)
-- `/cases/[id]` read-only 42-section case page from stored `public.cases` fields (C-01985 catalog). File slots are omitted. Blank fields stay blank.
+- `/cases` All Cases list from `public.cases` (empty tables render an empty list)
+- `/cases/[id]` 42-section case page from stored `public.cases` fields (C-01985 catalog). Stored dest fields are editable (P19). File slots are omitted. Case Number stays locked. Blank fields stay blank.
 - `/login` temporary admin login stub (same as `/`)
 - `/health` lists P11 cabinets and P12 High tables and probes the live schema

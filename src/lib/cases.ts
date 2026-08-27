@@ -67,7 +67,7 @@ export function isCaseId(id: string): boolean {
   return CASE_ID_RE.test(id);
 }
 
-function casesClient() {
+export function casesClient() {
   const env = readAppEnv();
   const missingEnv = missingEnvNames(env);
   const admin = createAdminClient();
