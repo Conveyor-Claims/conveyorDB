@@ -133,7 +133,7 @@ export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
                             {text || row.id}
                           </Link>
                         ) : isAllCasesPillKey(column.key) && text ? (
-                          <ChoicePill value={text} />
+                          <ChoicePill field={column.key} value={text} />
                         ) : (
                           text
                         )}
