@@ -32,7 +32,6 @@ export type AllCasesColumnKey = (typeof ALL_CASES_COLUMNS)[number]["key"];
 export const ALL_CASES_PILL_KEYS = [
   "case_status",
   "department",
-  "claim_state",
   "resolutions_specialist",
   "paralegal",
 ] as const satisfies ReadonlyArray<AllCasesColumnKey>;

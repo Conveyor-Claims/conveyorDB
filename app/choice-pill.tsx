@@ -3,8 +3,8 @@ import type { AllCasesPillKey } from "@/lib/cases";
 
 /**
  * Airtable-like choice pill.
- * Mapped options use live Managed Cases tokens → official palette hex.
- * Unlisted stored values, and Claim State, use one neutral pill.
+ * Mapped options use live Aug 26 gap-doc tokens → official palette hex.
+ * Unlisted stored values use one neutral pill.
  */
 export function ChoicePill({
   field,

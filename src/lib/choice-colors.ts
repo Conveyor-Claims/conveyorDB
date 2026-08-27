@@ -6,9 +6,10 @@ import {
 import type { AllCasesPillKey } from "@/lib/cases";
 
 /**
- * Live Managed Cases select options + tokens (Aug 26 MCP / gap doc).
- * Copy only these names. Unlisted stored values stay neutral.
- * Claim State colors were not captured — always neutral.
+ * Live Managed Cases select options + tokens from the Aug 26 gap doc.
+ * Copy only these four fields. Unlisted stored values stay neutral.
+ * Property State is not on ALL_CASES_COLUMNS / public.cases — skip.
+ * Claim State stays a plain stored value, not a Property State stand-in.
  */
 const CHOICE_TOKENS = {
   department: {
