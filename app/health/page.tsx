@@ -48,10 +48,10 @@ function TableList({
 
   return (
     <section className="space-y-3">
-      <h2 className="text-sm font-medium tracking-wide text-zinc-500 uppercase">
+      <h2 className="text-sm font-medium tracking-wide text-muted uppercase">
         {title}
       </h2>
-      <ul className="divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
+      <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-background">
         {names.map(({ name }) => {
           const probe = byName.get(name);
           if (!probe) return null;
@@ -68,10 +68,10 @@ function TableList({
                   </p>
                 ) : null}
               </div>
-              <p className="hidden font-mono text-sm text-zinc-500 sm:block">
+              <p className="hidden font-mono text-sm text-muted sm:block">
                 {probe.columnCount} cols
               </p>
-              <p className="hidden font-mono text-sm text-zinc-500 sm:block">
+              <p className="hidden font-mono text-sm text-muted sm:block">
                 {probe.rowCount === null ? "—" : `${probe.rowCount} rows`}
               </p>
               <p className="flex items-center justify-end gap-2 font-mono text-sm">
@@ -92,45 +92,45 @@ export default async function HealthPage() {
   const p12Names = new Set(P12_HIGH_TABLES.map((table) => table.name));
 
   return (
-    <div className="flex flex-1 flex-col bg-[var(--background)] text-[var(--foreground)]">
+    <div className="flex flex-1 flex-col bg-background text-foreground">
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-12">
         <div className="space-y-3">
           <Link
             href="/"
-            className="font-mono text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200"
+            className="font-mono text-sm text-accent hover:text-accent-hover"
           >
             ConveyorDB
           </Link>
           <h1 className="text-3xl font-semibold tracking-tight">
             Schema health
           </h1>
-          <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          <p className="max-w-2xl text-sm leading-6 text-muted">
             Live check against conveyordb-testing. Tables are listed by name
             only. Empty tables stay empty.
           </p>
         </div>
 
         <dl className="grid gap-3 text-sm sm:grid-cols-2">
-          <div className="rounded-xl border border-zinc-200 px-4 py-3 dark:border-zinc-800">
-            <dt className="text-zinc-500">Overall</dt>
+          <div className="rounded-xl border border-border bg-background px-4 py-3">
+            <dt className="text-muted">Overall</dt>
             <dd className="mt-1 font-medium">
               {health.ok ? "All expected tables exist" : "Check failed"}
             </dd>
           </div>
-          <div className="rounded-xl border border-zinc-200 px-4 py-3 dark:border-zinc-800">
-            <dt className="text-zinc-500">Project</dt>
+          <div className="rounded-xl border border-border bg-background px-4 py-3">
+            <dt className="text-muted">Project</dt>
             <dd className="mt-1 font-mono">
               {health.projectRef ?? "not configured"}
             </dd>
           </div>
-          <div className="rounded-xl border border-zinc-200 px-4 py-3 dark:border-zinc-800">
-            <dt className="text-zinc-500">Client</dt>
+          <div className="rounded-xl border border-border bg-background px-4 py-3">
+            <dt className="text-muted">Client</dt>
             <dd className="mt-1">
               {health.usingServiceRole ? "service role" : "anon"}
             </dd>
           </div>
-          <div className="rounded-xl border border-zinc-200 px-4 py-3 dark:border-zinc-800">
-            <dt className="text-zinc-500">Checked</dt>
+          <div className="rounded-xl border border-border bg-background px-4 py-3">
+            <dt className="text-muted">Checked</dt>
             <dd className="mt-1 font-mono">{health.checkedAt}</dd>
           </div>
         </dl>
@@ -153,14 +153,14 @@ export default async function HealthPage() {
         />
 
         <section className="space-y-3">
-          <h2 className="text-sm font-medium tracking-wide text-zinc-500 uppercase">
+          <h2 className="text-sm font-medium tracking-wide text-muted uppercase">
             Storage
           </h2>
-          <div className="flex items-center justify-between rounded-xl border border-zinc-200 px-4 py-3 dark:border-zinc-800">
+          <div className="flex items-center justify-between rounded-xl border border-border bg-background px-4 py-3">
             <div>
               <p className="font-mono text-sm">{health.storage.bucket}</p>
               {health.storage.public === false ? (
-                <p className="mt-1 text-xs text-zinc-500">private</p>
+                <p className="mt-1 text-xs text-muted">private</p>
               ) : null}
               {health.storage.error ? (
                 <p className="mt-1 text-xs text-red-600 dark:text-red-400">

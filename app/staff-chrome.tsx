@@ -15,8 +15,8 @@ export async function StaffChrome({
   const signedIn = isAdmin(session);
 
   return (
-    <div className="flex flex-1 flex-col bg-[var(--background)] text-[var(--foreground)]">
-      <header className="border-b border-zinc-200 dark:border-zinc-800">
+    <div className="flex flex-1 flex-col bg-background text-foreground">
+      <header className="border-b border-border bg-background">
         <div
           className={`mx-auto flex w-full items-center justify-between gap-4 px-6 py-4 ${
             wide ? "max-w-7xl" : "max-w-3xl"
@@ -24,26 +24,26 @@ export async function StaffChrome({
         >
           <Link
             href="/"
-            className="font-mono text-sm tracking-wide text-zinc-500 uppercase hover:text-zinc-900 dark:hover:text-zinc-200"
+            className="font-mono text-sm tracking-wide text-muted uppercase hover:text-foreground"
           >
             Conveyor Claims
           </Link>
           <nav className="flex items-center gap-4 font-mono text-sm">
             <Link
               href="/cases"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+              className="text-muted hover:text-accent"
             >
               All Cases
             </Link>
             {signedIn ? (
               <>
-                <span className="text-zinc-600 dark:text-zinc-400">
+                <span className="text-muted">
                   Temporary admin
                 </span>
                 <form action={signOut}>
                   <button
                     type="submit"
-                    className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                    className="text-muted hover:text-accent"
                   >
                     Sign out
                   </button>
@@ -52,14 +52,14 @@ export async function StaffChrome({
             ) : (
               <Link
                 href="/login"
-                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                className="text-muted hover:text-accent"
               >
                 Temporary login
               </Link>
             )}
             <Link
               href="/health"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+              className="text-muted hover:text-accent"
             >
               Health
             </Link>

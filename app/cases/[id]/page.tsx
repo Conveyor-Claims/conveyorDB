@@ -58,7 +58,7 @@ function FieldValue({
     return (
       <a
         href={text}
-        className="break-all text-zinc-900 underline-offset-2 hover:underline dark:text-zinc-100"
+        className="break-all text-accent underline-offset-2 hover:text-accent-hover hover:underline"
       >
         {text}
       </a>
@@ -69,7 +69,7 @@ function FieldValue({
     return (
       <a
         href={`mailto:${text}`}
-        className="break-all text-zinc-900 underline-offset-2 hover:underline dark:text-zinc-100"
+        className="break-all text-accent underline-offset-2 hover:text-accent-hover hover:underline"
       >
         {text}
       </a>
@@ -94,9 +94,9 @@ function CaseField({
   value: CasesRow[keyof CasesRow];
 }) {
   return (
-    <div className="grid gap-1 border-t border-zinc-200 py-3 first:border-t-0 sm:grid-cols-[minmax(12rem,14rem)_1fr] sm:gap-6 dark:border-zinc-800">
-      <dt className="text-sm text-zinc-500">{field.label}</dt>
-      <dd className="min-w-0 text-sm text-zinc-900 dark:text-zinc-100">
+    <div className="grid gap-1 border-t border-border py-3 first:border-t-0 sm:grid-cols-[minmax(12rem,14rem)_1fr] sm:gap-6">
+      <dt className="text-sm text-muted">{field.label}</dt>
+      <dd className="min-w-0 text-sm text-foreground">
         <FieldValue field={field} value={value} />
       </dd>
     </div>
@@ -119,7 +119,7 @@ export default async function CasePage({ params }: PageProps) {
 
   return (
     <StaffChrome title={title}>
-      <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+      <p className="max-w-2xl text-sm leading-6 text-muted">
         Read-only view of stored fields on{" "}
         <span className="font-mono">public.cases</span>. File slots are not
         stored on this table. Blank fields stay blank.
@@ -128,7 +128,7 @@ export default async function CasePage({ params }: PageProps) {
       <p>
         <Link
           href="/cases"
-          className="font-mono text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+          className="font-mono text-sm text-accent hover:text-accent-hover"
         >
           All Cases
         </Link>
@@ -154,7 +154,7 @@ export default async function CasePage({ params }: PageProps) {
                 <li key={section.name}>
                   <a
                     href={`#${caseSectionAnchor(section.name)}`}
-                    className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                    className="text-accent hover:text-accent-hover"
                   >
                     {section.name}
                   </a>
@@ -170,11 +170,11 @@ export default async function CasePage({ params }: PageProps) {
                 id={caseSectionAnchor(section.name)}
                 className="scroll-mt-6 space-y-3"
               >
-                <h2 className="text-sm font-medium tracking-wide text-zinc-500 uppercase">
+                <h2 className="text-sm font-medium tracking-wide text-muted uppercase">
                   {section.name}
                 </h2>
                 {section.fields.length > 0 ? (
-                  <dl className="rounded-xl border border-zinc-200 px-4 dark:border-zinc-800">
+                  <dl className="rounded-xl border border-border bg-background px-4">
                     {section.fields.map((field) => (
                       <CaseField
                         key={field.key}

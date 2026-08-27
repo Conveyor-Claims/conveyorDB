@@ -18,7 +18,7 @@ export default async function AllCasesPage() {
 
   return (
     <StaffChrome title="All Cases" wide>
-      <p className="max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+      <p className="max-w-2xl text-sm leading-6 text-muted">
         Read-only list from <span className="font-mono">public.cases</span>.
         Stored values only. Blank fields stay blank.
       </p>
@@ -36,31 +36,31 @@ export default async function AllCasesPage() {
       ) : null}
 
       <section className="space-y-3">
-        <p className="font-mono text-sm text-zinc-500">
+        <p className="font-mono text-sm text-muted">
           {rows.length} {rows.length === 1 ? "case" : "cases"}
         </p>
-        <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800">
+        <div className="overflow-x-auto rounded-xl border border-border bg-background">
           <table className="min-w-full border-collapse text-left text-sm">
             <caption className="sr-only">All cases</caption>
-            <thead className="bg-zinc-50 dark:bg-zinc-900">
+            <thead className="bg-wash">
               <tr>
                 {ALL_CASES_COLUMNS.map((column) => (
                   <th
                     key={column.key}
                     scope="col"
-                    className="whitespace-nowrap px-4 py-3 font-medium text-zinc-600 dark:text-zinc-400"
+                    className="whitespace-nowrap px-4 py-3 font-medium text-muted"
                   >
                     {column.label}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+            <tbody className="divide-y divide-border">
               {rows.length === 0 ? (
                 <tr>
                   <td
                     colSpan={ALL_CASES_COLUMNS.length}
-                    className="px-4 py-10 text-center text-zinc-500"
+                    className="px-4 py-10 text-center text-muted"
                   >
                     No cases.
                   </td>
@@ -71,12 +71,12 @@ export default async function AllCasesPage() {
                     {ALL_CASES_COLUMNS.map((column) => (
                       <td
                         key={column.key}
-                        className="whitespace-nowrap px-4 py-3 align-top"
+                        className="whitespace-nowrap px-4 py-3 align-top text-foreground"
                       >
                         {column.key === "case_number" ? (
                           <Link
                             href={`/cases/${row.id}`}
-                            className="text-zinc-900 underline-offset-2 hover:underline dark:text-zinc-100"
+                            className="text-accent underline-offset-2 hover:text-accent-hover hover:underline"
                           >
                             {displayCaseValue(row.case_number) || row.id}
                           </Link>
