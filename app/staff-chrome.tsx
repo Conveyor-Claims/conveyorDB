@@ -5,7 +5,7 @@ import { StaffNav } from "./staff-nav";
 
 function AccountSlot({ signedIn }: { signedIn: boolean }) {
   return (
-    <div className="mt-auto border-t border-border px-3 py-3">
+    <div className="shrink-0 border-t border-border px-3 py-3">
       <div className="flex items-center gap-2 px-1 py-1">
         <span
           aria-hidden
@@ -59,8 +59,8 @@ export async function StaffChrome({
   const signedIn = isAdmin(session);
 
   return (
-    <div className="flex min-h-full flex-1 bg-background text-foreground">
-      <aside className="flex w-56 shrink-0 flex-col border-r border-border bg-background">
+    <div className="flex min-h-svh flex-1 bg-background text-foreground">
+      <aside className="sticky top-0 flex h-dvh w-56 shrink-0 flex-col overflow-hidden border-r border-border bg-background pb-2">
         <div className="px-4 py-4">
           <Link
             href="/"
@@ -69,20 +69,22 @@ export async function StaffChrome({
             Conveyor Claims
           </Link>
         </div>
-        <Suspense
-          fallback={
-            <nav aria-label="Staff" className="flex flex-col gap-1 px-3">
-              <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
-                All Cases
-              </span>
-              <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
-                Health
-              </span>
-            </nav>
-          }
-        >
-          <StaffNav />
-        </Suspense>
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <Suspense
+            fallback={
+              <nav aria-label="Staff" className="flex flex-col gap-1 px-3">
+                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                  All Cases
+                </span>
+                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                  Health
+                </span>
+              </nav>
+            }
+          >
+            <StaffNav />
+          </Suspense>
+        </div>
         <AccountSlot signedIn={signedIn} />
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
