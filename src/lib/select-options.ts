@@ -1,58 +1,17 @@
-/**
- * Live Airtable option names + color tokens copied from
- * https://docs.google.com/document/d/1TXyrXFuQJPQqbm60Z6gdsqzWpFegIQr5XZLeqc5xUGY
- * (Airtable gap — All Cases and case page, live Aug 26).
- *
- * Only dest columns already shown on the case page.
- * Truncated lists (contractor, insurance_company, current_desk_adjuster, county)
- * are copied as the inventory has them — no invented options.
- * Stored values missing from a list are still shown in the control.
- */
-export type AirtableColorToken = keyof typeof AIRTABLE_COLOR_HEX;
+import {
+  airtablePaletteStyle,
+  type AirtableColorToken,
+} from "@/lib/airtable-choice-colors";
 
-/** Official Airtable Blocks colorUtils.getHexForColor tokens used in the inventory. */
-export const AIRTABLE_COLOR_HEX = {
-  blueLight1: "#cfdfff",
-  blueLight2: "#9cc7ff",
-  blueBright: "#2d7ff9",
-  blueDark1: "#2750ae",
-  cyanLight1: "#d0f0fd",
-  cyanLight2: "#77d1f3",
-  cyanBright: "#18bfff",
-  cyanDark1: "#0b76b7",
-  tealLight1: "#c2f5e9",
-  tealLight2: "#72ddc3",
-  tealBright: "#20d9d2",
-  tealDark1: "#06a09b",
-  greenLight1: "#d1f7c4",
-  greenLight2: "#93e088",
-  greenBright: "#20c933",
-  greenDark1: "#338a17",
-  yellowLight1: "#ffeab6",
-  yellowLight2: "#ffd66e",
-  yellowBright: "#fcb400",
-  yellowDark1: "#b87503",
-  orangeLight1: "#fee2d5",
-  orangeLight2: "#ffa981",
-  orangeBright: "#ff6f2c",
-  orangeDark1: "#d74d26",
-  redLight1: "#ffdce5",
-  redLight2: "#ff9eb7",
-  redBright: "#f82b60",
-  redDark1: "#ba1e45",
-  pinkLight1: "#ffdaf6",
-  pinkLight2: "#f99de2",
-  pinkBright: "#ff08c2",
-  pinkDark1: "#b2158b",
-  purpleLight1: "#ede2fe",
-  purpleLight2: "#cdb0ff",
-  purpleBright: "#8b46ff",
-  purpleDark1: "#6b1cb0",
-  grayLight1: "#eeeeee",
-  grayLight2: "#cccccc",
-  grayBright: "#888888",
-  grayDark1: "#616670",
-} as const;
+/**
+ * Extra dest-column option lists for the case page.
+ * Names + tokens copied from
+ * https://docs.google.com/document/d/1TXyrXFuQJPQqbm60Z6gdsqzWpFegIQr5XZLeqc5xUGY
+ *
+ * Hex comes from `AIRTABLE_PALETTE_HEX` (official SDK palette). Do not add
+ * a second map. Truncated lists stay truncated. Stored values missing from a
+ * list are still shown in the control.
+ */
 
 export type SelectOption = {
   name: string;
@@ -645,22 +604,6 @@ export const CASE_SELECT_OPTIONS = {
   ],
 } as const satisfies Record<string, readonly SelectOption[]>;
 
-export function isAirtableColorToken(
-  value: string,
-): value is AirtableColorToken {
-  return value in AIRTABLE_COLOR_HEX;
-}
-
-export function hexForColorToken(token: string): string | null {
-  return isAirtableColorToken(token) ? AIRTABLE_COLOR_HEX[token] : null;
-}
-
-/** Light tokens use dark ink; bright/dark tokens use white. */
-export function inkForColorToken(token: string): string {
-  if (token.endsWith("Light1") || token.endsWith("Light2")) return "#181d26";
-  return "#ffffff";
-}
-
 export function optionsForDest(key: string): readonly SelectOption[] | null {
   if (key in CASE_SELECT_OPTIONS) {
     return CASE_SELECT_OPTIONS[key as CaseSelectFieldKey];
@@ -681,10 +624,8 @@ export function optionColor(
 export function optionStyle(
   key: string,
   name: string,
-): { background: string; color: string } | null {
+) {
   const token = optionColor(key, name);
   if (!token) return null;
-  const background = hexForColorToken(token);
-  if (!background) return null;
-  return { background, color: inkForColorToken(token) };
+  return airtablePaletteStyle(token);
 }

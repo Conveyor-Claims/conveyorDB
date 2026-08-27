@@ -3,26 +3,50 @@ import type { AllCasesPillKey } from "@/lib/cases";
 /**
  * Hex values from Airtable’s official Blocks SDK palette
  * (`rgbTuplesByColor` in @airtable/blocks colors.ts).
- * Only tokens used by the listed All Cases dropdown options.
+ * Includes tokens used by All Cases pills and case-page dest dropdowns.
+ * Do not invent a second map — Light1 is the mid tint (#9cc7ff for blue).
  */
 export const AIRTABLE_PALETTE_HEX = {
   blueLight1: "#9cc7ff",
   blueLight2: "#cfdfff",
   blueBright: "#2d7ff9",
+  blueDark1: "#2750ae",
+  cyanLight1: "#77d1f3",
+  cyanLight2: "#d0f0fd",
   cyanBright: "#18bfff",
+  cyanDark1: "#0b76b7",
   grayLight1: "#cccccc",
+  grayLight2: "#eeeeee",
+  grayBright: "#666666",
   grayDark1: "#444444",
   greenLight1: "#93e088",
   greenLight2: "#d1f7c4",
   greenBright: "#20c933",
+  greenDark1: "#338a17",
   orangeLight1: "#ffa981",
+  orangeLight2: "#fee2d5",
+  orangeBright: "#ff6f2c",
+  orangeDark1: "#d74d26",
   pinkLight1: "#f99de2",
+  pinkLight2: "#ffdaf6",
   pinkBright: "#ff08c2",
+  pinkDark1: "#b2158b",
+  purpleLight1: "#cdb0ff",
+  purpleLight2: "#ede2fe",
   purpleBright: "#8b46ff",
+  purpleDark1: "#6b1cb0",
+  redLight1: "#ff9eb7",
+  redLight2: "#ffdce5",
+  redBright: "#f82b60",
+  redDark1: "#ba1e45",
   tealLight1: "#72ddc3",
+  tealLight2: "#c2f5e9",
   tealBright: "#20d9d2",
+  tealDark1: "#06a09b",
   yellowLight1: "#ffd66e",
+  yellowLight2: "#ffeab6",
   yellowBright: "#fcb400",
+  yellowDark1: "#b87503",
 } as const;
 
 export type AirtableColorToken = keyof typeof AIRTABLE_PALETTE_HEX;
@@ -85,6 +109,23 @@ export type ChoicePillColors = {
   borderColor: string;
 };
 
+export function isAirtableColorToken(
+  value: string,
+): value is AirtableColorToken {
+  return value in AIRTABLE_PALETTE_HEX;
+}
+
+/** Official hex + Airtable light-text rule for any known token. */
+export function airtablePaletteStyle(token: string): ChoicePillColors | null {
+  if (!isAirtableColorToken(token)) return null;
+  const backgroundColor = AIRTABLE_PALETTE_HEX[token];
+  return {
+    backgroundColor,
+    borderColor: backgroundColor,
+    color: airtableChoiceUsesLightText(token) ? "#ffffff" : "#181d26",
+  };
+}
+
 /** Exact stored option only. Unknown values return null (neutral pill). */
 export function choicePillColors(
   field: AllCasesPillKey,
@@ -94,11 +135,5 @@ export function choicePillColors(
     ALL_CASES_CHOICE_COLORS[field] as Record<string, AirtableColorToken>
   )[value];
   if (!token) return null;
-
-  const backgroundColor = AIRTABLE_PALETTE_HEX[token];
-  return {
-    backgroundColor,
-    borderColor: backgroundColor,
-    color: airtableChoiceUsesLightText(token) ? "#ffffff" : "#181d26",
-  };
+  return airtablePaletteStyle(token);
 }

@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChoicePill } from "@/app/choice-pill";
 import { isCaseNotesField, type CasePageField } from "@/lib/case-page";
 import { displayCaseValue } from "@/lib/cases";
 import type { UpdateCaseState } from "@/lib/case-save";
-import { optionsForDest } from "@/lib/select-options";
+import { optionStyle, optionsForDest } from "@/lib/select-options";
 import type { Database } from "@/lib/database.types";
 import { updateCaseAction } from "./actions";
 import { FieldValue } from "./field-value";
@@ -42,6 +41,22 @@ function dateTimeInputValue(value: CasesRow[keyof CasesRow]): string {
   const text = displayCaseValue(value);
   const match = text.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/);
   return match?.[1] ?? text;
+}
+
+const pillClass =
+  "inline-flex max-w-full items-center truncate rounded-full border px-2 py-0.5 text-xs";
+
+function CaseChoicePill({ dest, value }: { dest: string; value: string }) {
+  if (!value) return null;
+  const colors = optionStyle(dest, value);
+  if (!colors) {
+    return (
+      <span className={`${pillClass} border-border bg-wash text-foreground`}>
+        {value}
+      </span>
+    );
+  }
+  return <span className={pillClass} style={colors}>{value}</span>;
 }
 
 function DirtyHint({ dirty }: { dirty: boolean }) {
@@ -233,7 +248,7 @@ function SingleSelectControl({
           </option>
         ))}
       </select>
-      {value ? <ChoicePill value={value} fieldKey={field.key} /> : null}
+      {value ? <CaseChoicePill dest={field.key} value={value} /> : null}
       <DirtyHint dirty={dirty} />
     </div>
   );
@@ -286,7 +301,7 @@ function MultiSelectControl({
                 checked={current.includes(option.name)}
                 onChange={(event) => toggle(option.name, event.target.checked)}
               />
-              <ChoicePill value={option.name} fieldKey={field.key} />
+              <CaseChoicePill dest={field.key} value={option.name} />
             </label>
           </li>
         ))}
