@@ -1,10 +1,6 @@
-import Link from "next/link";
-import {
-  ALL_CASES_COLUMNS,
-  displayCaseValue,
-  listAllCases,
-} from "@/lib/cases";
+import { listAllCases } from "@/lib/cases";
 import { StaffChrome } from "../staff-chrome";
+import { AllCasesTable } from "./all-cases-table";
 
 export const dynamic = "force-dynamic";
 
@@ -35,63 +31,7 @@ export default async function AllCasesPage() {
         </p>
       ) : null}
 
-      <section className="space-y-3">
-        <p className="font-mono text-sm text-muted">
-          {rows.length} {rows.length === 1 ? "case" : "cases"}
-        </p>
-        <div className="overflow-x-auto rounded-xl border border-border bg-background">
-          <table className="min-w-full border-collapse text-left text-sm">
-            <caption className="sr-only">All cases</caption>
-            <thead className="bg-wash">
-              <tr>
-                {ALL_CASES_COLUMNS.map((column) => (
-                  <th
-                    key={column.key}
-                    scope="col"
-                    className="whitespace-nowrap px-4 py-3 font-medium text-muted"
-                  >
-                    {column.label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {rows.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={ALL_CASES_COLUMNS.length}
-                    className="px-4 py-10 text-center text-muted"
-                  >
-                    No cases.
-                  </td>
-                </tr>
-              ) : (
-                rows.map((row) => (
-                  <tr key={row.id}>
-                    {ALL_CASES_COLUMNS.map((column) => (
-                      <td
-                        key={column.key}
-                        className="whitespace-nowrap px-4 py-3 align-top text-foreground"
-                      >
-                        {column.key === "case_number" ? (
-                          <Link
-                            href={`/cases/${row.id}`}
-                            className="text-accent underline-offset-2 hover:text-accent-hover hover:underline"
-                          >
-                            {displayCaseValue(row.case_number) || row.id}
-                          </Link>
-                        ) : (
-                          displayCaseValue(row[column.key])
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <AllCasesTable rows={rows} />
     </StaffChrome>
   );
 }

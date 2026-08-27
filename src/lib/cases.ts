@@ -28,6 +28,22 @@ export const ALL_CASES_COLUMNS = [
 
 export type AllCasesColumnKey = (typeof ALL_CASES_COLUMNS)[number]["key"];
 
+/** Dropdown cells on All Cases that render as Airtable-like pills. */
+export const ALL_CASES_PILL_KEYS = [
+  "case_status",
+  "department",
+  "resolutions_specialist",
+  "paralegal",
+] as const satisfies ReadonlyArray<AllCasesColumnKey>;
+
+export type AllCasesPillKey = (typeof ALL_CASES_PILL_KEYS)[number];
+
+export function isAllCasesPillKey(
+  key: AllCasesColumnKey,
+): key is AllCasesPillKey {
+  return (ALL_CASES_PILL_KEYS as readonly string[]).includes(key);
+}
+
 export type AllCasesRow = Pick<CasesRow, "id" | AllCasesColumnKey>;
 
 export type AllCasesList = {

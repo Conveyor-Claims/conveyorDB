@@ -4,13 +4,11 @@ import type { Metadata } from "next";
 import {
   CASE_PAGE_SECTIONS,
   caseSectionAnchor,
-  type CasePageField,
 } from "@/lib/case-page";
-import { displayCaseValue, getCaseById, isCaseId } from "@/lib/cases";
-import type { Database } from "@/lib/database.types";
+import { getCaseById, isCaseId } from "@/lib/cases";
 import { StaffChrome } from "../../staff-chrome";
-
-type CasesRow = Database["public"]["Tables"]["cases"]["Row"];
+import { CaseField } from "./field-value";
+import { CaseSections } from "./case-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -30,79 +28,6 @@ export async function generateMetadata({
   };
 }
 
-function FieldValue({
-  field,
-  value,
-}: {
-  field: CasePageField;
-  value: CasesRow[keyof CasesRow];
-}) {
-  if (field.fieldType === "checkbox") {
-    if (typeof value !== "boolean") return null;
-    return (
-      <input
-        type="checkbox"
-        checked={value}
-        disabled
-        readOnly
-        aria-label={field.label}
-        className="mt-1"
-      />
-    );
-  }
-
-  const text = displayCaseValue(value);
-  if (!text) return null;
-
-  if (field.fieldType === "url") {
-    return (
-      <a
-        href={text}
-        className="break-all text-accent underline-offset-2 hover:text-accent-hover hover:underline"
-      >
-        {text}
-      </a>
-    );
-  }
-
-  if (field.fieldType === "email") {
-    return (
-      <a
-        href={`mailto:${text}`}
-        className="break-all text-accent underline-offset-2 hover:text-accent-hover hover:underline"
-      >
-        {text}
-      </a>
-    );
-  }
-
-  const multiline =
-    field.fieldType === "long text" || field.fieldType === "rich text";
-
-  return (
-    <span className={multiline ? "whitespace-pre-wrap break-words" : "break-words"}>
-      {text}
-    </span>
-  );
-}
-
-function CaseField({
-  field,
-  value,
-}: {
-  field: CasePageField;
-  value: CasesRow[keyof CasesRow];
-}) {
-  return (
-    <div className="grid gap-1 border-t border-border py-3 first:border-t-0 sm:grid-cols-[minmax(12rem,14rem)_1fr] sm:gap-6">
-      <dt className="text-sm text-muted">{field.label}</dt>
-      <dd className="min-w-0 text-sm text-foreground">
-        <FieldValue field={field} value={value} />
-      </dd>
-    </div>
-  );
-}
-
 export default async function CasePage({ params }: PageProps) {
   const { id } = await params;
   if (!isCaseId(id)) {
@@ -116,6 +41,7 @@ export default async function CasePage({ params }: PageProps) {
   }
 
   const title = row?.case_number?.trim() ?? "";
+  const overviewName = CASE_PAGE_SECTIONS[0]?.name ?? "";
 
   return (
     <StaffChrome title={title}>
@@ -147,47 +73,25 @@ export default async function CasePage({ params }: PageProps) {
       ) : null}
 
       {row ? (
-        <>
-          <nav aria-label="Case sections">
-            <ol className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
-              {CASE_PAGE_SECTIONS.map((section) => (
-                <li key={section.name}>
-                  <a
-                    href={`#${caseSectionAnchor(section.name)}`}
-                    className="text-accent hover:text-accent-hover"
-                  >
-                    {section.name}
-                  </a>
-                </li>
+        <CaseSections
+          sections={CASE_PAGE_SECTIONS.map((section) => ({
+            name: section.name,
+            anchor: caseSectionAnchor(section.name),
+            defaultOpen: section.name === overviewName,
+          }))}
+        >
+          {CASE_PAGE_SECTIONS.map((section) => (
+            <dl key={section.name} className="bg-background px-4">
+              {section.fields.map((field) => (
+                <CaseField
+                  key={field.key}
+                  field={field}
+                  value={row[field.key]}
+                />
               ))}
-            </ol>
-          </nav>
-
-          <div className="space-y-10">
-            {CASE_PAGE_SECTIONS.map((section) => (
-              <section
-                key={section.name}
-                id={caseSectionAnchor(section.name)}
-                className="scroll-mt-6 space-y-3"
-              >
-                <h2 className="text-sm font-medium tracking-wide text-muted uppercase">
-                  {section.name}
-                </h2>
-                {section.fields.length > 0 ? (
-                  <dl className="rounded-xl border border-border bg-background px-4">
-                    {section.fields.map((field) => (
-                      <CaseField
-                        key={field.key}
-                        field={field}
-                        value={row[field.key]}
-                      />
-                    ))}
-                  </dl>
-                ) : null}
-              </section>
-            ))}
-          </div>
-        </>
+            </dl>
+          ))}
+        </CaseSections>
       ) : null}
     </StaffChrome>
   );
