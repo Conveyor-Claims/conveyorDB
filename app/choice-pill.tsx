@@ -1,13 +1,34 @@
+import { choicePillColors } from "@/lib/airtable-choice-colors";
+import type { AllCasesPillKey } from "@/lib/cases";
+
+const pillClass =
+  "inline-flex max-w-full items-center truncate rounded-full border px-2 py-0.5 text-xs";
+
 /**
- * Airtable-like choice pill.
- * Live Airtable choice colors were not readable from this environment.
- * Stored option strings only; one neutral pill. No invented options or colors.
+ * Airtable-like choice pill for All Cases dropdown columns.
+ * Known options use live Airtable tokens mapped to the standard palette hex.
+ * Unknown stored values keep the existing neutral wash pill.
  */
-export function ChoicePill({ value }: { value: string }) {
+export function ChoicePill({
+  value,
+  field,
+}: {
+  value: string;
+  field: AllCasesPillKey;
+}) {
   if (!value) return null;
 
+  const colors = choicePillColors(field, value);
+  if (!colors) {
+    return (
+      <span className={`${pillClass} border-border bg-wash text-foreground`}>
+        {value}
+      </span>
+    );
+  }
+
   return (
-    <span className="inline-flex max-w-full items-center truncate rounded-full border border-border bg-wash px-2 py-0.5 text-xs text-foreground">
+    <span className={pillClass} style={colors}>
       {value}
     </span>
   );
