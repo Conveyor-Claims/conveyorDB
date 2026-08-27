@@ -7,18 +7,18 @@ export default async function Home() {
 
   return (
     <StaffChrome title="ConveyorDB">
-      <p className="max-w-xl text-lg leading-7 text-zinc-600 dark:text-zinc-400">
+      <p className="max-w-xl text-lg leading-7 text-muted">
         In-house Airtable replacement. All Cases reads{" "}
         <span className="font-mono text-base">public.cases</span>. Cabinets stay
         blank until rows are copied.
       </p>
       {signedIn ? (
-        <p className="max-w-xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+        <p className="max-w-xl text-sm leading-6 text-muted">
           Signed in as temporary admin. Full access for now, until real user
           levels are set.
         </p>
       ) : (
-        <p className="max-w-xl text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+        <p className="max-w-xl text-sm leading-6 text-muted">
           Temporary login. The button signs you in as admin. This is a stub
           until real user levels are set.
         </p>
@@ -28,7 +28,7 @@ export default async function Home() {
           <form action={signOut}>
             <button
               type="submit"
-              className="w-fit rounded-full bg-zinc-950 px-5 py-2.5 text-sm font-medium text-white dark:bg-zinc-100 dark:text-zinc-950"
+              className="w-fit rounded-[12px] bg-accent px-5 py-2.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
             >
               Sign out
             </button>
@@ -37,7 +37,7 @@ export default async function Home() {
           <form action={signInTemporaryAdmin}>
             <button
               type="submit"
-              className="w-fit rounded-full bg-zinc-950 px-5 py-2.5 text-sm font-medium text-white dark:bg-zinc-100 dark:text-zinc-950"
+              className="w-fit rounded-[12px] bg-accent px-5 py-2.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
             >
               Temporary login
             </button>
@@ -45,13 +45,13 @@ export default async function Home() {
         )}
         <Link
           href="/cases"
-          className="w-fit rounded-full border border-zinc-300 px-5 py-2.5 text-sm font-medium text-zinc-800 dark:border-zinc-700 dark:text-zinc-100"
+          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
         >
           All Cases
         </Link>
         <Link
           href="/health"
-          className="w-fit rounded-full border border-zinc-300 px-5 py-2.5 text-sm font-medium text-zinc-800 dark:border-zinc-700 dark:text-zinc-100"
+          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
         >
           Schema health
         </Link>
