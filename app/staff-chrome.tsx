@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { getSession, isAdmin, signOut } from "@/lib/session";
 
-export function StaffChrome({
+export async function StaffChrome({
   title,
   children,
   wide = false,
@@ -10,6 +11,9 @@ export function StaffChrome({
   children: ReactNode;
   wide?: boolean;
 }) {
+  const session = await getSession();
+  const signedIn = isAdmin(session);
+
   return (
     <div className="flex flex-1 flex-col bg-[var(--background)] text-[var(--foreground)]">
       <header className="border-b border-zinc-200 dark:border-zinc-800">
@@ -31,12 +35,28 @@ export function StaffChrome({
             >
               All Cases
             </Link>
-            <Link
-              href="/login"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
-            >
-              Staff sign in
-            </Link>
+            {signedIn ? (
+              <>
+                <span className="text-zinc-600 dark:text-zinc-400">
+                  Temporary admin
+                </span>
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                  >
+                    Sign out
+                  </button>
+                </form>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+              >
+                Temporary login
+              </Link>
+            )}
             <Link
               href="/health"
               className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
