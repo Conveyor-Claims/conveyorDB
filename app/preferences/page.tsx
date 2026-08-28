@@ -8,7 +8,7 @@ export const metadata = {
 export default function PreferencesPage() {
   return (
     <StaffChrome title="Preferences">
-      <p className="max-w-xl text-sm leading-6 text-muted">
+      <p className="max-w-xl text-sm leading-6 text-muted-foreground">
         Preferences stub. Nothing is stored yet.
       </p>
     </StaffChrome>

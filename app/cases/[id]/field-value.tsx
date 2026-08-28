@@ -32,7 +32,7 @@ export function FieldValue({
     return (
       <a
         href={text}
-        className="break-all text-accent underline-offset-2 hover:text-accent-hover hover:underline"
+        className="break-all text-primary underline-offset-2 hover:underline"
       >
         {text}
       </a>
@@ -43,7 +43,7 @@ export function FieldValue({
     return (
       <a
         href={`mailto:${text}`}
-        className="break-all text-accent underline-offset-2 hover:text-accent-hover hover:underline"
+        className="break-all text-primary underline-offset-2 hover:underline"
       >
         {text}
       </a>
@@ -69,7 +69,7 @@ export function CaseField({
 }) {
   return (
     <div className="grid gap-1 border-t border-border py-3 first:border-t-0 sm:grid-cols-[minmax(12rem,14rem)_1fr] sm:gap-6">
-      <dt className="text-sm text-muted">{field.label}</dt>
+      <dt className="text-sm text-muted-foreground">{field.label}</dt>
       <dd className="min-w-0 text-sm text-foreground">
         <FieldValue field={field} value={value} />
       </dd>

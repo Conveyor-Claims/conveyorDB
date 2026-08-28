@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSession, isAdmin, signInTemporaryAdmin, signOut } from "@/lib/session";
+import { Button } from "@/components/ui/button";
 import { StaffChrome } from "./staff-chrome";
 
 export default async function Home() {
@@ -7,18 +8,18 @@ export default async function Home() {
 
   return (
     <StaffChrome title="ConveyorDB">
-      <p className="max-w-xl text-lg leading-7 text-muted">
+      <p className="max-w-xl text-lg leading-7 text-muted-foreground">
         In-house Airtable replacement. All Cases reads{" "}
         <span className="font-mono text-base">public.cases</span>. Cabinets stay
         blank until rows are copied.
       </p>
       {signedIn ? (
-        <p className="max-w-xl text-sm leading-6 text-muted">
+        <p className="max-w-xl text-sm leading-6 text-muted-foreground">
           Signed in as temporary admin. Full access for now, until real user
           levels are set.
         </p>
       ) : (
-        <p className="max-w-xl text-sm leading-6 text-muted">
+        <p className="max-w-xl text-sm leading-6 text-muted-foreground">
           Temporary login. The button signs you in as admin. This is a stub
           until real user levels are set.
         </p>
@@ -26,35 +27,19 @@ export default async function Home() {
       <div className="flex flex-wrap gap-3">
         {signedIn ? (
           <form action={signOut}>
-            <button
-              type="submit"
-              className="w-fit rounded-[12px] bg-accent px-5 py-2.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
-            >
-              Sign out
-            </button>
+            <Button type="submit">Sign out</Button>
           </form>
         ) : (
           <form action={signInTemporaryAdmin}>
-            <button
-              type="submit"
-              className="w-fit rounded-[12px] bg-accent px-5 py-2.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
-            >
-              Temporary login
-            </button>
+            <Button type="submit">Temporary login</Button>
           </form>
         )}
-        <Link
-          href="/cases"
-          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
-        >
-          All Cases
-        </Link>
-        <Link
-          href="/health"
-          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
-        >
-          Schema health
-        </Link>
+        <Button asChild variant="outline">
+          <Link href="/cases">All Cases</Link>
+        </Button>
+        <Button asChild variant="outline">
+          <Link href="/health">Schema health</Link>
+        </Button>
       </div>
     </StaffChrome>
   );

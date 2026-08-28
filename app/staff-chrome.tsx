@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { getSession, isAdmin, signOut } from "@/lib/session";
+import { Button } from "@/components/ui/button";
 import { StaffNav } from "./staff-nav";
 
 function AccountSlot({ signedIn }: { signedIn: boolean }) {
   return (
-    <div className="shrink-0 border-t border-border px-3 py-3">
+    <div className="shrink-0 border-t px-3 py-3">
       <div className="flex items-center gap-2 px-1 py-1">
         <span
           aria-hidden
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-wash text-xs font-medium text-muted"
+          className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-muted text-xs font-medium text-muted-foreground"
         >
           {signedIn ? "TA" : ""}
         </span>
@@ -18,28 +19,24 @@ function AccountSlot({ signedIn }: { signedIn: boolean }) {
         ) : null}
       </div>
       <div className="mt-2 flex flex-col gap-1">
-        <Link
-          href="/preferences"
-          className="rounded-[12px] px-3 py-2 text-sm text-muted hover:bg-wash hover:text-accent"
-        >
-          Preferences
-        </Link>
+        <Button asChild variant="ghost" size="sm" className="justify-start">
+          <Link href="/preferences">Preferences</Link>
+        </Button>
         {signedIn ? (
           <form action={signOut}>
-            <button
+            <Button
               type="submit"
-              className="w-full rounded-[12px] px-3 py-2 text-left text-sm text-muted hover:bg-wash hover:text-accent"
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start"
             >
               Sign out
-            </button>
+            </Button>
           </form>
         ) : (
-          <Link
-            href="/login"
-            className="rounded-[12px] px-3 py-2 text-sm text-muted hover:bg-wash hover:text-accent"
-          >
-            Temporary login
-          </Link>
+          <Button asChild variant="ghost" size="sm" className="justify-start">
+            <Link href="/login">Temporary login</Link>
+          </Button>
         )}
       </div>
     </div>
@@ -60,11 +57,11 @@ export async function StaffChrome({
 
   return (
     <div className="flex min-h-svh flex-1 bg-background text-foreground">
-      <aside className="sticky top-0 flex h-dvh w-56 shrink-0 flex-col overflow-hidden border-r border-border bg-background pb-2">
+      <aside className="sticky top-0 flex h-dvh w-56 shrink-0 flex-col overflow-hidden border-r bg-sidebar pb-2 text-sidebar-foreground">
         <div className="px-4 py-4">
           <Link
             href="/"
-            className="font-mono text-sm tracking-wide text-muted uppercase hover:text-foreground"
+            className="font-mono text-sm tracking-wide text-muted-foreground uppercase hover:text-foreground"
           >
             Conveyor Claims
           </Link>
@@ -73,10 +70,10 @@ export async function StaffChrome({
           <Suspense
             fallback={
               <nav aria-label="Staff" className="flex flex-col gap-1 px-3">
-                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
                   All Cases
                 </span>
-                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                <span className="rounded-md px-3 py-2 text-sm text-muted-foreground">
                   Health
                 </span>
               </nav>
@@ -89,11 +86,11 @@ export async function StaffChrome({
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
         <main
-          className={`mx-auto flex w-full flex-1 flex-col gap-8 px-6 py-12 ${
+          className={`mx-auto flex w-full flex-1 flex-col gap-6 px-6 py-8 ${
             wide ? "max-w-7xl" : "max-w-3xl"
           }`}
         >
-          <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
           {children}
         </main>
       </div>

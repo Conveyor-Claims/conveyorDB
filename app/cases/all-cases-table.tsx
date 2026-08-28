@@ -3,6 +3,27 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ChoicePill } from "../choice-pill";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   ALL_CASES_COLUMNS,
   displayCaseValue,
@@ -17,11 +38,8 @@ function defaultVisibility(): Record<AllCasesColumnKey, boolean> {
   ) as Record<AllCasesColumnKey, boolean>;
 }
 
-const cellRule = "border-x border-border px-4 py-3";
-
 export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
   const [visible, setVisible] = useState(defaultVisibility);
-  const [panelOpen, setPanelOpen] = useState(false);
 
   const columns = useMemo(
     () => ALL_CASES_COLUMNS.filter((column) => visible[column.key]),
@@ -33,102 +51,94 @@ export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
   }
 
   return (
-    <section className="space-y-3">
+    <section className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="font-mono text-sm text-muted">
+        <Badge variant="secondary" className="font-mono font-normal">
           {rows.length} {rows.length === 1 ? "case" : "cases"}
-        </p>
-        <div className="relative">
-          <button
-            type="button"
-            aria-expanded={panelOpen}
-            aria-controls="all-cases-columns-panel"
-            onClick={() => setPanelOpen((open) => !open)}
-            className="rounded-[12px] border border-border bg-background px-3 py-1.5 text-sm text-foreground hover:bg-wash"
-          >
-            Filter / Columns
-          </button>
-          {panelOpen ? (
-            <div
-              id="all-cases-columns-panel"
-              role="group"
-              aria-label="Column visibility"
-              className="absolute right-0 z-10 mt-2 w-64 rounded-xl border border-border bg-background p-3 shadow-sm"
-            >
-              <p className="mb-2 text-xs text-muted">
+        </Badge>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="sm">
+              Filter / Columns
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right">
+            <SheetHeader>
+              <SheetTitle>Columns</SheetTitle>
+              <SheetDescription>
                 Default-on columns. Hide any of them.
-              </p>
-              <ul className="space-y-1">
-                {ALL_CASES_COLUMNS.map((column) => (
-                  <li key={column.key}>
-                    <label className="flex cursor-pointer items-center gap-2 rounded-[12px] px-2 py-1.5 text-sm hover:bg-wash">
-                      <input
-                        type="checkbox"
-                        checked={visible[column.key]}
-                        onChange={() => toggleColumn(column.key)}
-                      />
-                      <span>{column.label}</span>
-                    </label>
-                  </li>
-                ))}
-              </ul>
+              </SheetDescription>
+            </SheetHeader>
+            <div className="flex flex-col gap-2 px-4">
+              {ALL_CASES_COLUMNS.map((column) => (
+                <Label
+                  key={column.key}
+                  htmlFor={`all-cases-col-${column.key}`}
+                  className="cursor-pointer font-normal"
+                >
+                  <Checkbox
+                    id={`all-cases-col-${column.key}`}
+                    checked={visible[column.key]}
+                    onCheckedChange={() => toggleColumn(column.key)}
+                  />
+                  {column.label}
+                </Label>
+              ))}
             </div>
-          ) : null}
-        </div>
+          </SheetContent>
+        </Sheet>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-border bg-background">
-        <table className="min-w-full border-collapse text-left text-sm">
-          <caption className="sr-only">All cases</caption>
-          <thead className="bg-wash">
-            <tr>
-              <th
+      <div className="rounded-md border">
+        <Table>
+          <TableCaption className="sr-only">All cases</TableCaption>
+          <TableHeader>
+            <TableRow className="bg-muted/50 hover:bg-muted/50">
+              <TableHead
                 scope="col"
                 aria-label="Row number"
-                className={`${cellRule} w-12 whitespace-nowrap text-center font-medium text-muted`}
+                className="w-12 text-center text-muted-foreground"
               >
                 #
-              </th>
+              </TableHead>
               {columns.map((column) => (
-                <th
+                <TableHead
                   key={column.key}
                   scope="col"
-                  className={`${cellRule} whitespace-nowrap font-medium text-muted`}
+                  className="text-muted-foreground"
                 >
                   {column.label}
-                </th>
+                </TableHead>
               ))}
-            </tr>
-          </thead>
-          <tbody>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {rows.length === 0 ? (
-              <tr>
-                <td
+              <TableRow>
+                <TableCell
                   colSpan={columns.length + 1}
-                  className={`${cellRule} py-10 text-center text-muted`}
+                  className="py-10 text-center text-muted-foreground"
                 >
                   No cases.
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ) : (
               rows.map((row, index) => (
-                <tr key={row.id} className="border-t border-border">
-                  <td
-                    className={`${cellRule} text-center align-top font-mono text-xs text-muted`}
-                  >
+                <TableRow key={row.id}>
+                  <TableCell className="text-center align-top font-mono text-xs text-muted-foreground">
                     {index + 1}
-                  </td>
+                  </TableCell>
                   {columns.map((column) => {
                     const text = displayCaseValue(row[column.key]);
                     return (
-                      <td
+                      <TableCell
                         key={column.key}
-                        className={`${cellRule} whitespace-nowrap align-top text-foreground`}
+                        className="align-top text-foreground"
                       >
                         {column.key === "case_number" ? (
                           <Link
                             href={`/cases/${row.id}`}
-                            className="text-accent underline-offset-2 hover:text-accent-hover hover:underline"
+                            className="text-primary underline-offset-2 hover:underline"
                           >
                             {text || row.id}
                           </Link>
@@ -137,14 +147,14 @@ export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
                         ) : (
                           text
                         )}
-                      </td>
+                      </TableCell>
                     );
                   })}
-                </tr>
+                </TableRow>
               ))
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </section>
   );

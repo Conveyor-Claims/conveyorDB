@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession, isAdmin, signInTemporaryAdmin } from "@/lib/session";
+import { Button } from "@/components/ui/button";
 import { StaffChrome } from "../staff-chrome";
 
 export const metadata = {
@@ -15,25 +16,19 @@ export default async function LoginPage() {
 
   return (
     <StaffChrome title="Temporary login">
-      <p className="max-w-xl text-sm leading-6 text-muted">
+      <p className="max-w-xl text-sm leading-6 text-muted-foreground">
         Temporary login. The button signs you in as admin. This is a stub
         until real user levels are set.
       </p>
-      <div className="max-w-sm space-y-3">
+      <div className="flex max-w-sm flex-col gap-3">
         <form action={signInTemporaryAdmin}>
-          <button
-            type="submit"
-            className="w-full rounded-[12px] bg-accent px-5 py-2.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
-          >
+          <Button type="submit" className="w-full">
             Temporary login
-          </button>
+          </Button>
         </form>
-        <Link
-          href="/cases"
-          className="inline-block text-sm text-accent underline-offset-4 hover:text-accent-hover hover:underline"
-        >
-          All Cases
-        </Link>
+        <Button asChild variant="link" className="h-auto justify-start px-0">
+          <Link href="/cases">All Cases</Link>
+        </Button>
       </div>
     </StaffChrome>
   );

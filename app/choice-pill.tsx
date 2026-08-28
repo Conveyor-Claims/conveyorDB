@@ -21,7 +21,7 @@ export function ChoicePill({
   const colors = choicePillColors(field, value);
   if (!colors) {
     return (
-      <span className={`${pillClass} border-border bg-wash text-foreground`}>
+      <span className={`${pillClass} border-border bg-muted text-foreground`}>
         {value}
       </span>
     );

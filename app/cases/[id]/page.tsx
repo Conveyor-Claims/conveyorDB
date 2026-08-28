@@ -6,6 +6,7 @@ import {
   caseSectionAnchor,
 } from "@/lib/case-page";
 import { getCaseById, isCaseId } from "@/lib/cases";
+import { Button } from "@/components/ui/button";
 import { StaffChrome } from "../../staff-chrome";
 import { CaseField } from "./case-field";
 import { CaseForm } from "./case-form";
@@ -46,19 +47,16 @@ export default async function CasePage({ params }: PageProps) {
 
   return (
     <StaffChrome title={title}>
-      <p className="max-w-2xl text-sm leading-6 text-muted">
+      <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
         Stored dest fields on <span className="font-mono">public.cases</span>{" "}
         can be edited and saved. File slots are not stored on this table. Case
         Number stays locked. Blank fields stay blank.
       </p>
 
       <p>
-        <Link
-          href="/cases"
-          className="font-mono text-sm text-accent hover:text-accent-hover"
-        >
-          All Cases
-        </Link>
+        <Button asChild variant="link" className="h-auto px-0 font-mono">
+          <Link href="/cases">All Cases</Link>
+        </Button>
       </p>
 
       {missingEnv.length > 0 ? (
