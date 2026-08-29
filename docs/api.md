@@ -19,7 +19,7 @@ Thin service-role door for Intake and Coworking. Existing dest columns only. Thi
 - **List:** `GET /api/cases`, `GET /api/contacts`, `GET /api/partners`, `GET /api/next-steps`, `GET /api/files`
 - **List filter:** optional `?case_id=` on `/api/next-steps` and `/api/files`
 - **One row:** `GET /api/{cabinet}/{id}`
-- **Insert:** `POST /api/{cabinet}` (JSON). Database generates `id`. Returns the stored row.
+- **Insert:** `POST /api/{cabinet}` (JSON). Database generates `id`. Returns the stored row. Keep this path for later; do not use it for the first test.
 - **Update:** `PATCH /api/{cabinet}/{id}` (JSON dest columns only). Returns the stored row.
 - **File upload:** `POST /api/files` (multipart). Require `case_id`, `slot_name`, and `file`. Caller sends the slot string. Stores `storage_path` + `content_type` on `public.files` and the bytes in the private `case-files` bucket.
 
@@ -30,9 +30,9 @@ Thin service-role door for Intake and Coworking. Existing dest columns only. Thi
 
 ## First test
 
-- **PATCH** the existing Natalie row **C-02895** (look up by stored `case_number` on `GET /api/cases`, or by `id`), **or**
-- **POST** a new case
-- Both work. Intake chooses.
+- **PATCH only.** Update the existing Natalie row. Do not `POST` a second test case.
+- **Lookup:** `GET /api/cases` and find the stored `case_number` **`C - 02895 - Natalie Dubin`**, or `GET /api/cases/{id}` if you already have its uuid.
+- **Write:** `PATCH /api/cases/{id}` with existing dest columns only. Omit `case_number`.
 
 ## Fields
 

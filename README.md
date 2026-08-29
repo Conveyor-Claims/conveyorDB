@@ -12,7 +12,7 @@ The field catalog is unchanged at `docs/catalog/fields.csv`.
 
 ### HTTP API
 
-Intake and Coworking read and write the five cabinets through `/api` (`docs/api.md`). Every `/api/*` route requires `Authorization: Bearer <SUPABASE_SERVICE_ROLE_KEY>`. Cookie / temporary admin login is not enough.
+Intake and Coworking read and write the five cabinets through `/api` (`docs/api.md`). Every `/api/*` route requires `Authorization: Bearer <SUPABASE_SERVICE_ROLE_KEY>`. Cookie / temporary admin login is not enough. Intake's first test is **PATCH** the existing Natalie row **C-02895** only (look up stored `case_number` `C - 02895 - Natalie Dubin`, or its uuid). Do not insert a second test case. `POST` insert stays in the door for later. Callers still omit `case_number` on writes.
 
 ### Environment
 
