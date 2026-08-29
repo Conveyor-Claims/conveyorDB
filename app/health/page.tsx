@@ -4,6 +4,8 @@ import {
   P12_HIGH_TABLES,
   type PublicTableName,
 } from "@/lib/schema/tables";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StaffChrome } from "../staff-chrome";
 
 export const dynamic = "force-dynamic";
@@ -47,11 +49,11 @@ function TableList({
   const byName = new Map(probes.map((probe) => [probe.name, probe]));
 
   return (
-    <section className="space-y-3">
-      <h2 className="text-sm font-medium tracking-wide text-muted uppercase">
+    <section className="flex flex-col gap-3">
+      <h2 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
         {title}
       </h2>
-      <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-background">
+      <ul className="divide-y overflow-hidden rounded-md border bg-card">
         {names.map(({ name }) => {
           const probe = byName.get(name);
           if (!probe) return null;
@@ -68,15 +70,15 @@ function TableList({
                   </p>
                 ) : null}
               </div>
-              <p className="hidden font-mono text-sm text-muted sm:block">
+              <p className="hidden font-mono text-sm text-muted-foreground sm:block">
                 {probe.columnCount} cols
               </p>
-              <p className="hidden font-mono text-sm text-muted sm:block">
+              <p className="hidden font-mono text-sm text-muted-foreground sm:block">
                 {probe.rowCount === null ? "—" : `${probe.rowCount} rows`}
               </p>
               <p className="flex items-center justify-end gap-2 font-mono text-sm">
                 <StatusDot exists={probe.exists} error={probe.error} />
-                {statusLabel(probe.exists, probe.error)}
+                <Badge variant="outline">{statusLabel(probe.exists, probe.error)}</Badge>
               </p>
             </li>
           );
@@ -93,35 +95,53 @@ export default async function HealthPage() {
 
   return (
     <StaffChrome title="Schema health">
-      <p className="max-w-2xl text-sm leading-6 text-muted">
+      <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
         Live check against conveyordb-testing. Tables are listed by name
         only. Empty tables stay empty.
       </p>
 
-        <dl className="grid gap-3 text-sm sm:grid-cols-2">
-          <div className="rounded-xl border border-border bg-background px-4 py-3">
-            <dt className="text-muted">Overall</dt>
-            <dd className="mt-1 font-medium">
+        <div className="grid gap-3 text-sm sm:grid-cols-2">
+          <Card className="gap-2 py-3">
+            <CardHeader className="px-4 py-0">
+              <CardTitle className="text-sm font-normal text-muted-foreground">
+                Overall
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-4 font-medium">
               {health.ok ? "All expected tables exist" : "Check failed"}
-            </dd>
-          </div>
-          <div className="rounded-xl border border-border bg-background px-4 py-3">
-            <dt className="text-muted">Project</dt>
-            <dd className="mt-1 font-mono">
+            </CardContent>
+          </Card>
+          <Card className="gap-2 py-3">
+            <CardHeader className="px-4 py-0">
+              <CardTitle className="text-sm font-normal text-muted-foreground">
+                Project
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-4 font-mono">
               {health.projectRef ?? "not configured"}
-            </dd>
-          </div>
-          <div className="rounded-xl border border-border bg-background px-4 py-3">
-            <dt className="text-muted">Client</dt>
-            <dd className="mt-1">
+            </CardContent>
+          </Card>
+          <Card className="gap-2 py-3">
+            <CardHeader className="px-4 py-0">
+              <CardTitle className="text-sm font-normal text-muted-foreground">
+                Client
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-4">
               {health.usingServiceRole ? "service role" : "anon"}
-            </dd>
-          </div>
-          <div className="rounded-xl border border-border bg-background px-4 py-3">
-            <dt className="text-muted">Checked</dt>
-            <dd className="mt-1 font-mono">{health.checkedAt}</dd>
-          </div>
-        </dl>
+            </CardContent>
+          </Card>
+          <Card className="gap-2 py-3">
+            <CardHeader className="px-4 py-0">
+              <CardTitle className="text-sm font-normal text-muted-foreground">
+                Checked
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-4 font-mono">
+              {health.checkedAt}
+            </CardContent>
+          </Card>
+        </div>
 
         {health.missingEnv.length > 0 ? (
           <p className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
@@ -140,15 +160,15 @@ export default async function HealthPage() {
           probes={health.tables}
         />
 
-        <section className="space-y-3">
-          <h2 className="text-sm font-medium tracking-wide text-muted uppercase">
+        <section className="flex flex-col gap-3">
+          <h2 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
             Storage
           </h2>
-          <div className="flex items-center justify-between rounded-xl border border-border bg-background px-4 py-3">
+          <div className="flex items-center justify-between rounded-md border bg-card px-4 py-3">
             <div>
               <p className="font-mono text-sm">{health.storage.bucket}</p>
               {health.storage.public === false ? (
-                <p className="mt-1 text-xs text-muted">private</p>
+                <p className="mt-1 text-xs text-muted-foreground">private</p>
               ) : null}
               {health.storage.error ? (
                 <p className="mt-1 text-xs text-red-600 dark:text-red-400">
@@ -161,7 +181,9 @@ export default async function HealthPage() {
                 exists={health.storage.exists}
                 error={health.storage.error}
               />
-              {statusLabel(health.storage.exists, health.storage.error)}
+              <Badge variant="outline">
+                {statusLabel(health.storage.exists, health.storage.error)}
+              </Badge>
             </p>
           </div>
         </section>

@@ -14,7 +14,7 @@ export default async function AllCasesPage() {
 
   return (
     <StaffChrome title="All Cases" wide>
-      <p className="max-w-2xl text-sm leading-6 text-muted">
+      <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
         Read-only list from <span className="font-mono">public.cases</span>.
         Stored values only. Blank fields stay blank.
       </p>

@@ -1,6 +1,8 @@
 "use client";
 
 import { Children, useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export type CaseSectionChrome = {
   name: string;
@@ -39,51 +41,57 @@ export function CaseSections({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col gap-4">
       <nav
         aria-label="Case sections"
-        className="flex gap-1 overflow-x-auto border-b border-border pb-2"
+        className="flex gap-1 overflow-x-auto border-b pb-2"
       >
         {sections.map((section) => (
-          <a
+          <Button
             key={section.anchor}
-            href={`#${section.anchor}`}
-            onClick={() => reveal(section.name)}
-            className={`shrink-0 rounded-[12px] border border-border px-2.5 py-1 text-xs ${
-              isOpen(section.name)
-                ? "bg-wash text-accent"
-                : "bg-background text-muted hover:bg-wash hover:text-accent"
-            }`}
+            asChild
+            variant={isOpen(section.name) ? "secondary" : "outline"}
+            size="xs"
           >
-            {section.name}
-          </a>
+            <a
+              href={`#${section.anchor}`}
+              onClick={() => reveal(section.name)}
+            >
+              {section.name}
+            </a>
+          </Button>
         ))}
       </nav>
 
-      <div className="space-y-3">
+      <div className="flex flex-col gap-3">
         {sections.map((section, index) => {
           const open = isOpen(section.name);
           return (
-            <section
+            <Card
               key={section.anchor}
               id={section.anchor}
-              className="scroll-mt-6 overflow-hidden rounded-xl border border-border bg-background"
+              className="scroll-mt-6 gap-0 py-0"
             >
-              <h2>
-                <button
-                  type="button"
-                  aria-expanded={open}
-                  onClick={() => toggle(section.name)}
-                  className="flex w-full items-center justify-between bg-wash px-4 py-2.5 text-left text-sm font-medium text-foreground"
-                >
-                  <span>{section.name}</span>
-                  <span aria-hidden className="text-muted">
-                    {open ? "▾" : "▸"}
-                  </span>
-                </button>
-              </h2>
-              {open ? panels[index] : null}
-            </section>
+              <CardHeader className="p-0">
+                <h2>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    aria-expanded={open}
+                    onClick={() => toggle(section.name)}
+                    className="h-auto w-full justify-between rounded-none px-4 py-2.5 text-left font-medium"
+                  >
+                    <span>{section.name}</span>
+                    <span aria-hidden className="text-muted-foreground">
+                      {open ? "▾" : "▸"}
+                    </span>
+                  </Button>
+                </h2>
+              </CardHeader>
+              {open ? (
+                <CardContent className="px-0 pb-0">{panels[index]}</CardContent>
+              ) : null}
+            </Card>
           );
         })}
       </div>

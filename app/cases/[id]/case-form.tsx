@@ -10,6 +10,7 @@ import {
 } from "react";
 import { useActionState } from "react";
 import type { UpdateCaseState } from "@/lib/case-save";
+import { Button } from "@/components/ui/button";
 import { updateCaseAction } from "./actions";
 
 type DirtyContextValue = {
@@ -36,14 +37,10 @@ function SaveBar({
   unsaved: boolean;
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-background px-4 py-3">
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-[12px] bg-accent px-4 py-2 text-sm font-medium text-accent-on hover:bg-accent-hover disabled:opacity-60"
-      >
+    <div className="flex flex-wrap items-center gap-3 rounded-md border bg-card px-4 py-3">
+      <Button type="submit" size="sm" disabled={pending}>
         {pending ? "Saving…" : "Save"}
-      </button>
+      </Button>
       <p
         role="status"
         aria-live="polite"
@@ -54,7 +51,7 @@ function SaveBar({
               ? "text-red-800"
               : unsaved
                 ? "text-amber-800"
-                : "text-muted"
+                : "text-muted-foreground"
         }`}
       >
         {pending
@@ -92,7 +89,7 @@ export function CaseForm({
 
   return (
     <DirtyContext.Provider value={value}>
-      <form action={formAction} className="space-y-8">
+      <form action={formAction} className="flex flex-col gap-8">
         <input type="hidden" name="caseRowId" value={caseId} />
         <SaveBar state={state} pending={pending} unsaved={unsaved} />
         {children}

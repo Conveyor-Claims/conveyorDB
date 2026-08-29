@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const LINKS = [
   { href: "/cases", label: "All Cases", match: "/cases" },
@@ -17,17 +18,15 @@ export function StaffNav() {
         const active =
           pathname === link.match || pathname.startsWith(`${link.match}/`);
         return (
-          <Link
+          <Button
             key={link.href}
-            href={link.href}
-            className={`rounded-[12px] px-3 py-2 text-sm ${
-              active
-                ? "bg-wash text-accent"
-                : "text-muted hover:bg-wash hover:text-accent"
-            }`}
+            asChild
+            variant={active ? "secondary" : "ghost"}
+            size="sm"
+            className="justify-start"
           >
-            {link.label}
-          </Link>
+            <Link href={link.href}>{link.label}</Link>
+          </Button>
         );
       })}
     </nav>

@@ -6,20 +6,18 @@ import { displayCaseValue } from "@/lib/cases";
 import type { UpdateCaseState } from "@/lib/case-save";
 import { optionStyle, optionsForDest } from "@/lib/select-options";
 import type { Database } from "@/lib/database.types";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import { updateCaseAction } from "./actions";
 import { FieldValue } from "./field-value";
 import { useFieldDirty } from "./case-form";
 
 type CasesRow = Database["public"]["Tables"]["cases"]["Row"];
 
-function inputClass(dirty: boolean, extra = "") {
-  return [
-    "w-full rounded-[12px] border px-3 py-2 text-sm text-foreground",
-    dirty ? "border-amber-400 bg-amber-50" : "border-border bg-background",
-    extra,
-  ]
-    .filter(Boolean)
-    .join(" ");
+function dirtyClass(dirty: boolean, extra = "") {
+  return cn(dirty && "border-amber-400 bg-amber-50", extra);
 }
 
 function asStringList(value: CasesRow[keyof CasesRow]): string[] {
@@ -51,7 +49,7 @@ function CaseChoicePill({ dest, value }: { dest: string; value: string }) {
   const colors = optionStyle(dest, value);
   if (!colors) {
     return (
-      <span className={`${pillClass} border-border bg-wash text-foreground`}>
+      <span className={`${pillClass} border-border bg-muted text-foreground`}>
         {value}
       </span>
     );
@@ -89,13 +87,13 @@ function TextControl({
   if (multiline) {
     return (
       <div>
-        <textarea
+        <Textarea
           id={id}
           name={field.key}
           value={value}
           rows={4}
           onChange={(event) => setValue(event.target.value)}
-          className={inputClass(dirty, "min-h-28")}
+          className={dirtyClass(dirty, "min-h-28")}
         />
         <DirtyHint dirty={dirty} />
       </div>
@@ -104,13 +102,13 @@ function TextControl({
 
   return (
     <div>
-      <input
+      <Input
         id={id}
         type={inputType}
         name={field.key}
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        className={inputClass(dirty)}
+        className={dirtyClass(dirty)}
       />
       <DirtyHint dirty={dirty} />
     </div>
@@ -171,7 +169,7 @@ function NotesAutosave({
 
   return (
     <div>
-      <textarea
+      <Textarea
         id={id}
         name={field.key}
         value={value}
@@ -186,7 +184,7 @@ function NotesAutosave({
           if (timerRef.current) clearTimeout(timerRef.current);
           void persist(value);
         }}
-        className={inputClass(dirty, "min-h-56")}
+        className={dirtyClass(dirty, "min-h-56")}
       />
       <p
         role="status"
@@ -198,7 +196,7 @@ function NotesAutosave({
               ? "text-red-800"
               : dirty
                 ? "text-amber-800"
-                : "text-muted"
+                : "text-muted-foreground"
         }`}
       >
         {pending
@@ -233,13 +231,16 @@ function SingleSelectControl({
   const id = `case-field-${field.key}`;
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col gap-2">
       <select
         id={id}
         name={field.key}
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        className={inputClass(dirty)}
+        className={cn(
+          "h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
+          dirtyClass(dirty),
+        )}
       >
         <option value=""></option>
         {options.map((option) => (
@@ -287,13 +288,13 @@ function MultiSelectControl({
   }
 
   return (
-    <fieldset id={`case-field-${field.key}`} className="space-y-2">
+    <fieldset id={`case-field-${field.key}`} className="flex flex-col gap-2">
       <legend className="sr-only">{field.label}</legend>
       <input type="hidden" name={field.key} value="" />
-      <ul className="space-y-1.5">
+      <ul className="flex flex-col gap-1.5">
         {options.map((option) => (
           <li key={option.name}>
-            <label className="flex cursor-pointer items-center gap-2 rounded-[12px] px-1 py-0.5 hover:bg-wash">
+            <Label className="cursor-pointer rounded-md px-1 py-0.5 font-normal hover:bg-muted">
               <input
                 type="checkbox"
                 name={field.key}
@@ -302,7 +303,7 @@ function MultiSelectControl({
                 onChange={(event) => toggle(option.name, event.target.checked)}
               />
               <CaseChoicePill dest={field.key} value={option.name} />
-            </label>
+            </Label>
           </li>
         ))}
       </ul>
@@ -405,9 +406,11 @@ export function CaseField({
   }
 
   return (
-    <div className="grid gap-1 border-t border-border py-3 first:border-t-0 sm:grid-cols-[minmax(12rem,14rem)_1fr] sm:gap-6">
-      <dt className="text-sm text-muted">
-        <label htmlFor={id}>{field.label}</label>
+    <div className="grid gap-1 border-t py-3 first:border-t-0 sm:grid-cols-[minmax(12rem,14rem)_1fr] sm:gap-6">
+      <dt className="text-sm text-muted-foreground">
+        <Label htmlFor={id} className="font-normal text-muted-foreground">
+          {field.label}
+        </Label>
       </dt>
       <dd className="min-w-0 text-sm text-foreground">{control}</dd>
     </div>
