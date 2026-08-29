@@ -10,6 +10,10 @@ Next.js App Router (TypeScript) for Vercel project `conveyor-db`. It reads the l
 
 The field catalog is unchanged at `docs/catalog/fields.csv`.
 
+### HTTP API
+
+Intake and Coworking read and write the five cabinets through `/api` (`docs/api.md`). Every `/api/*` route requires `Authorization: Bearer <SUPABASE_SERVICE_ROLE_KEY>`. Cookie / temporary admin login is not enough.
+
 ### Environment
 
 Copy `.env.example` to `.env.local` (never commit secrets):
