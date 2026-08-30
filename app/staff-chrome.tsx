@@ -53,12 +53,14 @@ export async function StaffChrome({
   wide = false,
   titleAccessory,
   header,
+  rail,
 }: {
   title: string;
   children: ReactNode;
   wide?: boolean;
   titleAccessory?: ReactNode;
   header?: ReactNode;
+  rail?: ReactNode;
 }) {
   const session = await getSession();
   const signedIn = isAdmin(session);
@@ -101,7 +103,7 @@ export async function StaffChrome({
         </div>
         <AccountSlot signedIn={signedIn} />
       </aside>
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col xl:flex-row">
         <main
           className={`mx-auto flex w-full flex-1 flex-col gap-8 px-6 py-12 ${
             wide ? "max-w-7xl" : "max-w-3xl"
@@ -116,6 +118,11 @@ export async function StaffChrome({
           </div>
           {children}
         </main>
+        {rail ? (
+          <aside className="flex min-h-[28rem] flex-col border-t border-border bg-background xl:sticky xl:top-0 xl:h-dvh xl:w-[22rem] xl:shrink-0 xl:border-t-0 xl:border-l">
+            {rail}
+          </aside>
+        ) : null}
       </div>
     </div>
   );

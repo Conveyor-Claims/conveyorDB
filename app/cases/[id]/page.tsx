@@ -6,7 +6,10 @@ import {
   caseSectionAnchor,
 } from "@/lib/case-page";
 import { getCaseById, isCaseId } from "@/lib/cases";
+import { listCommentsForCase } from "@/lib/comments";
+import { getSession, isAdmin } from "@/lib/session";
 import { StaffChrome } from "../../staff-chrome";
+import { CaseComments } from "./case-comments";
 import { CaseField } from "./case-field";
 import { CaseForm } from "./case-form";
 import { CaseHeaderStrip } from "./case-header-strip";
@@ -36,11 +39,17 @@ export default async function CasePage({ params }: PageProps) {
     notFound();
   }
 
-  const { row, error, missingEnv, usingServiceRole } = await getCaseById(id);
+  const [{ row, error, missingEnv, usingServiceRole }, session] =
+    await Promise.all([getCaseById(id), getSession()]);
 
   if (!row && !error && usingServiceRole) {
     notFound();
   }
+
+  const comments = row
+    ? await listCommentsForCase(row.id)
+    : { rows: [], error: null };
+  const canPost = isAdmin(session);
 
   const title = row?.case_number?.trim() ?? "";
   const overviewName = CASE_PAGE_SECTIONS[0]?.name ?? "";
@@ -56,6 +65,16 @@ export default async function CasePage({ params }: PageProps) {
               insurance_company: row.insurance_company,
               claim_number: row.claim_number,
             }}
+          />
+        ) : null
+      }
+      rail={
+        row ? (
+          <CaseComments
+            caseId={row.id}
+            comments={comments.rows}
+            error={comments.error}
+            canPost={canPost}
           />
         ) : null
       }
