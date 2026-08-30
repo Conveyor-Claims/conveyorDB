@@ -1,0 +1,152 @@
+import type { AllCasesRow } from "@/lib/cases";
+
+/**
+ * v1 pipeline pages are All Cases filtered by stored case_status.
+ * Names match live Airtable All Cases (Aug 24 interface walk).
+ * Extra stages (Appraisal, Settled, Closed, …) stay P22.
+ */
+export const CASE_PIPELINES = {
+  referrals: {
+    slug: "referrals",
+    href: "/referrals",
+    title: "Referrals",
+    navLabel: "Referrals",
+    caseStatus: "Referral",
+  },
+  "pre-lit": {
+    slug: "pre-lit",
+    href: "/pre-lit",
+    title: "Pre-Litigation",
+    navLabel: "Pre-Lit",
+    caseStatus: "Pre-Litigation",
+  },
+  litigation: {
+    slug: "litigation",
+    href: "/litigation",
+    title: "Litigation",
+    navLabel: "Litigation",
+    caseStatus: "Litigation",
+  },
+} as const;
+
+export type PipelineSlug = keyof typeof CASE_PIPELINES;
+export type CasePipeline = (typeof CASE_PIPELINES)[PipelineSlug];
+
+export const PIPELINE_LIST = [
+  CASE_PIPELINES.referrals,
+  CASE_PIPELINES["pre-lit"],
+  CASE_PIPELINES.litigation,
+] as const;
+
+export function caseMatchesPipeline(
+  caseStatus: string | null | undefined,
+  pipelineStatus: string,
+): boolean {
+  return caseStatus === pipelineStatus;
+}
+
+export type CaseListFilters = {
+  referredFirm: string[];
+  caseStatus: string[];
+  nextSteps: string[];
+  resolutionsSpecialist: string[];
+  paralegal: string[];
+};
+
+export const EMPTY_CASE_LIST_FILTERS: CaseListFilters = {
+  referredFirm: [],
+  caseStatus: [],
+  nextSteps: [],
+  resolutionsSpecialist: [],
+  paralegal: [],
+};
+
+function storedText(value: string | null | undefined): string {
+  return value ?? "";
+}
+
+function hasAny(selected: string[], value: string): boolean {
+  return selected.length === 0 || selected.includes(value);
+}
+
+export function filterCaseRows(
+  rows: AllCasesRow[],
+  filters: CaseListFilters,
+): AllCasesRow[] {
+  return rows.filter((row) => {
+    if (!hasAny(filters.referredFirm, storedText(row.referred_firm))) {
+      return false;
+    }
+    if (!hasAny(filters.caseStatus, storedText(row.case_status))) {
+      return false;
+    }
+    if (filters.nextSteps.length > 0) {
+      const steps = row.next_steps ?? [];
+      if (!filters.nextSteps.some((step) => steps.includes(step))) {
+        return false;
+      }
+    }
+    if (
+      !hasAny(
+        filters.resolutionsSpecialist,
+        storedText(row.resolutions_specialist),
+      )
+    ) {
+      return false;
+    }
+    if (!hasAny(filters.paralegal, storedText(row.paralegal))) {
+      return false;
+    }
+    return true;
+  });
+}
+
+export type ReferredFirmGroup = {
+  firm: string;
+  rows: AllCasesRow[];
+};
+
+/** Group by stored referred_firm. Blank stays blank. Blank groups sort last. */
+export function groupCasesByReferredFirm(
+  rows: AllCasesRow[],
+): ReferredFirmGroup[] {
+  const buckets = new Map<string, AllCasesRow[]>();
+  for (const row of rows) {
+    const firm = storedText(row.referred_firm);
+    const list = buckets.get(firm);
+    if (list) list.push(row);
+    else buckets.set(firm, [row]);
+  }
+
+  return [...buckets.entries()]
+    .sort(([a], [b]) => {
+      if (a === "" && b !== "") return 1;
+      if (b === "" && a !== "") return -1;
+      return a.localeCompare(b);
+    })
+    .map(([firm, groupRows]) => ({ firm, rows: groupRows }));
+}
+
+export function uniqueStoredValues(
+  values: Array<string | null | undefined>,
+): string[] {
+  const seen = new Set<string>();
+  for (const value of values) {
+    seen.add(storedText(value));
+  }
+  return [...seen].sort((a, b) => {
+    if (a === "" && b !== "") return 1;
+    if (b === "" && a !== "") return -1;
+    return a.localeCompare(b);
+  });
+}
+
+export function uniqueNextSteps(rows: AllCasesRow[]): string[] {
+  const seen = new Set<string>();
+  for (const row of rows) {
+    for (const step of row.next_steps ?? []) {
+      if (step) seen.add(step);
+    }
+  }
+  return [...seen].sort((a, b) => a.localeCompare(b));
+}

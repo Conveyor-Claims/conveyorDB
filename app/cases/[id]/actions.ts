@@ -18,6 +18,9 @@ export async function updateCaseAction(
       revalidatePath(`/cases/${id}`);
     }
     revalidatePath("/cases");
+    revalidatePath("/referrals");
+    revalidatePath("/pre-lit");
+    revalidatePath("/litigation");
     refresh();
   }
   return result;

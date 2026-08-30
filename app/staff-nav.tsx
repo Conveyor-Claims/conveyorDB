@@ -2,11 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { PIPELINE_LIST } from "@/lib/pipelines";
 
 const LINKS = [
-  { href: "/cases", label: "All Cases", match: "/cases" },
-  { href: "/health", label: "Health", match: "/health" },
+  { href: "/cases", label: "All Cases", matchPrefix: "/cases" },
+  ...PIPELINE_LIST.map((pipeline) => ({
+    href: pipeline.href,
+    label: pipeline.navLabel,
+  })),
+  { href: "/health", label: "Health" },
 ] as const;
+
+function isActive(pathname: string, href: string, matchPrefix?: string) {
+  if (pathname === href) return true;
+  if (matchPrefix) {
+    return pathname === matchPrefix || pathname.startsWith(`${matchPrefix}/`);
+  }
+  return false;
+}
 
 export function StaffNav() {
   const pathname = usePathname();
@@ -14,8 +27,11 @@ export function StaffNav() {
   return (
     <nav aria-label="Staff" className="flex flex-col gap-1 px-3">
       {LINKS.map((link) => {
-        const active =
-          pathname === link.match || pathname.startsWith(`${link.match}/`);
+        const active = isActive(
+          pathname,
+          link.href,
+          "matchPrefix" in link ? link.matchPrefix : undefined,
+        );
         return (
           <Link
             key={link.href}

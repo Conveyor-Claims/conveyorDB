@@ -44,7 +44,10 @@ export function isAllCasesPillKey(
   return (ALL_CASES_PILL_KEYS as readonly string[]).includes(key);
 }
 
-export type AllCasesRow = Pick<CasesRow, "id" | AllCasesColumnKey>;
+export type AllCasesRow = Pick<
+  CasesRow,
+  "id" | AllCasesColumnKey | "next_steps"
+>;
 
 export type AllCasesList = {
   rows: AllCasesRow[];
@@ -79,7 +82,12 @@ export function casesClient() {
   };
 }
 
-export async function listAllCases(): Promise<AllCasesList> {
+const ALL_CASES_SELECT =
+  "id, case_number, client_name, case_status, department, claim_state, date_of_loss, sol_deadline, referred_firm, resolutions_specialist, paralegal, next_steps";
+
+export async function listCases(options?: {
+  caseStatus?: string;
+}): Promise<AllCasesList> {
   const { client, missingEnv, usingServiceRole } = casesClient();
 
   if (!client) {
@@ -91,12 +99,16 @@ export async function listAllCases(): Promise<AllCasesList> {
     };
   }
 
-  const { data, error } = await client
+  let query = client
     .from("cases")
-    .select(
-      "id, case_number, client_name, case_status, department, claim_state, date_of_loss, sol_deadline, referred_firm, resolutions_specialist, paralegal",
-    )
+    .select(ALL_CASES_SELECT)
     .order("case_number", { ascending: true });
+
+  if (options?.caseStatus) {
+    query = query.eq("case_status", options.caseStatus);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     return {
@@ -113,6 +125,10 @@ export async function listAllCases(): Promise<AllCasesList> {
     missingEnv,
     usingServiceRole,
   };
+}
+
+export async function listAllCases(): Promise<AllCasesList> {
+  return listCases();
 }
 
 export const getCaseById = cache(async (id: string): Promise<CaseById> => {

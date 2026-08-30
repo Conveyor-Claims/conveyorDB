@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <StaffChrome title="ConveyorDB">
       <p className="max-w-xl text-lg leading-7 text-muted">
-        In-house Airtable replacement. All Cases reads{" "}
+        In-house Airtable replacement. All Cases and the pipeline lists read{" "}
         <span className="font-mono text-base">public.cases</span>. Cabinets stay
         blank until rows are copied.
       </p>
@@ -48,6 +48,24 @@ export default async function Home() {
           className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
         >
           All Cases
+        </Link>
+        <Link
+          href="/referrals"
+          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+        >
+          Referrals
+        </Link>
+        <Link
+          href="/pre-lit"
+          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+        >
+          Pre-Lit
+        </Link>
+        <Link
+          href="/litigation"
+          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+        >
+          Litigation
         </Link>
         <Link
           href="/health"
