@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StatusDot } from "./choice-pill";
-import { PIPELINE_LIST } from "@/lib/pipelines";
+import { PIPELINE_LIST, pipelineStatuses } from "@/lib/pipelines";
 
 const LINKS = [
   { href: "/cases", label: "All Cases" },
   ...PIPELINE_LIST.map((pipeline) => ({
     href: pipeline.href,
     label: pipeline.navLabel,
-    caseStatus: pipeline.caseStatus,
+    caseStatuses: pipelineStatuses(pipeline),
   })),
   { href: "/health", label: "Health" },
 ] as const;
@@ -36,9 +36,11 @@ export function StaffNav() {
                 : "text-muted hover:bg-wash hover:text-accent"
             }`}
           >
-            {"caseStatus" in link ? (
-              <StatusDot status={link.caseStatus} />
-            ) : null}
+            {"caseStatuses" in link
+              ? link.caseStatuses.map((status) => (
+                  <StatusDot key={status} status={status} />
+                ))
+              : null}
             {link.label}
           </Link>
         );
