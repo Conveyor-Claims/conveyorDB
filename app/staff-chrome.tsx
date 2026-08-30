@@ -77,6 +77,15 @@ export async function StaffChrome({
                   All Cases
                 </span>
                 <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                  Referrals
+                </span>
+                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                  Pre-Lit
+                </span>
+                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                  Litigation
+                </span>
+                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
                   Health
                 </span>
               </nav>

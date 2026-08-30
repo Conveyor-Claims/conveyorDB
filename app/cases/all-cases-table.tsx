@@ -10,6 +10,14 @@ import {
   type AllCasesColumnKey,
   type AllCasesRow,
 } from "@/lib/cases";
+import {
+  EMPTY_CASE_LIST_FILTERS,
+  filterCaseRows,
+  groupCasesByReferredFirm,
+  uniqueNextSteps,
+  uniqueStoredValues,
+  type CaseListFilters,
+} from "@/lib/pipelines";
 
 function defaultVisibility(): Record<AllCasesColumnKey, boolean> {
   return Object.fromEntries(
@@ -19,25 +27,140 @@ function defaultVisibility(): Record<AllCasesColumnKey, boolean> {
 
 const cellRule = "border-x border-border px-4 py-3";
 
-export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
+function toggleValue(current: string[], value: string): string[] {
+  return current.includes(value)
+    ? current.filter((item) => item !== value)
+    : [...current, value];
+}
+
+function FilterChoices({
+  legend,
+  values,
+  selected,
+  onToggle,
+}: {
+  legend: string;
+  values: string[];
+  selected: string[];
+  onToggle: (value: string) => void;
+}) {
+  return (
+    <fieldset className="space-y-1">
+      <legend className="px-2 text-xs text-muted">{legend}</legend>
+      {values.length === 0 ? (
+        <p className="px-2 py-1 text-xs text-muted">None in this list.</p>
+      ) : (
+        <ul className="space-y-1">
+          {values.map((value) => (
+            <li key={value || "blank"}>
+              <label className="flex cursor-pointer items-center gap-2 rounded-[12px] px-2 py-1.5 text-sm hover:bg-wash">
+                <input
+                  type="checkbox"
+                  checked={selected.includes(value)}
+                  onChange={() => onToggle(value)}
+                />
+                <span className={value ? undefined : "text-muted"}>
+                  {value || "Blank"}
+                </span>
+              </label>
+            </li>
+          ))}
+        </ul>
+      )}
+    </fieldset>
+  );
+}
+
+export function AllCasesTable({
+  rows,
+  hideCaseStatusFilter = false,
+}: {
+  rows: AllCasesRow[];
+  hideCaseStatusFilter?: boolean;
+}) {
   const [visible, setVisible] = useState(defaultVisibility);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [filters, setFilters] = useState<CaseListFilters>(
+    EMPTY_CASE_LIST_FILTERS,
+  );
 
   const columns = useMemo(
     () => ALL_CASES_COLUMNS.filter((column) => visible[column.key]),
     [visible],
   );
 
+  const filteredRows = useMemo(
+    () => filterCaseRows(rows, filters),
+    [rows, filters],
+  );
+  const groups = useMemo(
+    () => groupCasesByReferredFirm(filteredRows),
+    [filteredRows],
+  );
+
+  const firmChoices = useMemo(
+    () => uniqueStoredValues(rows.map((row) => row.referred_firm)),
+    [rows],
+  );
+  const statusChoices = useMemo(
+    () => uniqueStoredValues(rows.map((row) => row.case_status)),
+    [rows],
+  );
+  const nextStepChoices = useMemo(() => uniqueNextSteps(rows), [rows]);
+  const specialistChoices = useMemo(
+    () => uniqueStoredValues(rows.map((row) => row.resolutions_specialist)),
+    [rows],
+  );
+  const paralegalChoices = useMemo(
+    () => uniqueStoredValues(rows.map((row) => row.paralegal)),
+    [rows],
+  );
+
+  const filtersOn =
+    filters.referredFirm.length +
+      filters.caseStatus.length +
+      filters.nextSteps.length +
+      filters.resolutionsSpecialist.length +
+      filters.paralegal.length >
+    0;
+
   function toggleColumn(key: AllCasesColumnKey) {
     setVisible((current) => ({ ...current, [key]: !current[key] }));
   }
 
+  function patchFilters(key: keyof CaseListFilters, value: string) {
+    setFilters((current) => ({
+      ...current,
+      [key]: toggleValue(current[key], value),
+    }));
+  }
+
+  const numberedGroups = useMemo(() => {
+    const starts = groups.map((_, groupIndex) =>
+      groups
+        .slice(0, groupIndex)
+        .reduce((total, group) => total + group.rows.length, 0),
+    );
+    return groups.map((group, groupIndex) => ({
+      ...group,
+      rows: group.rows.map((row, rowIndex) => ({
+        row,
+        number: starts[groupIndex] + rowIndex + 1,
+      })),
+    }));
+  }, [groups]);
+
   return (
     <section className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="font-mono text-sm text-muted">
-          {rows.length} {rows.length === 1 ? "case" : "cases"}
-        </p>
+        <div className="space-y-1">
+          <p className="font-mono text-sm text-muted">
+            {filteredRows.length}{" "}
+            {filteredRows.length === 1 ? "case" : "cases"}
+            {filtersOn ? ` of ${rows.length}` : ""}
+          </p>
+          <p className="text-xs text-muted">Grouped by Referred Firm</p>
+        </div>
         <div className="relative">
           <button
             type="button"
@@ -51,27 +174,81 @@ export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
           {panelOpen ? (
             <div
               id="all-cases-columns-panel"
-              role="group"
-              aria-label="Column visibility"
-              className="absolute right-0 z-10 mt-2 w-64 rounded-xl border border-border bg-background p-3 shadow-sm"
+              className="absolute right-0 z-10 mt-2 max-h-[70vh] w-72 overflow-y-auto rounded-xl border border-border bg-background p-3 shadow-sm"
             >
-              <p className="mb-2 text-xs text-muted">
-                Default-on columns. Hide any of them.
-              </p>
-              <ul className="space-y-1">
-                {ALL_CASES_COLUMNS.map((column) => (
-                  <li key={column.key}>
-                    <label className="flex cursor-pointer items-center gap-2 rounded-[12px] px-2 py-1.5 text-sm hover:bg-wash">
-                      <input
-                        type="checkbox"
-                        checked={visible[column.key]}
-                        onChange={() => toggleColumn(column.key)}
-                      />
-                      <span>{column.label}</span>
-                    </label>
-                  </li>
-                ))}
-              </ul>
+              <div className="space-y-3" role="group" aria-label="Find work">
+                <div className="flex items-center justify-between gap-2 px-2">
+                  <p className="text-xs text-muted">
+                    Firm, status, next step, assigned.
+                  </p>
+                  {filtersOn ? (
+                    <button
+                      type="button"
+                      onClick={() => setFilters(EMPTY_CASE_LIST_FILTERS)}
+                      className="text-xs text-accent hover:text-accent-hover"
+                    >
+                      Clear
+                    </button>
+                  ) : null}
+                </div>
+                <FilterChoices
+                  legend="Referred Firm"
+                  values={firmChoices}
+                  selected={filters.referredFirm}
+                  onToggle={(value) => patchFilters("referredFirm", value)}
+                />
+                {hideCaseStatusFilter ? null : (
+                  <FilterChoices
+                    legend="Case Status"
+                    values={statusChoices}
+                    selected={filters.caseStatus}
+                    onToggle={(value) => patchFilters("caseStatus", value)}
+                  />
+                )}
+                <FilterChoices
+                  legend="Next Steps"
+                  values={nextStepChoices}
+                  selected={filters.nextSteps}
+                  onToggle={(value) => patchFilters("nextSteps", value)}
+                />
+                <FilterChoices
+                  legend="Resolutions Specialist"
+                  values={specialistChoices}
+                  selected={filters.resolutionsSpecialist}
+                  onToggle={(value) =>
+                    patchFilters("resolutionsSpecialist", value)
+                  }
+                />
+                <FilterChoices
+                  legend="Paralegal"
+                  values={paralegalChoices}
+                  selected={filters.paralegal}
+                  onToggle={(value) => patchFilters("paralegal", value)}
+                />
+              </div>
+              <div
+                role="group"
+                aria-label="Column visibility"
+                className="mt-4 border-t border-border pt-3"
+              >
+                <p className="mb-2 px-2 text-xs text-muted">
+                  Default-on columns. Hide any of them.
+                </p>
+                <ul className="space-y-1">
+                  {ALL_CASES_COLUMNS.map((column) => (
+                    <li key={column.key}>
+                      <label className="flex cursor-pointer items-center gap-2 rounded-[12px] px-2 py-1.5 text-sm hover:bg-wash">
+                        <input
+                          type="checkbox"
+                          checked={visible[column.key]}
+                          onChange={() => toggleColumn(column.key)}
+                        />
+                        <span>{column.label}</span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ) : null}
         </div>
@@ -79,7 +256,7 @@ export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
 
       <div className="overflow-x-auto rounded-xl border border-border bg-background">
         <table className="min-w-full border-collapse text-left text-sm">
-          <caption className="sr-only">All cases</caption>
+          <caption className="sr-only">Cases grouped by referred firm</caption>
           <thead className="bg-wash">
             <tr>
               <th
@@ -100,8 +277,8 @@ export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {rows.length === 0 ? (
+          {filteredRows.length === 0 ? (
+            <tbody>
               <tr>
                 <td
                   colSpan={columns.length + 1}
@@ -110,40 +287,59 @@ export function AllCasesTable({ rows }: { rows: AllCasesRow[] }) {
                   No cases.
                 </td>
               </tr>
-            ) : (
-              rows.map((row, index) => (
-                <tr key={row.id} className="border-t border-border">
-                  <td
-                    className={`${cellRule} text-center align-top font-mono text-xs text-muted`}
+            </tbody>
+          ) : (
+            numberedGroups.map((group) => (
+              <tbody key={group.firm || "blank-firm"}>
+                <tr className="border-t border-border bg-wash">
+                  <th
+                    scope="colgroup"
+                    colSpan={columns.length + 1}
+                    aria-label={
+                      group.firm ? undefined : "Blank referred firm"
+                    }
+                    className={`${cellRule} text-left font-medium text-foreground`}
                   >
-                    {index + 1}
-                  </td>
-                  {columns.map((column) => {
-                    const text = displayCaseValue(row[column.key]);
-                    return (
-                      <td
-                        key={column.key}
-                        className={`${cellRule} whitespace-nowrap align-top text-foreground`}
-                      >
-                        {column.key === "case_number" ? (
-                          <Link
-                            href={`/cases/${row.id}`}
-                            className="text-accent underline-offset-2 hover:text-accent-hover hover:underline"
-                          >
-                            {text || row.id}
-                          </Link>
-                        ) : isAllCasesPillKey(column.key) && text ? (
-                          <ChoicePill value={text} field={column.key} />
-                        ) : (
-                          text
-                        )}
-                      </td>
-                    );
-                  })}
+                    <span className="whitespace-nowrap">{group.firm}</span>
+                    <span className="ml-2 font-mono text-xs font-normal text-muted">
+                      {group.rows.length}
+                    </span>
+                  </th>
                 </tr>
-              ))
-            )}
-          </tbody>
+                {group.rows.map(({ row, number }) => (
+                    <tr key={row.id} className="border-t border-border">
+                      <td
+                        className={`${cellRule} text-center align-top font-mono text-xs text-muted`}
+                      >
+                        {number}
+                      </td>
+                      {columns.map((column) => {
+                        const text = displayCaseValue(row[column.key]);
+                        return (
+                          <td
+                            key={column.key}
+                            className={`${cellRule} whitespace-nowrap align-top text-foreground`}
+                          >
+                            {column.key === "case_number" ? (
+                              <Link
+                                href={`/cases/${row.id}`}
+                                className="text-accent underline-offset-2 hover:text-accent-hover hover:underline"
+                              >
+                                {text || row.id}
+                              </Link>
+                            ) : isAllCasesPillKey(column.key) && text ? (
+                              <ChoicePill value={text} field={column.key} />
+                            ) : (
+                              text
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                ))}
+              </tbody>
+            ))
+          )}
         </table>
       </div>
     </section>
