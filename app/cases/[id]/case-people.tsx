@@ -6,9 +6,9 @@ import {
   ADD_PERSON_OPTIONAL_FIELDS,
   CONTACT_LIST_LABELS,
   displayContactName,
-  type AddPersonState,
   type CaseContact,
-} from "@/lib/contacts";
+} from "@/lib/contact-fields";
+import type { AddPersonState } from "@/lib/contacts";
 import { addPersonAction } from "./actions";
 
 function ContactCard({ row }: { row: CaseContact }) {
