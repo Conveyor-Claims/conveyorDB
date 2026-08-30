@@ -6,6 +6,7 @@ import { displayCaseValue } from "@/lib/cases";
 import type { UpdateCaseState } from "@/lib/case-save";
 import { optionStyle, optionsForDest } from "@/lib/select-options";
 import type { Database } from "@/lib/database.types";
+import { ChoicePill } from "../../choice-pill";
 import { updateCaseAction } from "./actions";
 import { FieldValue } from "./field-value";
 import { useFieldDirty } from "./case-form";
@@ -41,22 +42,6 @@ function dateTimeInputValue(value: CasesRow[keyof CasesRow]): string {
   const text = displayCaseValue(value);
   const match = text.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/);
   return match?.[1] ?? text;
-}
-
-const pillClass =
-  "inline-flex max-w-full items-center truncate rounded-full border px-2 py-0.5 text-xs";
-
-function CaseChoicePill({ dest, value }: { dest: string; value: string }) {
-  if (!value) return null;
-  const colors = optionStyle(dest, value);
-  if (!colors) {
-    return (
-      <span className={`${pillClass} border-border bg-wash text-foreground`}>
-        {value}
-      </span>
-    );
-  }
-  return <span className={pillClass} style={colors}>{value}</span>;
 }
 
 function DirtyHint({ dirty }: { dirty: boolean }) {
@@ -231,6 +216,7 @@ function SingleSelectControl({
   }, [dirty, field.key, setFieldDirty]);
 
   const id = `case-field-${field.key}`;
+  const colors = optionStyle(field.key, value);
 
   return (
     <div className="space-y-2">
@@ -239,7 +225,16 @@ function SingleSelectControl({
         name={field.key}
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        className={inputClass(dirty)}
+        className={inputClass(dirty, colors ? "rounded-full font-medium" : "")}
+        style={
+          dirty || !colors
+            ? undefined
+            : {
+                backgroundColor: colors.backgroundColor,
+                color: colors.color,
+                borderColor: colors.borderColor,
+              }
+        }
       >
         <option value=""></option>
         {options.map((option) => (
@@ -248,7 +243,7 @@ function SingleSelectControl({
           </option>
         ))}
       </select>
-      {value ? <CaseChoicePill dest={field.key} value={value} /> : null}
+      {value ? <ChoicePill value={value} field={field.key} /> : null}
       <DirtyHint dirty={dirty} />
     </div>
   );
@@ -301,7 +296,7 @@ function MultiSelectControl({
                 checked={current.includes(option.name)}
                 onChange={(event) => toggle(option.name, event.target.checked)}
               />
-              <CaseChoicePill dest={field.key} value={option.name} />
+              <ChoicePill value={option.name} field={field.key} />
             </label>
           </li>
         ))}

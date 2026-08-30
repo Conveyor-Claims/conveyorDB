@@ -50,10 +50,14 @@ export async function StaffChrome({
   title,
   children,
   wide = false,
+  titleAccessory,
+  header,
 }: {
   title: string;
   children: ReactNode;
   wide?: boolean;
+  titleAccessory?: ReactNode;
+  header?: ReactNode;
 }) {
   const session = await getSession();
   const signedIn = isAdmin(session);
@@ -102,7 +106,13 @@ export async function StaffChrome({
             wide ? "max-w-7xl" : "max-w-3xl"
           }`}
         >
-          <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+          <div className="space-y-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+              {titleAccessory}
+            </div>
+            {header}
+          </div>
           {children}
         </main>
       </div>

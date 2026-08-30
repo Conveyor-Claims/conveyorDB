@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getSession, isAdmin, signInTemporaryAdmin, signOut } from "@/lib/session";
+import { ChoicePill } from "./choice-pill";
 import { StaffChrome } from "./staff-chrome";
+import { CASE_PIPELINES } from "@/lib/pipelines";
 
 export default async function Home() {
   const signedIn = isAdmin(await getSession());
@@ -51,21 +53,33 @@ export default async function Home() {
         </Link>
         <Link
           href="/referrals"
-          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+          className="inline-flex w-fit items-center gap-2 rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
         >
           Referrals
+          <ChoicePill
+            value={CASE_PIPELINES.referrals.caseStatus}
+            field="case_status"
+          />
         </Link>
         <Link
           href="/pre-lit"
-          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+          className="inline-flex w-fit items-center gap-2 rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
         >
           Pre-Lit
+          <ChoicePill
+            value={CASE_PIPELINES["pre-lit"].caseStatus}
+            field="case_status"
+          />
         </Link>
         <Link
           href="/litigation"
-          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+          className="inline-flex w-fit items-center gap-2 rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
         >
           Litigation
+          <ChoicePill
+            value={CASE_PIPELINES.litigation.caseStatus}
+            field="case_status"
+          />
         </Link>
         <Link
           href="/health"

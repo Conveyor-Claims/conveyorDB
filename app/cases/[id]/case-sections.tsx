@@ -49,10 +49,10 @@ export function CaseSections({
             key={section.anchor}
             href={`#${section.anchor}`}
             onClick={() => reveal(section.name)}
-            className={`shrink-0 rounded-[12px] border border-border px-2.5 py-1 text-xs ${
+            className={`shrink-0 rounded-full border px-2.5 py-1 text-xs ${
               isOpen(section.name)
-                ? "bg-wash text-accent"
-                : "bg-background text-muted hover:bg-wash hover:text-accent"
+                ? "border-accent bg-wash text-accent"
+                : "border-border bg-background text-muted hover:bg-wash hover:text-accent"
             }`}
           >
             {section.name}
@@ -74,7 +74,7 @@ export function CaseSections({
                   type="button"
                   aria-expanded={open}
                   onClick={() => toggle(section.name)}
-                  className="flex w-full items-center justify-between bg-wash px-4 py-2.5 text-left text-sm font-medium text-foreground"
+                  className="flex w-full items-center justify-between border-b border-border bg-wash px-4 py-2.5 text-left text-sm font-medium text-foreground"
                 >
                   <span>{section.name}</span>
                   <span aria-hidden className="text-muted">

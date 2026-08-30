@@ -9,6 +9,7 @@ import { getCaseById, isCaseId } from "@/lib/cases";
 import { StaffChrome } from "../../staff-chrome";
 import { CaseField } from "./case-field";
 import { CaseForm } from "./case-form";
+import { CaseHeaderStrip } from "./case-header-strip";
 import { CaseSections } from "./case-sections";
 
 export const dynamic = "force-dynamic";
@@ -45,7 +46,20 @@ export default async function CasePage({ params }: PageProps) {
   const overviewName = CASE_PAGE_SECTIONS[0]?.name ?? "";
 
   return (
-    <StaffChrome title={title}>
+    <StaffChrome
+      title={title}
+      header={
+        row ? (
+          <CaseHeaderStrip
+            row={{
+              date_of_loss: row.date_of_loss,
+              insurance_company: row.insurance_company,
+              claim_number: row.claim_number,
+            }}
+          />
+        ) : null
+      }
+    >
       <p className="max-w-2xl text-sm leading-6 text-muted">
         Stored dest fields on <span className="font-mono">public.cases</span>{" "}
         can be edited and saved. File slots are not stored on this table. Case
