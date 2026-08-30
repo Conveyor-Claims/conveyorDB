@@ -7,12 +7,14 @@ import {
 } from "@/lib/case-page";
 import { getCaseById, isCaseId } from "@/lib/cases";
 import { listCommentsForCase } from "@/lib/comments";
+import { listContactsForCase } from "@/lib/contacts";
 import { getSession, isAdmin } from "@/lib/session";
 import { StaffChrome } from "../../staff-chrome";
 import { CaseComments } from "./case-comments";
 import { CaseField } from "./case-field";
 import { CaseForm } from "./case-form";
 import { CaseHeaderStrip } from "./case-header-strip";
+import { CasePeople } from "./case-people";
 import { CaseSections } from "./case-sections";
 
 export const dynamic = "force-dynamic";
@@ -46,9 +48,15 @@ export default async function CasePage({ params }: PageProps) {
     notFound();
   }
 
-  const comments = row
-    ? await listCommentsForCase(row.id)
-    : { rows: [], error: null };
+  const [comments, contacts] = row
+    ? await Promise.all([
+        listCommentsForCase(row.id),
+        listContactsForCase(row.id),
+      ])
+    : [
+        { rows: [], error: null },
+        { rows: [], error: null },
+      ];
   const canPost = isAdmin(session);
 
   const title = row?.case_number?.trim() ?? "";
@@ -82,7 +90,9 @@ export default async function CasePage({ params }: PageProps) {
       <p className="max-w-2xl text-sm leading-6 text-muted">
         Stored dest fields on <span className="font-mono">public.cases</span>{" "}
         can be edited and saved. File slots are not stored on this table. Case
-        Number stays locked. Blank fields stay blank.
+        Number stays locked. Blank fields stay blank. People on this case are{" "}
+        <span className="font-mono">public.contacts</span> rows whose{" "}
+        <span className="font-mono">associated_cases</span> is this case uuid.
       </p>
 
       <p>
@@ -104,6 +114,15 @@ export default async function CasePage({ params }: PageProps) {
         <p className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-100">
           {error}
         </p>
+      ) : null}
+
+      {row ? (
+        <CasePeople
+          caseId={row.id}
+          contacts={contacts.rows}
+          error={contacts.error}
+          canAdd={canPost}
+        />
       ) : null}
 
       {row ? (

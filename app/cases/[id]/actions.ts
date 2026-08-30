@@ -2,6 +2,10 @@
 
 import { refresh, revalidatePath } from "next/cache";
 import {
+  addPersonFromForm,
+  type AddPersonState,
+} from "@/lib/contacts";
+import {
   createCommentFromForm,
   type CreateCommentState,
 } from "@/lib/comments";
@@ -36,6 +40,22 @@ export async function createCommentAction(
   formData: FormData,
 ): Promise<CreateCommentState> {
   const result = await createCommentFromForm(formData);
+  if (result.ok && result.id) {
+    const idRaw = formData.get("caseRowId");
+    const id = typeof idRaw === "string" ? idRaw : "";
+    if (id) {
+      revalidatePath(`/cases/${id}`);
+    }
+    refresh();
+  }
+  return result;
+}
+
+export async function addPersonAction(
+  _prev: AddPersonState | null,
+  formData: FormData,
+): Promise<AddPersonState> {
+  const result = await addPersonFromForm(formData);
   if (result.ok && result.id) {
     const idRaw = formData.get("caseRowId");
     const id = typeof idRaw === "string" ? idRaw : "";

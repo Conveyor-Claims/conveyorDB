@@ -1,0 +1,159 @@
+import { cache } from "react";
+import { casesClient, isCaseId } from "@/lib/cases";
+import {
+  ADD_PERSON_OPTIONAL_FIELDS,
+  blankToNull,
+  contactLinkedToCase,
+  type AddPersonOptionalKey,
+  type CaseContact,
+  type ContactRow,
+} from "@/lib/contact-fields";
+import type { Database } from "@/lib/database.types";
+import { getSession, isAdmin } from "@/lib/session";
+
+export type { CaseContact, ContactRow } from "@/lib/contact-fields";
+export {
+  ADD_PERSON_OPTIONAL_FIELDS,
+  CONTACT_LIST_LABELS,
+  contactLinkedToCase,
+  displayContactName,
+} from "@/lib/contact-fields";
+
+type ContactInsert = Database["public"]["Tables"]["contacts"]["Insert"];
+
+export type ContactsForCase = {
+  rows: CaseContact[];
+  error: string | null;
+};
+
+export type AddPersonState = {
+  ok: boolean;
+  message: string;
+  id?: string;
+};
+
+const CONTACT_SELECT =
+  "id, full_name, first_name, last_name, relationship_to_insured, primary_phone, email, associated_cases";
+
+function submittedString(formData: FormData, key: string): string {
+  const raw = formData.get(key);
+  return typeof raw === "string" ? raw : "";
+}
+
+export const listContactsForCase = cache(
+  async (caseId: string): Promise<ContactsForCase> => {
+    const { client } = casesClient();
+    if (!client) {
+      return { rows: [], error: "Supabase client is not configured." };
+    }
+    if (!isCaseId(caseId)) {
+      return { rows: [], error: null };
+    }
+
+    const { data, error } = await client
+      .from("contacts")
+      .select(CONTACT_SELECT)
+      .or(`associated_cases.eq.${caseId},associated_cases.ilike.%${caseId}%`)
+      .order("created_at", { ascending: true });
+
+    if (error) {
+      return { rows: [], error: error.message };
+    }
+
+    const rows = (data ?? []).filter((row) =>
+      contactLinkedToCase(row.associated_cases, caseId),
+    );
+    return { rows, error: null };
+  },
+);
+
+export function personInsertFromForm(
+  formData: FormData,
+):
+  | { ok: true; caseId: string; row: ContactInsert }
+  | { ok: false; message: string } {
+  const caseIdRaw = formData.get("caseRowId");
+  const caseId = typeof caseIdRaw === "string" ? caseIdRaw : "";
+  if (!isCaseId(caseId)) {
+    return { ok: false, message: "Could not add person: invalid case id." };
+  }
+
+  const firstName = blankToNull(submittedString(formData, "first_name"));
+  const lastName = blankToNull(submittedString(formData, "last_name"));
+  let fullName = blankToNull(submittedString(formData, "full_name"));
+
+  if (!fullName && firstName && lastName) {
+    fullName = `${firstName} ${lastName}`;
+  }
+
+  if (!fullName && !(firstName && lastName)) {
+    return {
+      ok: false,
+      message:
+        "Could not add person: enter Full Name, or First Name and Last Name.",
+    };
+  }
+
+  const optional: Partial<Record<AddPersonOptionalKey, string | null>> = {};
+  for (const field of ADD_PERSON_OPTIONAL_FIELDS) {
+    optional[field.key] = blankToNull(submittedString(formData, field.key));
+  }
+
+  const row: ContactInsert = {
+    first_name: firstName,
+    last_name: lastName,
+    full_name: fullName,
+    relationship_to_insured: optional.relationship_to_insured ?? null,
+    policy_party_type: optional.policy_party_type ?? null,
+    email: optional.email ?? null,
+    primary_phone: optional.primary_phone ?? null,
+    secondary_phone_number: optional.secondary_phone_number ?? null,
+    preferred_contact_method: optional.preferred_contact_method ?? null,
+    best_time_to_contact: optional.best_time_to_contact ?? null,
+    authorized_representative_name:
+      optional.authorized_representative_name ?? null,
+    authorized_representative_title:
+      optional.authorized_representative_title ?? null,
+    associated_cases: caseId,
+    airtable_id: null,
+    qbo_customer_id: null,
+    contact_id: null,
+  };
+
+  return { ok: true, caseId, row };
+}
+
+export async function addPersonFromForm(
+  formData: FormData,
+): Promise<AddPersonState> {
+  const session = await getSession();
+  if (!isAdmin(session)) {
+    return {
+      ok: false,
+      message: "Temporary login required to add a person.",
+    };
+  }
+
+  const parsed = personInsertFromForm(formData);
+  if (!parsed.ok) return parsed;
+
+  const { client } = casesClient();
+  if (!client) {
+    return { ok: false, message: "Supabase client is not configured." };
+  }
+
+  const { data, error } = await client
+    .from("contacts")
+    .insert(parsed.row)
+    .select("id")
+    .maybeSingle();
+
+  if (error) {
+    return { ok: false, message: error.message };
+  }
+  if (!data) {
+    return { ok: false, message: "Could not add person: contact was not saved." };
+  }
+
+  return { ok: true, message: "Person added.", id: data.id };
+}
