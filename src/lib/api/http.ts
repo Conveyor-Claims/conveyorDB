@@ -5,8 +5,12 @@ export function json(data: unknown, status = 200): Response {
   });
 }
 
-export function jsonError(status: number, error: string): Response {
-  return json({ error }, status);
+export function jsonError(
+  status: number,
+  error: string,
+  extra?: Record<string, unknown>,
+): Response {
+  return json({ error, ...extra }, status);
 }
 
 export function supabaseError(error: { message: string; code?: string }): Response {

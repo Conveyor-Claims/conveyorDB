@@ -126,7 +126,7 @@ export default async function CasePage({ params }: PageProps) {
       ) : null}
 
       {row ? (
-        <CaseForm caseId={row.id}>
+        <CaseForm caseId={row.id} lastModified={row.last_modified}>
           <CaseSections
             sections={CASE_PAGE_SECTIONS.map((section) => ({
               name: section.name,
