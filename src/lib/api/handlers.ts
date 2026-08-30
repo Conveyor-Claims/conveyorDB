@@ -6,6 +6,7 @@ import {
   formRecord,
   parseWriteBody,
   takeCasesConcurrency,
+  takeNextStepsConcurrency,
   type WritePatch,
 } from "@/lib/api/parse";
 import type { ApiTable } from "@/lib/api/update-columns";
@@ -15,7 +16,17 @@ import {
 } from "@/lib/case-concurrency";
 import { createAdminClient } from "@/lib/clients/admin";
 import type { Database } from "@/lib/database.types";
-import { readAppEnv } from "@/lib/env";
+import {
+  hasStoragePath,
+  listFilledFilesForSlot,
+  slotFilledMessage,
+  uploadFileToSlot,
+} from "@/lib/file-slots";
+import {
+  findNextStepByName,
+  NEXT_STEP_CONFLICT_MESSAGE,
+  updateNextStepWithConcurrency,
+} from "@/lib/next-step-concurrency";
 
 type AdminClient = SupabaseClient<Database>;
 
@@ -176,10 +187,17 @@ function isMultipart(request: Request): boolean {
   return contentType.toLowerCase().includes("multipart/form-data");
 }
 
-function safeFileName(name: string): string {
-  const base = name.replace(/^.*[/\\]/, "").trim();
-  const cleaned = base.replace(/[^A-Za-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
-  return cleaned || "file";
+async function refuseIfSlotFilled(
+  admin: AdminClient,
+  caseId: string,
+  slotName: string,
+): Promise<Response | null> {
+  const filled = await listFilledFilesForSlot(admin, caseId, slotName);
+  if (filled.error) return jsonError(500, filled.error);
+  if (filled.rows.length > 0) {
+    return jsonError(409, slotFilledMessage(slotName), { filled: true });
+  }
+  return null;
 }
 
 async function insertFileMultipart(request: Request, admin: AdminClient): Promise<Response> {
@@ -211,44 +229,26 @@ async function insertFileMultipart(request: Request, admin: AdminClient): Promis
   const contentType =
     typeof parsed.patch.content_type === "string"
       ? parsed.patch.content_type
-      : uploaded.type.trim() === ""
-        ? null
-        : uploaded.type;
-  const insertRow = asInsert("files", {
-    ...parsed.patch,
-    content_type: contentType,
+      : undefined;
+  const extra = { ...parsed.patch };
+  delete extra.case_id;
+  delete extra.slot_name;
+  delete extra.storage_path;
+  delete extra.content_type;
+  delete extra.id;
+
+  const result = await uploadFileToSlot(admin, {
+    caseId,
+    slotName,
+    file: uploaded,
+    contentType,
+    extra,
   });
 
-  const inserted = await admin.from("files").insert(insertRow).select("*").single();
-  if (inserted.error || !inserted.data) {
-    return inserted.error ? supabaseError(inserted.error) : jsonError(500, "Insert failed.");
+  if (!result.ok) {
+    return jsonError(result.status, result.message, result.filled ? { filled: true } : undefined);
   }
-
-  const row = inserted.data;
-  const storagePath = `${caseId}/${row.id}/${safeFileName(uploaded.name)}`;
-  const { storageBucket } = readAppEnv();
-  const bytes = new Uint8Array(await uploaded.arrayBuffer());
-  const uploadedFile = await admin.storage.from(storageBucket).upload(storagePath, bytes, {
-    contentType: contentType ?? undefined,
-    upsert: false,
-  });
-
-  if (uploadedFile.error) {
-    await admin.from("files").delete().eq("id", row.id);
-    return jsonError(500, uploadedFile.error.message);
-  }
-
-  const updated = await admin
-    .from("files")
-    .update({ storage_path: storagePath, content_type: contentType })
-    .eq("id", row.id)
-    .select("*")
-    .single();
-
-  if (updated.error || !updated.data) {
-    return updated.error ? supabaseError(updated.error) : jsonError(500, "Update failed.");
-  }
-  return json(updated.data, 201);
+  return json(result.row, 201);
 }
 
 export async function insertCabinet(request: Request, cabinetSlug: string): Promise<Response> {
@@ -265,8 +265,29 @@ export async function insertCabinet(request: Request, cabinetSlug: string): Prom
 
     if (table === "files") {
       const slotName = parsed.patch.slot_name;
+      const caseId = parsed.patch.case_id;
       if (typeof slotName !== "string" || slotName.length === 0) {
         return jsonError(400, "slot_name is required.");
+      }
+      if (typeof caseId === "string" && isUuid(caseId)) {
+        const refused = await refuseIfSlotFilled(admin, caseId, slotName);
+        if (refused) return refused;
+      }
+    }
+
+    if (table === "next_steps") {
+      const name =
+        typeof parsed.patch.name === "string" ? parsed.patch.name : null;
+      const caseId = parsed.patch.case_id;
+      if (name && typeof caseId === "string" && isUuid(caseId)) {
+        const existing = await findNextStepByName(admin, caseId, name);
+        if (existing.error) return jsonError(500, existing.error);
+        if (existing.row) {
+          return jsonError(
+            409,
+            `A next step named "${name}" already exists for this case.`,
+          );
+        }
       }
     }
 
@@ -321,8 +342,78 @@ export async function patchCabinetRow(
       return json(result.row);
     }
 
+    if (table === "next_steps") {
+      const meta = takeNextStepsConcurrency(read.body, request.headers);
+      const parsed = parseWriteBody(table, meta.body, "update");
+      if (!parsed.ok) return jsonError(parsed.status, parsed.error);
+
+      const current = await admin
+        .from("next_steps")
+        .select("id, case_id, name")
+        .eq("id", id)
+        .maybeSingle();
+      if (current.error) return supabaseError(current.error);
+      if (!current.data) return jsonError(404, "Not found");
+
+      const nextName =
+        typeof parsed.patch.name === "string" ? parsed.patch.name : null;
+      const caseId = current.data.case_id;
+      if (nextName && caseId) {
+        const duplicate = await findNextStepByName(admin, caseId, nextName, id);
+        if (duplicate.error) return jsonError(500, duplicate.error);
+        if (duplicate.row) {
+          return jsonError(
+            409,
+            `A next step named "${nextName}" already exists for this case.`,
+          );
+        }
+      }
+
+      const result = await updateNextStepWithConcurrency(
+        admin,
+        id,
+        asUpdate("next_steps", parsed.patch),
+        {
+          loadedUpdatedAt: meta.loadedUpdatedAt,
+          overwrite: meta.overwrite,
+        },
+      );
+
+      if (!result.ok) {
+        if (result.kind === "empty") {
+          return jsonError(409, NEXT_STEP_CONFLICT_MESSAGE, { conflict: true });
+        }
+        return jsonError(500, result.message);
+      }
+
+      return json(result.row);
+    }
+
     const parsed = parseWriteBody(table, read.body, "update");
     if (!parsed.ok) return jsonError(parsed.status, parsed.error);
+
+    if (table === "files" && "storage_path" in parsed.patch) {
+      const current = await admin
+        .from("files")
+        .select("id, storage_path")
+        .eq("id", id)
+        .maybeSingle();
+      if (current.error) return supabaseError(current.error);
+      if (!current.data) return jsonError(404, "Not found");
+      const nextPath =
+        typeof parsed.patch.storage_path === "string"
+          ? parsed.patch.storage_path
+          : null;
+      if (
+        hasStoragePath(current.data.storage_path) &&
+        current.data.storage_path !== nextPath
+      ) {
+        return jsonError(
+          409,
+          "This file row is already filled. The existing storage object was not replaced.",
+        );
+      }
+    }
 
     const { data, error } = await updateQuery(admin, table, id, parsed.patch);
 

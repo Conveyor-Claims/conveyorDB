@@ -4,16 +4,22 @@ import type { Metadata } from "next";
 import {
   CASE_PAGE_SECTIONS,
   caseSectionAnchor,
+  fileSlotsForSection,
 } from "@/lib/case-page";
 import { getCaseById, isCaseId } from "@/lib/cases";
 import { listCommentsForCase } from "@/lib/comments";
 import { listContactsForCase } from "@/lib/contacts";
+import { listFilesForCase } from "@/lib/files";
+import { storedNextStepNames } from "@/lib/next-step-concurrency";
+import { listNextStepsForCase } from "@/lib/next-steps";
 import { getSession, isAdmin } from "@/lib/session";
 import { StaffChrome } from "../../staff-chrome";
 import { CaseComments } from "./case-comments";
 import { CaseField } from "./case-field";
+import { CaseFileSlots } from "./case-file-slots";
 import { CaseForm } from "./case-form";
 import { CaseHeaderStrip } from "./case-header-strip";
+import { CaseNextSteps } from "./case-next-steps";
 import { CasePeople } from "./case-people";
 import { CaseSections } from "./case-sections";
 
@@ -48,12 +54,16 @@ export default async function CasePage({ params }: PageProps) {
     notFound();
   }
 
-  const [comments, contacts] = row
+  const [comments, contacts, files, nextSteps] = row
     ? await Promise.all([
         listCommentsForCase(row.id),
         listContactsForCase(row.id),
+        listFilesForCase(row.id),
+        listNextStepsForCase(row.id),
       ])
     : [
+        { rows: [], error: null },
+        { rows: [], error: null },
         { rows: [], error: null },
         { rows: [], error: null },
       ];
@@ -89,8 +99,13 @@ export default async function CasePage({ params }: PageProps) {
     >
       <p className="max-w-2xl text-sm leading-6 text-muted">
         Stored dest fields on <span className="font-mono">public.cases</span>{" "}
-        can be edited and saved. File slots are not stored on this table. Case
-        Number stays locked. Blank fields stay blank. People on this case are{" "}
+        can be edited and saved. File slots live on{" "}
+        <span className="font-mono">public.files</span> (caller sends{" "}
+        <span className="font-mono">slot_name</span>; a filled slot is refused).
+        Next Step claim lives on{" "}
+        <span className="font-mono">public.next_steps</span> and uses the loaded{" "}
+        <span className="font-mono">updated_at</span>. Case Number stays locked.
+        Blank fields stay blank. People on this case are{" "}
         <span className="font-mono">public.contacts</span> rows whose{" "}
         <span className="font-mono">associated_cases</span> is this case uuid.
       </p>
@@ -116,12 +131,28 @@ export default async function CasePage({ params }: PageProps) {
         </p>
       ) : null}
 
+      {files.error ? (
+        <p className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+          {files.error}
+        </p>
+      ) : null}
+
       {row ? (
         <CasePeople
           caseId={row.id}
           contacts={contacts.rows}
           error={contacts.error}
           canAdd={canPost}
+        />
+      ) : null}
+
+      {row ? (
+        <CaseNextSteps
+          caseId={row.id}
+          rows={nextSteps.rows}
+          storedNames={storedNextStepNames(nextSteps.rows, row.next_steps)}
+          error={nextSteps.error}
+          canEdit={canPost}
         />
       ) : null}
 
@@ -144,6 +175,12 @@ export default async function CasePage({ params }: PageProps) {
                     caseId={row.id}
                   />
                 ))}
+                <CaseFileSlots
+                  caseId={row.id}
+                  slotNames={fileSlotsForSection(section.name)}
+                  files={files.rows}
+                  canUpload={canPost}
+                />
               </dl>
             ))}
           </CaseSections>

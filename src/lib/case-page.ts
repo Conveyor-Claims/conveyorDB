@@ -442,6 +442,98 @@ export const CASE_PAGE_SECTIONS = [
   },
 ] as const satisfies readonly CasePageSection[];
 
+/**
+ * On-screen file catalog fields (docs/catalog/fields.csv, on_c01985_screen=yes).
+ * slot_name is the stored catalog field name. Do not invent names.
+ * These are public.files rows, not dest columns on public.cases.
+ */
+export const CASE_PAGE_FILE_SLOTS: Readonly<Record<string, readonly string[]>> = {
+  "Email Correspondence": [
+    "Email Correspondence PDF",
+    "Attorney Correspondence",
+  ],
+  "Call Recordings": ["Call Recordings"],
+  "Client Docs": [
+    "Claim Valuation Documents",
+    "Proof of Loss Documents",
+    "Expense Documents",
+    "Client Photos",
+    "Expert Documents",
+    "Supporting Documents",
+    "Public Adjuster Documents",
+    "Contractor Documents",
+    "Property Damage Documents",
+    "Weather Reports",
+  ],
+  "Insurance & OC Docs": [
+    "Policy Documents",
+    "Carrier Estimate Documents",
+    "Carrier Payment Documents",
+    "Carrier Coverage Documents",
+    "Carrier Expert Documents",
+    "Carrier Inspection Documents",
+    "Carrier Supporting Documents",
+  ],
+  "Letter of Rep. & Retainers": [
+    "🔵 RP LOR",
+    "🔵 RP Contract",
+    "🔵 Completed Retainer Agreement",
+    "🔵 LOR/DL",
+    "Client Consent Forms",
+  ],
+  "Firm Appraisal Demand": ["Appraisal Demand Letter"],
+  "Carrier Appraisal Demand": ["Carrier Initiated Appraisal Demand"],
+  "Appraisal Response(s) & Docs": [
+    "Appraisal Response(s)",
+    "Appraisal Documents",
+    "Appraiser Client Agreement",
+  ],
+  "Umpire Selection & Docs": ["🔵 Umpire Documents", "U/P Served"],
+  "Appraisal Award & Closing Package": ["Appraisal Closing Package"],
+  "Building Consultant Docs": [
+    "Docs for Build. Consult. Review",
+    "Building Consultant Package",
+  ],
+  "Re-Inspection Details": ["🔵 Reinspection Docs"],
+  "EUO Details": ["EUO Docs"],
+  "Expert Details & Docs": [
+    "Docs for Expert Review",
+    "Experts Finished Reports",
+    "Experts Saved Reports",
+  ],
+  "Claim Analysis & Support": ["Claim Summary", "Claim Justification Reports"],
+  "Summons & Complaint Details": ["🔵 Summons", "🔵 Complaint", "🔵 S/C Served"],
+  Answer: ["Answer"],
+  "Discovery to Defendant": ["🔵 Discovery to Defendant"],
+  "Discovery from Defendant": ["🔵 Discovery from Defendant"],
+  Default: ["🔵 Default Docs"],
+  Depositions: ["🔵 Deposition Docs"],
+  Subpoenas: ["🔵 Subpoena Docs"],
+  Motions: ["🔵 Motions"],
+  Mediation: ["🔵 Mediation Docs"],
+  "Appeals, Dismissals, and Refiling Deadlines": [
+    "🔵 Appeal",
+    "🔵 Voluntary Dismissal",
+  ],
+  "Litigation Docs": [
+    "🔵 Litigation Documents",
+    "Prior Counsel Litigation Documents",
+  ],
+  "Litigation Fees & Invoices": ["Litigation Invoices"],
+  "Settlement Docs & Disengagement": [
+    "🔵 Settlement Release",
+    "🔵 Full and Final Release",
+    "Certificate of Completion",
+    "🔵 Insurance Checks",
+    "Disengagement Letter",
+  ],
+  "Conveyor Drafts": ["Drafts"],
+};
+
+export function fileSlotsForSection(sectionName: string): readonly string[] {
+  return CASE_PAGE_FILE_SLOTS[sectionName] ?? [];
+}
+
 export function caseSectionAnchor(name: string): string {
   return name
     .toLowerCase()
