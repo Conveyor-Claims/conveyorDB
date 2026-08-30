@@ -28,6 +28,26 @@ export const ALL_CASES_COLUMNS = [
 
 export type AllCasesColumnKey = (typeof ALL_CASES_COLUMNS)[number]["key"];
 
+/**
+ * Dest date columns used by P23 due-date boards.
+ * Selected on the list query; not added to the default 10 All Cases columns.
+ * sol_deadline is already one of those 10.
+ */
+export const DUE_DATE_SELECT_KEYS = [
+  "cid_due_date",
+  "pl_due_date",
+  "atty_due_date",
+  "euo_date",
+  "atty_client_appt",
+  "rs_due_date",
+  "next_client_comm_due_date",
+  "recent_client_comm_date",
+] as const satisfies ReadonlyArray<keyof CasesRow>;
+
+export type DueDateSelectKey = (typeof DUE_DATE_SELECT_KEYS)[number];
+
+export type DueDateFilterKey = DueDateSelectKey | "sol_deadline";
+
 /** Dropdown cells on All Cases that render as Airtable-like pills. */
 export const ALL_CASES_PILL_KEYS = [
   "case_status",
@@ -44,7 +64,7 @@ export function isAllCasesPillKey(key: string): key is AllCasesPillKey {
 
 export type AllCasesRow = Pick<
   CasesRow,
-  "id" | AllCasesColumnKey | "next_steps"
+  "id" | AllCasesColumnKey | "next_steps" | DueDateSelectKey
 >;
 
 export type AllCasesList = {
@@ -81,10 +101,11 @@ export function casesClient() {
 }
 
 const ALL_CASES_SELECT =
-  "id, case_number, client_name, case_status, department, claim_state, date_of_loss, sol_deadline, referred_firm, resolutions_specialist, paralegal, next_steps";
+  "id, case_number, client_name, case_status, department, claim_state, date_of_loss, sol_deadline, referred_firm, resolutions_specialist, paralegal, next_steps, cid_due_date, pl_due_date, atty_due_date, euo_date, atty_client_appt, rs_due_date, next_client_comm_due_date, recent_client_comm_date";
 
 export async function listCases(options?: {
   caseStatus?: string | readonly string[];
+  dueDateColumn?: DueDateFilterKey;
 }): Promise<AllCasesList> {
   const { client, missingEnv, usingServiceRole } = casesClient();
 
@@ -97,10 +118,7 @@ export async function listCases(options?: {
     };
   }
 
-  let query = client
-    .from("cases")
-    .select(ALL_CASES_SELECT)
-    .order("case_number", { ascending: true });
+  let query = client.from("cases").select(ALL_CASES_SELECT);
 
   if (options?.caseStatus != null) {
     const statuses =
@@ -112,6 +130,15 @@ export async function listCases(options?: {
     } else if (statuses.length > 1) {
       query = query.in("case_status", statuses);
     }
+  }
+
+  if (options?.dueDateColumn) {
+    query = query
+      .not(options.dueDateColumn, "is", null)
+      .order(options.dueDateColumn, { ascending: true, nullsFirst: false })
+      .order("case_number", { ascending: true });
+  } else {
+    query = query.order("case_number", { ascending: true });
   }
 
   const { data, error } = await query;
