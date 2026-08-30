@@ -89,6 +89,7 @@ export async function StaffChrome({
                     {pipeline.navLabel}
                   </span>
                 ))}
+                <span className="px-3 pt-2 text-xs text-muted">Due-date</span>
                 <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
                   Health
                 </span>

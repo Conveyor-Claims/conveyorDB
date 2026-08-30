@@ -2,6 +2,7 @@ import { AllCasesTable } from "./all-cases-table";
 import { ChoicePill } from "../choice-pill";
 import { StaffChrome } from "../staff-chrome";
 import type { AllCasesList } from "@/lib/cases";
+import type { DueDateBoard } from "@/lib/due-date-boards";
 import {
   pipelineStatusLabel,
   pipelineStatuses,
@@ -12,10 +13,12 @@ export function CasesListScreen({
   title,
   list,
   pipeline,
+  board,
 }: {
   title: string;
   list: AllCasesList;
   pipeline?: CasePipeline;
+  board?: DueDateBoard;
 }) {
   const { rows, error, missingEnv } = list;
 
@@ -43,6 +46,16 @@ export function CasesListScreen({
           . Grouped by Referred Firm. Filters: firm, next step, assigned.
           Blank fields stay blank.
         </p>
+      ) : board ? (
+        <p className="max-w-2xl text-sm leading-6 text-muted">
+          Same list as All Cases, filtered to stored{" "}
+          <span className="font-mono">{board.dateColumn}</span>{" "}
+          <span className="font-medium text-foreground">
+            {board.dateLabel}
+          </span>{" "}
+          (non-null), sorted ascending (blanks last). Grouped by Referred Firm.
+          Filters: firm, status, next step, assigned. Blank fields stay blank.
+        </p>
       ) : (
         <p className="max-w-2xl text-sm leading-6 text-muted">
           Read-only list from <span className="font-mono">public.cases</span>.
@@ -66,6 +79,7 @@ export function CasesListScreen({
       <AllCasesTable
         rows={rows}
         hideCaseStatusFilter={Boolean(pipeline)}
+        extraColumns={board?.extraColumns}
       />
     </StaffChrome>
   );

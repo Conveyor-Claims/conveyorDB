@@ -38,6 +38,16 @@ npm run dev
 - `/cases` All Cases list from `public.cases` (empty tables render an empty list). Grouped by Referred Firm. Filters: firm, status, next step, assigned.
 - `/referrals` `/pre-lit` `/litigation` — same list filtered to stored `case_status` Referral, Pre-Litigation, Litigation.
 - `/non-responsive` `/appraisal` `/appraisal-lit` `/re-inspection` `/settled` `/settled-paid` `/closed` — same list filtered to stored `case_status` Non-Responsive, Appraisal, Appraisal - Lit, Re-Inspection, Settled, Settled - Paid, and Closed No Service or Closed - New Claim. Settled is exact `Settled` only (other Settled * variants stay on All Cases). There is no dest value named Closed.
+- Due-date boards (same All Cases chrome; filter/sort by that dest date, non-null, ascending, blanks last):
+  - `/boards/cid` CID — `cid_due_date`
+  - `/boards/pl` PL — `pl_due_date`
+  - `/boards/litigation` Litigation due — `atty_due_date` (not the `/litigation` status pipeline)
+  - `/boards/euo` EUO — `euo_date`
+  - `/boards/atty-client-appt` Atty Client Appt — `atty_client_appt`
+  - `/boards/rs` RS — `rs_due_date`
+  - `/boards/client-comm` Client Comm — `next_client_comm_due_date` (also shows stored `recent_client_comm_date`)
+  - `/boards/sol` SOL — `sol_deadline`
+  - Appraisal Client is skipped: there is no dest column (`appraisal_client_date` / `appraisal_client_due_date` do not exist).
 - `/cases/[id]` 42-section case page from stored `public.cases` fields (C-01985 catalog). Stored dest fields are editable (P19). File slots are omitted. Case Number stays locked. Blank fields stay blank.
 - `/login` temporary admin login stub (same as `/`)
 - `/health` lists P11 cabinets and P12 High tables and probes the live schema

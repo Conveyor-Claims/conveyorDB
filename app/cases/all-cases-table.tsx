@@ -7,7 +7,6 @@ import {
   ALL_CASES_COLUMNS,
   displayCaseValue,
   isAllCasesPillKey,
-  type AllCasesColumnKey,
   type AllCasesRow,
 } from "@/lib/cases";
 import { optionsForDest } from "@/lib/select-options";
@@ -20,10 +19,15 @@ import {
   type CaseListFilters,
 } from "@/lib/pipelines";
 
-function defaultVisibility(): Record<AllCasesColumnKey, boolean> {
-  return Object.fromEntries(
-    ALL_CASES_COLUMNS.map((column) => [column.key, true]),
-  ) as Record<AllCasesColumnKey, boolean>;
+type ListColumn = {
+  key: keyof AllCasesRow;
+  label: string;
+};
+
+function defaultVisibility(
+  columns: readonly ListColumn[],
+): Record<string, boolean> {
+  return Object.fromEntries(columns.map((column) => [column.key, true]));
 }
 
 const cellRule = "border-x border-border px-4 py-3";
@@ -81,19 +85,25 @@ function FilterChoices({
 export function AllCasesTable({
   rows,
   hideCaseStatusFilter = false,
+  extraColumns = [],
 }: {
   rows: AllCasesRow[];
   hideCaseStatusFilter?: boolean;
+  extraColumns?: readonly ListColumn[];
 }) {
-  const [visible, setVisible] = useState(defaultVisibility);
+  const columnDefs = useMemo<readonly ListColumn[]>(
+    () => [...ALL_CASES_COLUMNS, ...extraColumns],
+    [extraColumns],
+  );
+  const [visible, setVisible] = useState(() => defaultVisibility(columnDefs));
   const [panelOpen, setPanelOpen] = useState(false);
   const [filters, setFilters] = useState<CaseListFilters>(
     EMPTY_CASE_LIST_FILTERS,
   );
 
   const columns = useMemo(
-    () => ALL_CASES_COLUMNS.filter((column) => visible[column.key]),
-    [visible],
+    () => columnDefs.filter((column) => visible[column.key]),
+    [columnDefs, visible],
   );
 
   const filteredRows = useMemo(
@@ -131,7 +141,7 @@ export function AllCasesTable({
       filters.paralegal.length >
     0;
 
-  function toggleColumn(key: AllCasesColumnKey) {
+  function toggleColumn(key: ListColumn["key"]) {
     setVisible((current) => ({ ...current, [key]: !current[key] }));
   }
 
@@ -246,7 +256,7 @@ export function AllCasesTable({
                   Default-on columns. Hide any of them.
                 </p>
                 <ul className="space-y-1">
-                  {ALL_CASES_COLUMNS.map((column) => (
+                  {columnDefs.map((column) => (
                     <li key={column.key}>
                       <label className="flex cursor-pointer items-center gap-2 rounded-[12px] px-2 py-1.5 text-sm hover:bg-wash">
                         <input
