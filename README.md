@@ -36,7 +36,7 @@ npm run dev
 
 - `/` standing-up page
 - `/cases` All Cases list from `public.cases` (empty tables render an empty list). Grouped by Referred Firm. Filters: firm, status, next step, assigned.
-- `/referrals` `/pre-lit` `/litigation` — same list filtered to stored `case_status` Referral, Pre-Litigation, Litigation.
+- `/new-cases` `/referrals` `/pre-lit` `/litigation` — same list filtered to stored `case_status` Referral (New cases is the queue name for that status; `/referrals` stays), Pre-Litigation, Litigation.
 - `/non-responsive` `/appraisal` `/appraisal-lit` `/re-inspection` `/settled` `/settled-paid` `/closed` — same list filtered to stored `case_status` Non-Responsive, Appraisal, Appraisal - Lit, Re-Inspection, Settled, Settled - Paid, and Closed No Service or Closed - New Claim. Settled is exact `Settled` only (other Settled * variants stay on All Cases). There is no dest value named Closed.
 - Due-date boards (same All Cases chrome; filter/sort by that dest date, non-null, ascending, blanks last):
   - `/boards/cid` CID — `cid_due_date`

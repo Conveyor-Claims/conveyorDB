@@ -5,8 +5,17 @@ import type { AllCasesRow } from "@/lib/cases";
  * Names match live Airtable All Cases (Aug 24 interface walk).
  * Settled is exact `Settled` only — other Settled * variants stay on All Cases.
  * Closed is the two stored closed values. There is no dest named Closed.
+ * New cases is the queue name for stored Referral. /referrals stays.
+ * Do not invent a dest named New. Referral alone is the filter.
  */
 export const CASE_PIPELINES = {
+  "new-cases": {
+    slug: "new-cases",
+    href: "/new-cases",
+    title: "New cases",
+    navLabel: "New cases",
+    caseStatus: "Referral",
+  },
   referrals: {
     slug: "referrals",
     href: "/referrals",
@@ -83,6 +92,7 @@ export type PipelineSlug = keyof typeof CASE_PIPELINES;
 export type CasePipeline = (typeof CASE_PIPELINES)[PipelineSlug];
 
 export const PIPELINE_LIST = [
+  CASE_PIPELINES["new-cases"],
   CASE_PIPELINES.referrals,
   CASE_PIPELINES["pre-lit"],
   CASE_PIPELINES.appraisal,
