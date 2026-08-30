@@ -2,7 +2,11 @@ import { AllCasesTable } from "./all-cases-table";
 import { ChoicePill } from "../choice-pill";
 import { StaffChrome } from "../staff-chrome";
 import type { AllCasesList } from "@/lib/cases";
-import type { CasePipeline } from "@/lib/pipelines";
+import {
+  pipelineStatusLabel,
+  pipelineStatuses,
+  type CasePipeline,
+} from "@/lib/pipelines";
 
 export function CasesListScreen({
   title,
@@ -21,7 +25,11 @@ export function CasesListScreen({
       wide
       titleAccessory={
         pipeline ? (
-          <ChoicePill value={pipeline.caseStatus} field="case_status" />
+          <span className="inline-flex flex-wrap items-center gap-1.5">
+            {pipelineStatuses(pipeline).map((status) => (
+              <ChoicePill key={status} value={status} field="case_status" />
+            ))}
+          </span>
         ) : null
       }
     >
@@ -30,7 +38,7 @@ export function CasesListScreen({
           Same list as All Cases, filtered to stored{" "}
           <span className="font-mono">case_status</span>{" "}
           <span className="font-medium text-foreground">
-            {pipeline.caseStatus}
+            {pipelineStatusLabel(pipeline)}
           </span>
           . Grouped by Referred Firm. Filters: firm, next step, assigned.
           Blank fields stay blank.

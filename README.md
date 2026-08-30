@@ -36,7 +36,8 @@ npm run dev
 
 - `/` standing-up page
 - `/cases` All Cases list from `public.cases` (empty tables render an empty list). Grouped by Referred Firm. Filters: firm, status, next step, assigned.
-- `/referrals` `/pre-lit` `/litigation` — same list filtered to stored `case_status` Referral, Pre-Litigation, Litigation. Extra stages stay later.
+- `/referrals` `/pre-lit` `/litigation` — same list filtered to stored `case_status` Referral, Pre-Litigation, Litigation.
+- `/non-responsive` `/appraisal` `/appraisal-lit` `/re-inspection` `/settled` `/settled-paid` `/closed` — same list filtered to stored `case_status` Non-Responsive, Appraisal, Appraisal - Lit, Re-Inspection, Settled, Settled - Paid, and Closed No Service or Closed - New Claim. Settled is exact `Settled` only (other Settled * variants stay on All Cases). There is no dest value named Closed.
 - `/cases/[id]` 42-section case page from stored `public.cases` fields (C-01985 catalog). Stored dest fields are editable (P19). File slots are omitted. Case Number stays locked. Blank fields stay blank.
 - `/login` temporary admin login stub (same as `/`)
 - `/health` lists P11 cabinets and P12 High tables and probes the live schema
@@ -44,5 +45,5 @@ npm run dev
 P21 look-alike (existing dest columns and catalog titles only):
 
 - List pills on All Cases and the three pipeline pages use the live Airtable tokens already in `src/lib/airtable-choice-colors.ts` and `src/lib/select-options.ts` for Case Status, Department, Claim State, Resolutions Specialist, Paralegal, and Next Steps. The 10 All Cases columns are unchanged. Property State is not added. Claim State stays the stored dest value.
-- Pipeline pages keep that same list chrome and show the stored Case Status pill next to the title (Referral / Pre-Litigation / Litigation). Nav dots use the same Case Status tokens. A case file does not keep All Cases highlighted.
+- Pipeline pages keep that same list chrome and show the stored Case Status pill next to the title. Closed shows both Closed No Service and Closed - New Claim. Nav dots use the same Case Status tokens. A case file does not keep All Cases highlighted.
 - Case page header strip reads stored `date_of_loss`, `insurance_company`, and `claim_number` (catalog aliases DOL, Insurance Co., Claim No.). Blank stays blank. Insurance Company uses the same choice pill. Section titles stay the catalog / case-page names. Case-page dropdowns and pills use the same tokens. Case Number stays locked. No comments rail (`comments` is a High table, not a shown dest).

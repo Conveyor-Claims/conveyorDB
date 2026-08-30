@@ -84,7 +84,7 @@ const ALL_CASES_SELECT =
   "id, case_number, client_name, case_status, department, claim_state, date_of_loss, sol_deadline, referred_firm, resolutions_specialist, paralegal, next_steps";
 
 export async function listCases(options?: {
-  caseStatus?: string;
+  caseStatus?: string | readonly string[];
 }): Promise<AllCasesList> {
   const { client, missingEnv, usingServiceRole } = casesClient();
 
@@ -102,8 +102,16 @@ export async function listCases(options?: {
     .select(ALL_CASES_SELECT)
     .order("case_number", { ascending: true });
 
-  if (options?.caseStatus) {
-    query = query.eq("case_status", options.caseStatus);
+  if (options?.caseStatus != null) {
+    const statuses =
+      typeof options.caseStatus === "string"
+        ? [options.caseStatus]
+        : [...options.caseStatus];
+    if (statuses.length === 1) {
+      query = query.eq("case_status", statuses[0]);
+    } else if (statuses.length > 1) {
+      query = query.in("case_status", statuses);
+    }
   }
 
   const { data, error } = await query;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { getSession, isAdmin, signOut } from "@/lib/session";
 import { StaffNav } from "./staff-nav";
+import { PIPELINE_LIST } from "@/lib/pipelines";
 
 function AccountSlot({ signedIn }: { signedIn: boolean }) {
   return (
@@ -80,15 +81,14 @@ export async function StaffChrome({
                 <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
                   All Cases
                 </span>
-                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
-                  Referrals
-                </span>
-                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
-                  Pre-Lit
-                </span>
-                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
-                  Litigation
-                </span>
+                {PIPELINE_LIST.map((pipeline) => (
+                  <span
+                    key={pipeline.href}
+                    className="rounded-[12px] px-3 py-2 text-sm text-muted"
+                  >
+                    {pipeline.navLabel}
+                  </span>
+                ))}
                 <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
                   Health
                 </span>

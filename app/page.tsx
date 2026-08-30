@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getSession, isAdmin, signInTemporaryAdmin, signOut } from "@/lib/session";
 import { ChoicePill } from "./choice-pill";
 import { StaffChrome } from "./staff-chrome";
-import { CASE_PIPELINES } from "@/lib/pipelines";
+import { PIPELINE_LIST, pipelineStatuses } from "@/lib/pipelines";
 
 export default async function Home() {
   const signedIn = isAdmin(await getSession());
@@ -51,36 +51,18 @@ export default async function Home() {
         >
           All Cases
         </Link>
-        <Link
-          href="/referrals"
-          className="inline-flex w-fit items-center gap-2 rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
-        >
-          Referrals
-          <ChoicePill
-            value={CASE_PIPELINES.referrals.caseStatus}
-            field="case_status"
-          />
-        </Link>
-        <Link
-          href="/pre-lit"
-          className="inline-flex w-fit items-center gap-2 rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
-        >
-          Pre-Lit
-          <ChoicePill
-            value={CASE_PIPELINES["pre-lit"].caseStatus}
-            field="case_status"
-          />
-        </Link>
-        <Link
-          href="/litigation"
-          className="inline-flex w-fit items-center gap-2 rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
-        >
-          Litigation
-          <ChoicePill
-            value={CASE_PIPELINES.litigation.caseStatus}
-            field="case_status"
-          />
-        </Link>
+        {PIPELINE_LIST.map((pipeline) => (
+          <Link
+            key={pipeline.href}
+            href={pipeline.href}
+            className="inline-flex w-fit items-center gap-2 rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+          >
+            {pipeline.navLabel}
+            {pipelineStatuses(pipeline).map((status) => (
+              <ChoicePill key={status} value={status} field="case_status" />
+            ))}
+          </Link>
+        ))}
         <Link
           href="/health"
           className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"

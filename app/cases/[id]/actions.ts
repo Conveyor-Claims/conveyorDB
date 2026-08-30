@@ -5,6 +5,7 @@ import {
   updateCaseFromForm,
   type UpdateCaseState,
 } from "@/lib/case-save";
+import { PIPELINE_LIST } from "@/lib/pipelines";
 
 export async function updateCaseAction(
   _prev: UpdateCaseState | null,
@@ -18,9 +19,9 @@ export async function updateCaseAction(
       revalidatePath(`/cases/${id}`);
     }
     revalidatePath("/cases");
-    revalidatePath("/referrals");
-    revalidatePath("/pre-lit");
-    revalidatePath("/litigation");
+    for (const pipeline of PIPELINE_LIST) {
+      revalidatePath(pipeline.href);
+    }
     refresh();
   }
   return result;
