@@ -4,16 +4,23 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
 import { useActionState } from "react";
+import {
+  LOADED_LAST_MODIFIED_FIELD,
+  OVERWRITE_FIELD,
+} from "@/lib/case-concurrency";
 import type { UpdateCaseState } from "@/lib/case-save";
 import { updateCaseAction } from "./actions";
 
 type DirtyContextValue = {
   setFieldDirty: (key: string, dirty: boolean) => void;
+  loadedLastModified: string;
+  setLoadedLastModified: (value: string) => void;
 };
 
 const DirtyContext = createContext<DirtyContextValue | null>(null);
@@ -26,6 +33,44 @@ export function useFieldDirty() {
   return ctx;
 }
 
+export function ConflictActions({
+  onOverwrite,
+}: {
+  onOverwrite?: () => void;
+}) {
+  return (
+    <span className="flex flex-wrap items-center gap-2">
+      <button
+        type="button"
+        onClick={() => {
+          window.location.reload();
+        }}
+        className="rounded-[12px] border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground hover:bg-wash"
+      >
+        Reload
+      </button>
+      {onOverwrite ? (
+        <button
+          type="button"
+          onClick={onOverwrite}
+          className="rounded-[12px] bg-accent px-3 py-1.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
+        >
+          Overwrite
+        </button>
+      ) : (
+        <button
+          type="submit"
+          name={OVERWRITE_FIELD}
+          value="true"
+          className="rounded-[12px] bg-accent px-3 py-1.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
+        >
+          Overwrite
+        </button>
+      )}
+    </span>
+  );
+}
+
 function SaveBar({
   state,
   pending,
@@ -35,6 +80,8 @@ function SaveBar({
   pending: boolean;
   unsaved: boolean;
 }) {
+  const conflict = Boolean(state && !state.ok && state.conflict);
+
   return (
     <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-background px-4 py-3">
       <button
@@ -44,6 +91,7 @@ function SaveBar({
       >
         {pending ? "Saving…" : "Save"}
       </button>
+      {conflict ? <ConflictActions /> : null}
       <p
         role="status"
         aria-live="polite"
@@ -68,13 +116,28 @@ function SaveBar({
 
 export function CaseForm({
   caseId,
+  lastModified,
   children,
 }: {
   caseId: string;
+  lastModified: string | null;
   children: ReactNode;
 }) {
   const [state, formAction, pending] = useActionState(updateCaseAction, null);
   const [dirtyKeys, setDirtyKeys] = useState<Set<string>>(() => new Set());
+  const [loadedLastModified, setLoadedLastModified] = useState(
+    () => lastModified ?? "",
+  );
+
+  useEffect(() => {
+    setLoadedLastModified(lastModified ?? "");
+  }, [lastModified]);
+
+  useEffect(() => {
+    if (state?.ok && state.lastModified !== undefined) {
+      setLoadedLastModified(state.lastModified ?? "");
+    }
+  }, [state]);
 
   const setFieldDirty = useCallback((key: string, dirty: boolean) => {
     setDirtyKeys((current) => {
@@ -87,13 +150,21 @@ export function CaseForm({
     });
   }, []);
 
-  const value = useMemo(() => ({ setFieldDirty }), [setFieldDirty]);
+  const value = useMemo(
+    () => ({ setFieldDirty, loadedLastModified, setLoadedLastModified }),
+    [setFieldDirty, loadedLastModified],
+  );
   const unsaved = dirtyKeys.size > 0;
 
   return (
     <DirtyContext.Provider value={value}>
       <form action={formAction} className="space-y-8">
         <input type="hidden" name="caseRowId" value={caseId} />
+        <input
+          type="hidden"
+          name={LOADED_LAST_MODIFIED_FIELD}
+          value={loadedLastModified}
+        />
         <SaveBar state={state} pending={pending} unsaved={unsaved} />
         {children}
         <SaveBar state={state} pending={pending} unsaved={unsaved} />

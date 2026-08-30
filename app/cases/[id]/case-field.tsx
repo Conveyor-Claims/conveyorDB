@@ -7,9 +7,13 @@ import type { UpdateCaseState } from "@/lib/case-save";
 import { optionStyle, optionsForDest } from "@/lib/select-options";
 import type { Database } from "@/lib/database.types";
 import { ChoicePill } from "../../choice-pill";
+import {
+  LOADED_LAST_MODIFIED_FIELD,
+  OVERWRITE_FIELD,
+} from "@/lib/case-concurrency";
 import { updateCaseAction } from "./actions";
 import { FieldValue } from "./field-value";
-import { useFieldDirty } from "./case-form";
+import { ConflictActions, useFieldDirty } from "./case-form";
 
 type CasesRow = Database["public"]["Tables"]["cases"]["Row"];
 
@@ -111,12 +115,15 @@ function NotesAutosave({
   initial: string;
   caseId: string;
 }) {
-  const { setFieldDirty } = useFieldDirty();
+  const { setFieldDirty, loadedLastModified, setLoadedLastModified } =
+    useFieldDirty();
   const [value, setValue] = useState(initial);
   const [status, setStatus] = useState<UpdateCaseState | null>(null);
   const [pending, setPending] = useState(false);
   const savedRef = useRef(initial);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const loadedRef = useRef(loadedLastModified);
+  loadedRef.current = loadedLastModified;
   const dirty = value !== savedRef.current;
 
   useEffect(() => {
@@ -124,11 +131,13 @@ function NotesAutosave({
     return () => setFieldDirty(field.key, false);
   }, [dirty, field.key, setFieldDirty]);
 
-  async function persist(next: string) {
-    if (next === savedRef.current) return;
+  async function persist(next: string, overwrite = false) {
+    if (next === savedRef.current && !overwrite) return;
     const formData = new FormData();
     formData.set("caseRowId", caseId);
     formData.set(field.key, next);
+    formData.set(LOADED_LAST_MODIFIED_FIELD, loadedRef.current);
+    if (overwrite) formData.set(OVERWRITE_FIELD, "true");
     setPending(true);
     const result = await updateCaseAction(null, formData);
     setPending(false);
@@ -136,6 +145,9 @@ function NotesAutosave({
     if (result.ok) {
       savedRef.current = next;
       setFieldDirty(field.key, false);
+      if (result.lastModified !== undefined) {
+        setLoadedLastModified(result.lastModified ?? "");
+      }
     }
   }
 
@@ -173,23 +185,28 @@ function NotesAutosave({
         }}
         className={inputClass(dirty, "min-h-56")}
       />
-      <p
-        role="status"
-        aria-live="polite"
-        className={`mt-1 text-xs ${
-          status?.ok
-            ? "text-emerald-700"
-            : status
-              ? "text-red-800"
-              : dirty
-                ? "text-amber-800"
-                : "text-muted"
-        }`}
-      >
-        {pending
-          ? "Saving…"
-          : (status?.message ?? (dirty ? "Unsaved" : ""))}
-      </p>
+      <div className="mt-1 flex flex-wrap items-center gap-2">
+        {status && !status.ok && status.conflict ? (
+          <ConflictActions onOverwrite={() => void persist(value, true)} />
+        ) : null}
+        <p
+          role="status"
+          aria-live="polite"
+          className={`text-xs ${
+            status?.ok
+              ? "text-emerald-700"
+              : status
+                ? "text-red-800"
+                : dirty
+                  ? "text-amber-800"
+                  : "text-muted"
+          }`}
+        >
+          {pending
+            ? "Saving…"
+            : (status?.message ?? (dirty ? "Unsaved" : ""))}
+        </p>
+      </div>
     </div>
   );
 }

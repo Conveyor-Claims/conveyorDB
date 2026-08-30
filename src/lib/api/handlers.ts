@@ -2,8 +2,17 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { authorizeApiRequest } from "@/lib/api/auth";
 import { isUuid, resolveCabinet } from "@/lib/api/cabinets";
 import { json, jsonError, supabaseError } from "@/lib/api/http";
-import { formRecord, parseWriteBody, type WritePatch } from "@/lib/api/parse";
+import {
+  formRecord,
+  parseWriteBody,
+  takeCasesConcurrency,
+  type WritePatch,
+} from "@/lib/api/parse";
 import type { ApiTable } from "@/lib/api/update-columns";
+import {
+  CASE_CONFLICT_MESSAGE,
+  updateCaseWithConcurrency,
+} from "@/lib/case-concurrency";
 import { createAdminClient } from "@/lib/clients/admin";
 import type { Database } from "@/lib/database.types";
 import { readAppEnv } from "@/lib/env";
@@ -278,6 +287,39 @@ export async function patchCabinetRow(
 
     const read = await readJsonBody(request);
     if (!read.ok) return read.response;
+
+    if (table === "cases") {
+      const meta = takeCasesConcurrency(read.body, request.headers);
+      const parsed = parseWriteBody(table, meta.body, "update");
+      if (!parsed.ok) return jsonError(parsed.status, parsed.error);
+
+      const result = await updateCaseWithConcurrency(
+        admin,
+        id,
+        asUpdate("cases", parsed.patch),
+        {
+          loadedLastModified: meta.loadedLastModified,
+          overwrite: meta.overwrite,
+        },
+      );
+
+      if (!result.ok) {
+        if (result.kind === "empty") {
+          const existing = await admin
+            .from("cases")
+            .select("id")
+            .eq("id", id)
+            .maybeSingle();
+          if (existing.data) {
+            return jsonError(409, CASE_CONFLICT_MESSAGE, { conflict: true });
+          }
+          return jsonError(404, "Not found");
+        }
+        return jsonError(500, result.message);
+      }
+
+      return json(result.row);
+    }
 
     const parsed = parseWriteBody(table, read.body, "update");
     if (!parsed.ok) return jsonError(parsed.status, parsed.error);

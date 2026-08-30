@@ -1,3 +1,10 @@
+import {
+  CASE_CONFLICT_MESSAGE,
+  LOADED_LAST_MODIFIED_FIELD,
+  OVERWRITE_FIELD,
+  normalizeLoadedLastModified,
+  updateCaseWithConcurrency,
+} from "@/lib/case-concurrency";
 import { listCasePageDestFields, type CasePageField } from "@/lib/case-page";
 import { casesClient, isCaseId } from "@/lib/cases";
 import type { Database } from "@/lib/database.types";
@@ -7,6 +14,8 @@ type CasesUpdate = Database["public"]["Tables"]["cases"]["Update"];
 export type UpdateCaseState = {
   ok: boolean;
   message: string;
+  conflict?: boolean;
+  lastModified?: string | null;
 };
 
 const IDENTITY_KEYS = new Set(["id"]);
@@ -120,7 +129,17 @@ export function casePatchFromFormData(
     return { ok: false, message: "Could not save: no stored fields submitted." };
   }
 
+  delete patch.last_modified;
+  delete patch.last_modified_by;
+
   return { ok: true, id, patch };
+}
+
+function overwriteFromForm(formData: FormData): boolean {
+  return (
+    formData.get(OVERWRITE_FIELD) === "true" ||
+    formData.getAll(OVERWRITE_FIELD).includes("true")
+  );
 }
 
 export async function updateCaseFromForm(
@@ -134,20 +153,27 @@ export async function updateCaseFromForm(
     return { ok: false, message: "Supabase client is not configured." };
   }
 
-  const { data, error } = await client
-    .from("cases")
-    .update(parsed.patch)
-    .eq("id", parsed.id)
-    .select("id")
-    .maybeSingle();
+  const result = await updateCaseWithConcurrency(client, parsed.id, parsed.patch, {
+    loadedLastModified: normalizeLoadedLastModified(
+      formData.get(LOADED_LAST_MODIFIED_FIELD),
+    ),
+    overwrite: overwriteFromForm(formData),
+  });
 
-  if (error) {
-    return { ok: false, message: error.message };
+  if (!result.ok) {
+    if (result.kind === "empty") {
+      return {
+        ok: false,
+        conflict: true,
+        message: CASE_CONFLICT_MESSAGE,
+      };
+    }
+    return { ok: false, message: result.message };
   }
 
-  if (!data) {
-    return { ok: false, message: "Could not save: case was not updated." };
-  }
-
-  return { ok: true, message: "Saved." };
+  return {
+    ok: true,
+    message: "Saved.",
+    lastModified: result.row.last_modified,
+  };
 }

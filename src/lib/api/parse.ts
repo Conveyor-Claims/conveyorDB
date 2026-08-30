@@ -3,6 +3,10 @@ import {
   type ApiTable,
   type ColumnKind,
 } from "@/lib/api/update-columns";
+import {
+  normalizeLoadedLastModified,
+  parseIfMatch,
+} from "@/lib/case-concurrency";
 
 export type WriteValue = string | number | boolean | string[] | null;
 
@@ -119,6 +123,31 @@ function parseByKind(
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+export function takeCasesConcurrency(
+  body: unknown,
+  headers: Headers,
+): {
+  body: unknown;
+  overwrite: boolean;
+  loadedLastModified: string | null;
+} {
+  const ifMatch = parseIfMatch(headers.get("If-Match"));
+  if (!isPlainObject(body)) {
+    return { body, overwrite: false, loadedLastModified: ifMatch };
+  }
+
+  const { overwrite: overwriteRaw, ...rest } = body;
+  const overwrite = overwriteRaw === true || overwriteRaw === "true";
+  const loadedLastModified =
+    ifMatch !== null
+      ? ifMatch
+      : normalizeLoadedLastModified(
+          rest.last_modified === undefined ? null : rest.last_modified,
+        );
+
+  return { body: rest, overwrite, loadedLastModified };
 }
 
 export function parseWriteBody(

@@ -20,7 +20,7 @@ Thin service-role door for Intake and Coworking. Existing dest columns only. Thi
 - **List filter:** optional `?case_id=` on `/api/next-steps` and `/api/files`
 - **One row:** `GET /api/{cabinet}/{id}`
 - **Insert:** `POST /api/{cabinet}` (JSON). Database generates `id`. Returns the stored row. Keep this path for later; do not use it for the first test.
-- **Update:** `PATCH /api/{cabinet}/{id}` (JSON dest columns only). Returns the stored row.
+- **Update:** `PATCH /api/{cabinet}/{id}` (JSON dest columns only). Returns the stored row. `PATCH /api/cases/{id}` also applies two-editor save (see below).
 - **File upload:** `POST /api/files` (multipart). Require `case_id`, `slot_name`, and `file`. Caller sends the slot string. Stores `storage_path` + `content_type` on `public.files` and the bytes in the private `case-files` bucket.
 
 ## case_number
@@ -28,11 +28,22 @@ Thin service-role door for Intake and Coworking. Existing dest columns only. Thi
 - **Owned by ConveyorDB.** Callers omit it on POST and PATCH.
 - Apps never write it. The column stays as stored. There is no formula or generator on this door.
 
+## Two-editor save (`cases` only)
+
+Optimistic concurrency on the existing dest column `last_modified`. No version column. No live collab.
+
+- Send the loaded `last_modified` in the JSON body, or as `If-Match`.
+- Empty / `null` / omitted `last_modified` (and no `If-Match`) matches a stored null (`IS NULL`), not a fake date.
+- UPDATE is `id` + `last_modified`. Select after update. **0 rows → 409** `{ "error": "Someone else saved this case.", "conflict": true }`.
+- On a successful save (including overwrite), `last_modified` is set to now (ISO) and `last_modified_by` is the temporary admin stub `admin`.
+- Optional `"overwrite": true` in the JSON body skips the `last_modified` WHERE and writes the same dest fields. Use after a 409 when the caller intends to replace the stored row.
+- Other cabinets are unchanged.
+
 ## First test
 
 - **PATCH only.** Update the existing Natalie row. Do not `POST` a second test case.
 - **Lookup:** `GET /api/cases` and find the stored `case_number` **`C - 02895 - Natalie Dubin`**, or `GET /api/cases/{id}` if you already have its uuid.
-- **Write:** `PATCH /api/cases/{id}` with existing dest columns only. Omit `case_number`.
+- **Write:** `PATCH /api/cases/{id}` with existing dest columns only. Omit `case_number`. Send the loaded `last_modified` (JSON field or `If-Match`). On 409, Reload or send `"overwrite": true`.
 
 ## Fields
 
