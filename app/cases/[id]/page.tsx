@@ -92,8 +92,6 @@ export default async function CasePage({ params }: PageProps) {
         can be edited and saved. File slots are not stored on this table. Case
         Number stays locked. Blank fields stay blank. People on this case are{" "}
         <span className="font-mono">public.contacts</span> rows whose{" "}
-        <span className="font-mono">associated_cases</span> is this case uuid. People on this case are{" "}
-        <span className="font-mono">public.contacts</span> rows whose{" "}
         <span className="font-mono">associated_cases</span> is this case uuid.
       </p>
 
