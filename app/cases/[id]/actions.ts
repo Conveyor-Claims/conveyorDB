@@ -13,6 +13,15 @@ import {
   updateCaseFromForm,
   type UpdateCaseState,
 } from "@/lib/case-save";
+import {
+  uploadFileFromForm,
+  type UploadFileState,
+} from "@/lib/files";
+import {
+  addNextStepFromForm,
+  claimNextStepFromForm,
+  type NextStepState,
+} from "@/lib/next-steps";
 import { PIPELINE_LIST } from "@/lib/pipelines";
 
 export async function updateCaseAction(
@@ -56,6 +65,54 @@ export async function addPersonAction(
   formData: FormData,
 ): Promise<AddPersonState> {
   const result = await addPersonFromForm(formData);
+  if (result.ok && result.id) {
+    const idRaw = formData.get("caseRowId");
+    const id = typeof idRaw === "string" ? idRaw : "";
+    if (id) {
+      revalidatePath(`/cases/${id}`);
+    }
+    refresh();
+  }
+  return result;
+}
+
+export async function uploadFileAction(
+  _prev: UploadFileState | null,
+  formData: FormData,
+): Promise<UploadFileState> {
+  const result = await uploadFileFromForm(formData);
+  if (result.ok && result.id) {
+    const idRaw = formData.get("caseRowId");
+    const id = typeof idRaw === "string" ? idRaw : "";
+    if (id) {
+      revalidatePath(`/cases/${id}`);
+    }
+    refresh();
+  }
+  return result;
+}
+
+export async function claimNextStepAction(
+  _prev: NextStepState | null,
+  formData: FormData,
+): Promise<NextStepState> {
+  const result = await claimNextStepFromForm(formData);
+  if (result.ok && result.id) {
+    const idRaw = formData.get("caseRowId");
+    const id = typeof idRaw === "string" ? idRaw : "";
+    if (id) {
+      revalidatePath(`/cases/${id}`);
+    }
+    refresh();
+  }
+  return result;
+}
+
+export async function addNextStepAction(
+  _prev: NextStepState | null,
+  formData: FormData,
+): Promise<NextStepState> {
+  const result = await addNextStepFromForm(formData);
   if (result.ok && result.id) {
     const idRaw = formData.get("caseRowId");
     const id = typeof idRaw === "string" ? idRaw : "";

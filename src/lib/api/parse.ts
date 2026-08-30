@@ -7,6 +7,7 @@ import {
   normalizeLoadedLastModified,
   parseIfMatch,
 } from "@/lib/case-concurrency";
+import { normalizeLoadedUpdatedAt } from "@/lib/next-step-concurrency";
 
 export type WriteValue = string | number | boolean | string[] | null;
 
@@ -148,6 +149,31 @@ export function takeCasesConcurrency(
         );
 
   return { body: rest, overwrite, loadedLastModified };
+}
+
+export function takeNextStepsConcurrency(
+  body: unknown,
+  headers: Headers,
+): {
+  body: unknown;
+  overwrite: boolean;
+  loadedUpdatedAt: string | null;
+} {
+  const ifMatch = parseIfMatch(headers.get("If-Match"));
+  if (!isPlainObject(body)) {
+    return { body, overwrite: false, loadedUpdatedAt: ifMatch };
+  }
+
+  const { overwrite: overwriteRaw, ...rest } = body;
+  const overwrite = overwriteRaw === true || overwriteRaw === "true";
+  const loadedUpdatedAt =
+    ifMatch !== null
+      ? ifMatch
+      : normalizeLoadedUpdatedAt(
+          rest.updated_at === undefined ? null : rest.updated_at,
+        );
+
+  return { body: rest, overwrite, loadedUpdatedAt };
 }
 
 export function parseWriteBody(
