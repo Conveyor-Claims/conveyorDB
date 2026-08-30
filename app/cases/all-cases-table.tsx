@@ -10,6 +10,7 @@ import {
   type AllCasesColumnKey,
   type AllCasesRow,
 } from "@/lib/cases";
+import { optionsForDest } from "@/lib/select-options";
 import {
   EMPTY_CASE_LIST_FILTERS,
   filterCaseRows,
@@ -38,11 +39,13 @@ function FilterChoices({
   values,
   selected,
   onToggle,
+  pillField,
 }: {
   legend: string;
   values: string[];
   selected: string[];
   onToggle: (value: string) => void;
+  pillField?: string;
 }) {
   return (
     <fieldset className="space-y-1">
@@ -59,9 +62,13 @@ function FilterChoices({
                   checked={selected.includes(value)}
                   onChange={() => onToggle(value)}
                 />
-                <span className={value ? undefined : "text-muted"}>
-                  {value || "Blank"}
-                </span>
+                {pillField && value ? (
+                  <ChoicePill value={value} field={pillField} />
+                ) : (
+                  <span className={value ? undefined : "text-muted"}>
+                    {value || "Blank"}
+                  </span>
+                )}
               </label>
             </li>
           ))}
@@ -198,18 +205,20 @@ export function AllCasesTable({
                   onToggle={(value) => patchFilters("referredFirm", value)}
                 />
                 {hideCaseStatusFilter ? null : (
-                  <FilterChoices
-                    legend="Case Status"
-                    values={statusChoices}
-                    selected={filters.caseStatus}
-                    onToggle={(value) => patchFilters("caseStatus", value)}
-                  />
+                <FilterChoices
+                  legend="Case Status"
+                  values={statusChoices}
+                  selected={filters.caseStatus}
+                  onToggle={(value) => patchFilters("caseStatus", value)}
+                  pillField="case_status"
+                />
                 )}
                 <FilterChoices
                   legend="Next Steps"
                   values={nextStepChoices}
                   selected={filters.nextSteps}
                   onToggle={(value) => patchFilters("nextSteps", value)}
+                  pillField="next_steps"
                 />
                 <FilterChoices
                   legend="Resolutions Specialist"
@@ -218,12 +227,14 @@ export function AllCasesTable({
                   onToggle={(value) =>
                     patchFilters("resolutionsSpecialist", value)
                   }
+                  pillField="resolutions_specialist"
                 />
                 <FilterChoices
                   legend="Paralegal"
                   values={paralegalChoices}
                   selected={filters.paralegal}
                   onToggle={(value) => patchFilters("paralegal", value)}
+                  pillField="paralegal"
                 />
               </div>
               <div
@@ -257,7 +268,7 @@ export function AllCasesTable({
       <div className="overflow-x-auto rounded-xl border border-border bg-background">
         <table className="min-w-full border-collapse text-left text-sm">
           <caption className="sr-only">Cases grouped by referred firm</caption>
-          <thead className="bg-wash">
+          <thead className="sticky top-0 z-10 bg-wash">
             <tr>
               <th
                 scope="col"
@@ -300,7 +311,11 @@ export function AllCasesTable({
                     }
                     className={`${cellRule} text-left font-medium text-foreground`}
                   >
-                    <span className="whitespace-nowrap">{group.firm}</span>
+                    {group.firm ? (
+                      <span className="inline-flex max-w-full items-center truncate rounded-full border border-border bg-background px-2 py-0.5 text-xs">
+                        {group.firm}
+                      </span>
+                    ) : null}
                     <span className="ml-2 font-mono text-xs font-normal text-muted">
                       {group.rows.length}
                     </span>
@@ -327,7 +342,9 @@ export function AllCasesTable({
                               >
                                 {text || row.id}
                               </Link>
-                            ) : isAllCasesPillKey(column.key) && text ? (
+                            ) : text &&
+                              (isAllCasesPillKey(column.key) ||
+                                Boolean(optionsForDest(column.key))) ? (
                               <ChoicePill value={text} field={column.key} />
                             ) : (
                               text

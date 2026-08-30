@@ -38,9 +38,7 @@ export const ALL_CASES_PILL_KEYS = [
 
 export type AllCasesPillKey = (typeof ALL_CASES_PILL_KEYS)[number];
 
-export function isAllCasesPillKey(
-  key: AllCasesColumnKey,
-): key is AllCasesPillKey {
+export function isAllCasesPillKey(key: string): key is AllCasesPillKey {
   return (ALL_CASES_PILL_KEYS as readonly string[]).includes(key);
 }
 

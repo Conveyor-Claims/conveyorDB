@@ -1,4 +1,5 @@
 import { AllCasesTable } from "./all-cases-table";
+import { ChoicePill } from "../choice-pill";
 import { StaffChrome } from "../staff-chrome";
 import type { AllCasesList } from "@/lib/cases";
 import type { CasePipeline } from "@/lib/pipelines";
@@ -15,7 +16,15 @@ export function CasesListScreen({
   const { rows, error, missingEnv } = list;
 
   return (
-    <StaffChrome title={title} wide>
+    <StaffChrome
+      title={title}
+      wide
+      titleAccessory={
+        pipeline ? (
+          <ChoicePill value={pipeline.caseStatus} field="case_status" />
+        ) : null
+      }
+    >
       {pipeline ? (
         <p className="max-w-2xl text-sm leading-6 text-muted">
           Same list as All Cases, filtered to stored{" "}
