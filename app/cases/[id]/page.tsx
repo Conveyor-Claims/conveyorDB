@@ -6,7 +6,8 @@ import {
   caseSectionAnchor,
   fileSlotsForSection,
 } from "@/lib/case-page";
-import { getCaseById, isCaseId } from "@/lib/cases";
+import { isCaseId } from "@/lib/cases";
+import { getCaseById } from "@/lib/visible-cases";
 import { listCommentsForCase } from "@/lib/comments";
 import { listContactsForCase } from "@/lib/contacts";
 import { listFilesForCase } from "@/lib/files";

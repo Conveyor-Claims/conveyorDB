@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CasesListScreen } from "../../cases/cases-list-screen";
-import { listCases } from "@/lib/cases";
+import { listCases } from "@/lib/visible-cases";
 import { DUE_DATE_BOARD_LIST, dueDateBoardBySlug } from "@/lib/due-date-boards";
 
 export const dynamic = "force-dynamic";

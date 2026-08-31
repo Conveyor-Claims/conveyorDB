@@ -1,4 +1,4 @@
-import { listCases } from "@/lib/cases";
+import { listCases } from "@/lib/visible-cases";
 import { CASE_PIPELINES } from "@/lib/pipelines";
 import { CasesListScreen } from "../cases/cases-list-screen";
 

@@ -1,4 +1,4 @@
-import { listAllCases } from "@/lib/cases";
+import { listAllCases } from "@/lib/visible-cases";
 import { CasesListScreen } from "./cases-list-screen";
 
 export const dynamic = "force-dynamic";
