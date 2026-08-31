@@ -47,6 +47,9 @@ export function CreateCaseNextSteps({
 
   return (
     <div>
+      {selected.map((name) => (
+        <input key={name} type="hidden" name="next_steps" value={name} />
+      ))}
       <input
         type="hidden"
         name="next_steps_json"
@@ -58,6 +61,7 @@ export function CreateCaseNextSteps({
         open={open}
         onToggle={() => setOpen((value) => !value)}
         collapsedSummary={summary}
+        persistChildren
       >
         <fieldset className="space-y-2 px-4 py-3">
           <legend className="sr-only">Next Steps</legend>

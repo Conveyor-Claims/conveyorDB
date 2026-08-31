@@ -15,6 +15,7 @@ export function CaseSectionPanel({
   open,
   onToggle,
   collapsedSummary,
+  persistChildren = false,
   children,
 }: {
   name: string;
@@ -22,6 +23,7 @@ export function CaseSectionPanel({
   open: boolean;
   onToggle: () => void;
   collapsedSummary?: ReactNode;
+  persistChildren?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -44,9 +46,14 @@ export function CaseSectionPanel({
       </h2>
       {open ? (
         children
-      ) : collapsedSummary ? (
-        <div className="px-4 py-2.5">{collapsedSummary}</div>
-      ) : null}
+      ) : (
+        <>
+          {collapsedSummary ? (
+            <div className="px-4 py-2.5">{collapsedSummary}</div>
+          ) : null}
+          {persistChildren ? <div className="hidden">{children}</div> : null}
+        </>
+      )}
     </section>
   );
 }

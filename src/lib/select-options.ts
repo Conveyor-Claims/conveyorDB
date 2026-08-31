@@ -668,6 +668,19 @@ export function parseExistingNextStepNames(
   return { ok: true, names };
 }
 
+function withDefaultNextStepNames(
+  parsed: { ok: true; names: string[] } | { ok: false; message: string },
+): { ok: true; names: string[] } | { ok: false; message: string } {
+  if (!parsed.ok) return parsed;
+  return {
+    ok: true,
+    names:
+      parsed.names.length > 0
+        ? parsed.names
+        : [defaultCreateNextStepName()],
+  };
+}
+
 export function nextStepNamesFromFormData(
   formData: FormData,
 ): { ok: true; names: string[] } | { ok: false; message: string } {
@@ -678,12 +691,14 @@ export function nextStepNamesFromFormData(
       if (!Array.isArray(parsed)) {
         return { ok: false, message: "Next Steps were not valid." };
       }
-      return parseExistingNextStepNames(parsed);
+      return withDefaultNextStepNames(parseExistingNextStepNames(parsed));
     } catch {
       return { ok: false, message: "Next Steps were not valid." };
     }
   }
-  return parseExistingNextStepNames(formData.getAll("next_steps"));
+  return withDefaultNextStepNames(
+    parseExistingNextStepNames(formData.getAll("next_steps")),
+  );
 }
 
 export function optionColor(

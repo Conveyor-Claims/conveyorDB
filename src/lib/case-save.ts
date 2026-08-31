@@ -81,9 +81,6 @@ function parseSubmittedField(
   }
 
   if (field.key === "next_steps") {
-    if (!formData.has("next_steps_json") && !formData.has("next_steps")) {
-      return { ok: true, skip: true };
-    }
     const parsed = nextStepNamesFromFormData(formData);
     if (!parsed.ok) {
       return { ok: false, message: `Could not save: ${parsed.message}` };
@@ -91,7 +88,7 @@ function parseSubmittedField(
     return {
       ok: true,
       skip: false,
-      value: parsed.names.length === 0 ? null : parsed.names,
+      value: parsed.names,
     };
   }
 

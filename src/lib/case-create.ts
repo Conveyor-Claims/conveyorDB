@@ -59,7 +59,7 @@ export function caseInsertFromForm(
     client_name: clientName,
     case_status: REFERRAL_STATUS,
     airtable_id: null,
-    next_steps: nextSteps.names.length === 0 ? null : nextSteps.names,
+    next_steps: nextSteps.names,
   };
 
   return { ok: true, row };
