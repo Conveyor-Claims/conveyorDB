@@ -14,6 +14,7 @@ import {
   CASE_CONFLICT_MESSAGE,
   updateCaseWithConcurrency,
 } from "@/lib/case-concurrency";
+import { withComputedCaseNumber } from "@/lib/case-number";
 import { createAdminClient } from "@/lib/clients/admin";
 import type { Database } from "@/lib/database.types";
 import {
@@ -289,6 +290,21 @@ export async function insertCabinet(request: Request, cabinetSlug: string): Prom
           );
         }
       }
+    }
+
+    if (table === "cases") {
+      const assigned = await withComputedCaseNumber(
+        admin,
+        asInsert("cases", parsed.patch),
+      );
+      if (!assigned.ok) return jsonError(500, assigned.message);
+      const { data, error } = await insertQuery(
+        admin,
+        table,
+        assigned.patch as WritePatch,
+      );
+      if (error) return supabaseError(error);
+      return json(data, 201);
     }
 
     const { data, error } = await insertQuery(admin, table, parsed.patch);

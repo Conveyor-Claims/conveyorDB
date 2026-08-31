@@ -51,6 +51,12 @@ export default async function Home() {
         >
           All Cases
         </Link>
+        <Link
+          href="/cases/new"
+          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+        >
+          Create case
+        </Link>
         {PIPELINE_LIST.map((pipeline) => (
           <Link
             key={pipeline.href}

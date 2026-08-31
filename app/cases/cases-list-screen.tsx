@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AllCasesTable } from "./all-cases-table";
 import { ChoicePill } from "../choice-pill";
 import { StaffChrome } from "../staff-chrome";
@@ -63,6 +64,15 @@ export function CasesListScreen({
           next step, assigned. Blank fields stay blank.
         </p>
       )}
+
+      <p>
+        <Link
+          href="/cases/new"
+          className="inline-flex rounded-[12px] bg-accent px-4 py-2 text-sm font-medium text-accent-on hover:bg-accent-hover"
+        >
+          Create case
+        </Link>
+      </p>
 
       {missingEnv.length > 0 ? (
         <p className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100">
