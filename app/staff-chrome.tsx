@@ -83,6 +83,9 @@ export async function StaffChrome({
                 <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
                   All Cases
                 </span>
+                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                  Create case
+                </span>
                 {PIPELINE_LIST.map((pipeline) => (
                   <span
                     key={pipeline.href}

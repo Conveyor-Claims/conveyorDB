@@ -193,11 +193,8 @@ export function parseWriteBody(
       return { ok: false, status: 400, error: `Unknown key: ${key}` };
     }
     if (key === "case_number") {
-      return {
-        ok: false,
-        status: 409,
-        error: "case_number is owned by ConveyorDB and cannot be written.",
-      };
+      // Owned by ConveyorDB. Callers omit it; a supplied value is ignored.
+      continue;
     }
     if (key === "id") {
       if (mode === "insert") {

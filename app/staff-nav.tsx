@@ -8,6 +8,7 @@ import { PIPELINE_LIST, pipelineStatuses } from "@/lib/pipelines";
 
 const CASE_LINKS = [
   { href: "/cases", label: "All Cases" },
+  { href: "/cases/new", label: "Create case" },
   ...PIPELINE_LIST.map((pipeline) => ({
     href: pipeline.href,
     label: pipeline.navLabel,

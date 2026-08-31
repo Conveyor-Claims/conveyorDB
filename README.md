@@ -12,7 +12,7 @@ The field catalog is unchanged at `docs/catalog/fields.csv`.
 
 ### HTTP API
 
-Intake and Coworking read and write the five cabinets through `/api` (`docs/api.md`). Every `/api/*` route requires `Authorization: Bearer <SUPABASE_SERVICE_ROLE_KEY>`. Cookie / temporary admin login is not enough. Intake's first test is **PATCH** the existing Natalie row **C-02895** only (look up stored `case_number` `C - 02895 - Natalie Dubin`, or its uuid). Do not insert a second test case. `POST` insert stays in the door for later. Callers still omit `case_number` on writes. Case PATCH sends the loaded `last_modified` (JSON or `If-Match`); optional `"overwrite": true` after a 409. File upload is `POST /api/files` (multipart) with caller `slot_name`; a filled slot is 409 and the first `case-files` object stays. Next Step claim is `PATCH /api/next-steps/{id}` with the loaded `updated_at` (JSON or `If-Match`); 0 rows is 409, `"overwrite": true` skips the match. Do not insert a second `next_steps` row with the same `name` for the same case.
+Intake and Coworking read and write the five cabinets through `/api` (`docs/api.md`). Every `/api/*` route requires `Authorization: Bearer <SUPABASE_SERVICE_ROLE_KEY>`. Cookie / temporary admin login is not enough. Intake's first test is **PATCH** the existing Natalie row **C-02895** only (look up stored `case_number` `C - 02895 - Natalie Dubin`, or its uuid). Do not insert a second Natalie. `POST /api/cases` computes `case_number` / `autonum` on insert (same path as staff create). Callers omit `case_number` on writes; a supplied value is ignored. Case PATCH sends the loaded `last_modified` (JSON or `If-Match`); optional `"overwrite": true` after a 409. File upload is `POST /api/files` (multipart) with caller `slot_name`; a filled slot is 409 and the first `case-files` object stays. Next Step claim is `PATCH /api/next-steps/{id}` with the loaded `updated_at` (JSON or `If-Match`); 0 rows is 409, `"overwrite": true` skips the match. Do not insert a second `next_steps` row with the same `name` for the same case.
 
 ### Environment
 
@@ -36,6 +36,7 @@ npm run dev
 
 - `/` standing-up page
 - `/cases` All Cases list from `public.cases` (empty tables render an empty list). Grouped by Referred Firm. Filters: firm, status, next step, assigned.
+- `/cases/new` staff create-case form (temp admin). Client Name only. Case Number is computed and locked (`C - {autonum zero-padded to 5} - {name}`). Case Status is stored Referral so `/new-cases` lists it. No Airtable write.
 - `/new-cases` `/referrals` `/pre-lit` `/litigation` — same list filtered to stored `case_status` Referral (New cases is the queue name for that status; `/referrals` stays), Pre-Litigation, Litigation.
 - `/non-responsive` `/appraisal` `/appraisal-lit` `/re-inspection` `/settled` `/settled-paid` `/closed` — same list filtered to stored `case_status` Non-Responsive, Appraisal, Appraisal - Lit, Re-Inspection, Settled, Settled - Paid, and Closed No Service or Closed - New Claim. Settled is exact `Settled` only (other Settled * variants stay on All Cases). There is no dest value named Closed.
 - Due-date boards (same All Cases chrome; filter/sort by that dest date, non-null, ascending, blanks last):

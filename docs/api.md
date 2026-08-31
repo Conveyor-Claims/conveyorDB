@@ -26,7 +26,8 @@ Thin service-role door for Intake and Coworking. Existing dest columns only. Thi
 ## case_number
 
 - **Owned by ConveyorDB.** Callers omit it on POST and PATCH.
-- Apps never write it. The column stays as stored. There is no formula or generator on this door.
+- Apps never write a user-supplied `case_number`. If a caller sends one, it is ignored.
+- On **POST /api/cases**, ConveyorDB computes and stores `autonum` (`max(existing autonum)+1`) and `case_number` as `C - {autonum zero-padded to 5} - {name}`. Name is the submitted `client_name`. Same compute path as staff create. Do not send `autonum`.
 
 ## Two-editor save (`cases` only)
 
