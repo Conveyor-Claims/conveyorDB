@@ -46,11 +46,12 @@ export function CreateCaseNextSteps({
   );
 
   return (
-    <div className="space-y-0">
-      <input type="hidden" name="next_steps" value="" />
-      {selected.map((name) => (
-        <input key={name} type="hidden" name="next_steps" value={name} />
-      ))}
+    <div>
+      <input
+        type="hidden"
+        name="next_steps_json"
+        value={JSON.stringify(selected)}
+      />
       <CaseSectionPanel
         name="Next Steps"
         anchor="next-steps"

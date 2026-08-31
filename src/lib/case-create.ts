@@ -3,7 +3,7 @@ import { withComputedCaseNumber } from "@/lib/case-number";
 import type { Database } from "@/lib/database.types";
 import { insertNextStepRowsForCase } from "@/lib/next-steps";
 import { CASE_PIPELINES } from "@/lib/pipelines";
-import { parseExistingNextStepNames } from "@/lib/select-options";
+import { nextStepNamesFromFormData } from "@/lib/select-options";
 import { getSession, isAdmin } from "@/lib/session";
 
 type CasesInsert = Database["public"]["Tables"]["cases"]["Insert"];
@@ -31,7 +31,7 @@ function blankToNull(value: string): string | null {
 export function nextStepNamesFromForm(
   formData: FormData,
 ): { ok: true; names: string[] } | { ok: false; message: string } {
-  const parsed = parseExistingNextStepNames(formData.getAll("next_steps"));
+  const parsed = nextStepNamesFromFormData(formData);
   if (!parsed.ok) {
     return {
       ok: false,

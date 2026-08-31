@@ -668,6 +668,24 @@ export function parseExistingNextStepNames(
   return { ok: true, names };
 }
 
+export function nextStepNamesFromFormData(
+  formData: FormData,
+): { ok: true; names: string[] } | { ok: false; message: string } {
+  const jsonRaw = formData.get("next_steps_json");
+  if (typeof jsonRaw === "string" && jsonRaw.length > 0) {
+    try {
+      const parsed: unknown = JSON.parse(jsonRaw);
+      if (!Array.isArray(parsed)) {
+        return { ok: false, message: "Next Steps were not valid." };
+      }
+      return parseExistingNextStepNames(parsed);
+    } catch {
+      return { ok: false, message: "Next Steps were not valid." };
+    }
+  }
+  return parseExistingNextStepNames(formData.getAll("next_steps"));
+}
+
 export function optionColor(
   key: string,
   name: string,

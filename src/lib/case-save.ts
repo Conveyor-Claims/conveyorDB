@@ -9,7 +9,7 @@ import { listCasePageDestFields, type CasePageField } from "@/lib/case-page";
 import { casesClient, isCaseId } from "@/lib/cases";
 import type { Database } from "@/lib/database.types";
 import { insertNextStepRowsForCase } from "@/lib/next-steps";
-import { parseExistingNextStepNames } from "@/lib/select-options";
+import { nextStepNamesFromFormData } from "@/lib/select-options";
 
 type CasesUpdate = Database["public"]["Tables"]["cases"]["Update"];
 
@@ -80,21 +80,25 @@ function parseSubmittedField(
     return { ok: true, skip: false, value: checked ? true : null };
   }
 
+  if (field.key === "next_steps") {
+    if (!formData.has("next_steps_json") && !formData.has("next_steps")) {
+      return { ok: true, skip: true };
+    }
+    const parsed = nextStepNamesFromFormData(formData);
+    if (!parsed.ok) {
+      return { ok: false, message: `Could not save: ${parsed.message}` };
+    }
+    return {
+      ok: true,
+      skip: false,
+      value: parsed.names.length === 0 ? null : parsed.names,
+    };
+  }
+
   const raw = submittedString(formData, field.key);
   if (raw === undefined) return { ok: true, skip: true };
 
   if (field.fieldType === "multi dropdown") {
-    if (field.key === "next_steps") {
-      const parsed = parseExistingNextStepNames(formData.getAll(field.key));
-      if (!parsed.ok) {
-        return { ok: false, message: `Could not save: ${parsed.message}` };
-      }
-      return {
-        ok: true,
-        skip: false,
-        value: parsed.names.length === 0 ? null : parsed.names,
-      };
-    }
     const values = formData
       .getAll(field.key)
       .filter((value): value is string => typeof value === "string")
