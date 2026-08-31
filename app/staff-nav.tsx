@@ -8,7 +8,6 @@ import { PIPELINE_LIST, pipelineStatuses } from "@/lib/pipelines";
 
 const CASE_LINKS = [
   { href: "/cases", label: "All Cases" },
-  { href: "/cases/new", label: "Create case" },
   ...PIPELINE_LIST.map((pipeline) => ({
     href: pipeline.href,
     label: pipeline.navLabel,
@@ -62,13 +61,12 @@ export function StaffNav({
 
   return (
     <nav aria-label="Staff" className="flex flex-col gap-1 px-3">
-      {CASE_LINKS.map((link) => (
+      {CASE_LINKS.slice(0, 1).map((link) => (
         <NavLink
           key={link.href}
           href={link.href}
           label={link.label}
           active={isActive(pathname, link.href)}
-          caseStatuses={"caseStatuses" in link ? link.caseStatuses : undefined}
         />
       ))}
       {showCreateCase ? (
@@ -78,6 +76,15 @@ export function StaffNav({
           active={isActive(pathname, "/cases/new")}
         />
       ) : null}
+      {CASE_LINKS.slice(1).map((link) => (
+        <NavLink
+          key={link.href}
+          href={link.href}
+          label={link.label}
+          active={isActive(pathname, link.href)}
+          caseStatuses={"caseStatuses" in link ? link.caseStatuses : undefined}
+        />
+      ))}
       <div className="mt-3 space-y-1">
         <p className="px-3 pb-1 text-xs text-muted">Due-date</p>
         {DUE_DATE_LINKS.map((link) => (
