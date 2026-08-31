@@ -8,6 +8,8 @@ import {
 import { listCasePageDestFields, type CasePageField } from "@/lib/case-page";
 import { casesClient, isCaseId } from "@/lib/cases";
 import type { Database } from "@/lib/database.types";
+import { insertNextStepRowsForCase } from "@/lib/next-steps";
+import { parseExistingNextStepNames } from "@/lib/select-options";
 
 type CasesUpdate = Database["public"]["Tables"]["cases"]["Update"];
 
@@ -82,6 +84,17 @@ function parseSubmittedField(
   if (raw === undefined) return { ok: true, skip: true };
 
   if (field.fieldType === "multi dropdown") {
+    if (field.key === "next_steps") {
+      const parsed = parseExistingNextStepNames(formData.getAll(field.key));
+      if (!parsed.ok) {
+        return { ok: false, message: `Could not save: ${parsed.message}` };
+      }
+      return {
+        ok: true,
+        skip: false,
+        value: parsed.names.length === 0 ? null : parsed.names,
+      };
+    }
     const values = formData
       .getAll(field.key)
       .filter((value): value is string => typeof value === "string")
@@ -169,6 +182,18 @@ export async function updateCaseFromForm(
       };
     }
     return { ok: false, message: result.message };
+  }
+
+  const nextSteps = parsed.patch.next_steps;
+  if (Array.isArray(nextSteps) && nextSteps.length > 0) {
+    const cabinet = await insertNextStepRowsForCase(client, parsed.id, nextSteps);
+    if (!cabinet.ok) {
+      return {
+        ok: true,
+        message: `Saved case fields, but a Next Steps row was not saved: ${cabinet.message}`,
+        lastModified: result.row.last_modified,
+      };
+    }
   }
 
   return {

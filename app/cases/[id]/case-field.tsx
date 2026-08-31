@@ -356,7 +356,11 @@ export function CaseField({
     control = (
       <SingleSelectControl field={field} selected={displayCaseValue(value)} />
     );
-  } else if (field.fieldType === "multi dropdown" && optionsForDest(field.key)) {
+  } else if (
+    field.fieldType === "multi dropdown" &&
+    field.key !== "next_steps" &&
+    optionsForDest(field.key)
+  ) {
     control = (
       <MultiSelectControl field={field} selected={asStringList(value)} />
     );

@@ -628,6 +628,46 @@ export function isExistingNextStepName(name: string): boolean {
   return CASE_SELECT_OPTIONS.next_steps.some((option) => option.name === name);
 }
 
+/**
+ * Existing next_steps option names only. Empty stored list becomes the
+ * Prepare/Update Claim Summary - CNVR default.
+ */
+export function selectedCreateNextStepNames(
+  stored?: readonly string[] | null,
+): string[] {
+  const names: string[] = [];
+  const seen = new Set<string>();
+  for (const raw of stored ?? []) {
+    const name = raw.trim();
+    if (!name || !isExistingNextStepName(name) || seen.has(name)) continue;
+    seen.add(name);
+    names.push(name);
+  }
+  return names.length > 0 ? names : [defaultCreateNextStepName()];
+}
+
+export function parseExistingNextStepNames(
+  values: readonly unknown[],
+): { ok: true; names: string[] } | { ok: false; message: string } {
+  const seen = new Set<string>();
+  const names: string[] = [];
+  for (const raw of values) {
+    if (typeof raw !== "string") continue;
+    const name = raw.trim();
+    if (!name) continue;
+    if (!isExistingNextStepName(name)) {
+      return {
+        ok: false,
+        message: `"${name}" is not an existing Next Step.`,
+      };
+    }
+    if (seen.has(name)) continue;
+    seen.add(name);
+    names.push(name);
+  }
+  return { ok: true, names };
+}
+
 export function optionColor(
   key: string,
   name: string,

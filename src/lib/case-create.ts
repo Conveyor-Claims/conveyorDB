@@ -3,7 +3,7 @@ import { withComputedCaseNumber } from "@/lib/case-number";
 import type { Database } from "@/lib/database.types";
 import { insertNextStepRowsForCase } from "@/lib/next-steps";
 import { CASE_PIPELINES } from "@/lib/pipelines";
-import { isExistingNextStepName } from "@/lib/select-options";
+import { parseExistingNextStepNames } from "@/lib/select-options";
 import { getSession, isAdmin } from "@/lib/session";
 
 type CasesInsert = Database["public"]["Tables"]["cases"]["Insert"];
@@ -31,23 +31,14 @@ function blankToNull(value: string): string | null {
 export function nextStepNamesFromForm(
   formData: FormData,
 ): { ok: true; names: string[] } | { ok: false; message: string } {
-  const seen = new Set<string>();
-  const names: string[] = [];
-  for (const raw of formData.getAll("next_steps")) {
-    if (typeof raw !== "string") continue;
-    const name = raw.trim();
-    if (!name) continue;
-    if (!isExistingNextStepName(name)) {
-      return {
-        ok: false,
-        message: `Could not create case: "${name}" is not an existing Next Step.`,
-      };
-    }
-    if (seen.has(name)) continue;
-    seen.add(name);
-    names.push(name);
+  const parsed = parseExistingNextStepNames(formData.getAll("next_steps"));
+  if (!parsed.ok) {
+    return {
+      ok: false,
+      message: `Could not create case: ${parsed.message}`,
+    };
   }
-  return { ok: true, names };
+  return parsed;
 }
 
 export function caseInsertFromForm(

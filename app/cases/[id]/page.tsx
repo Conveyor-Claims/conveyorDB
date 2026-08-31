@@ -19,6 +19,7 @@ import { CaseComments } from "./case-comments";
 import { CaseField } from "./case-field";
 import { CaseFileSlots } from "./case-file-slots";
 import { CaseForm } from "./case-form";
+import { CaseFormNextSteps } from "./case-form-next-steps";
 import { CaseHeaderStrip } from "./case-header-strip";
 import { CaseNextSteps } from "./case-next-steps";
 import { CasePeople } from "./case-people";
@@ -161,6 +162,7 @@ export default async function CasePage({ params }: PageProps) {
 
       {row ? (
         <CaseForm caseId={row.id} lastModified={row.last_modified}>
+          <CaseFormNextSteps initialSelected={row.next_steps} />
           <CaseSections
             sections={CASE_PAGE_SECTIONS.map((section) => ({
               name: section.name,
@@ -170,14 +172,16 @@ export default async function CasePage({ params }: PageProps) {
           >
             {CASE_PAGE_SECTIONS.map((section) => (
               <dl key={section.name} className="bg-background px-4">
-                {section.fields.map((field) => (
-                  <CaseField
-                    key={field.key}
-                    field={field}
-                    value={row[field.key]}
-                    caseId={row.id}
-                  />
-                ))}
+                {section.fields
+                  .filter((field) => field.key !== "next_steps")
+                  .map((field) => (
+                    <CaseField
+                      key={field.key}
+                      field={field}
+                      value={row[field.key]}
+                      caseId={row.id}
+                    />
+                  ))}
                 <CaseFileSlots
                   caseId={row.id}
                   slotNames={fileSlotsForSection(section.name)}
