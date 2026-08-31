@@ -16,7 +16,12 @@ export default async function CreateCasePage() {
   return (
     <StaffChrome title="Create case">
       <p className="max-w-2xl text-sm leading-6 text-muted">
-        Enter Client Name. Case Number is assigned on save and is not typed.
+        Enter Client Name. Next Steps defaults to the existing{" "}
+        <span className="font-medium text-foreground">
+          Prepare/Update Claim Summary - CNVR
+        </span>{" "}
+        option; staff can change it to another existing name. Case Number is
+        assigned on save and is not typed.
         Case Status is stored{" "}
         <span className="font-medium text-foreground">Referral</span> so the
         row appears on{" "}

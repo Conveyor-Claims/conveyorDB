@@ -611,6 +611,23 @@ export function optionsForDest(key: string): readonly SelectOption[] | null {
   return null;
 }
 
+/**
+ * Create-case default. First existing next_steps name that is
+ * Prepare/Update Claim Summary (already the first copied option).
+ * Do not invent a tag, name, or color.
+ */
+export function defaultCreateNextStepName(): string {
+  const options = CASE_SELECT_OPTIONS.next_steps;
+  const match = options.find((option) =>
+    option.name.startsWith("Prepare/Update Claim Summary"),
+  );
+  return (match ?? options[0]).name;
+}
+
+export function isExistingNextStepName(name: string): boolean {
+  return CASE_SELECT_OPTIONS.next_steps.some((option) => option.name === name);
+}
+
 export function optionColor(
   key: string,
   name: string,
