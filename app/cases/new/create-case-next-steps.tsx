@@ -46,35 +46,38 @@ export function CreateCaseNextSteps({
   );
 
   return (
-    <CaseSectionPanel
-      name="Next Steps"
-      anchor="next-steps"
-      open={open}
-      onToggle={() => setOpen((value) => !value)}
-      collapsedSummary={summary}
-    >
-      <fieldset className="space-y-2 px-4 py-3">
-        <legend className="sr-only">Next Steps</legend>
-        <input type="hidden" name="next_steps" value="" />
-        <ul className="max-h-64 space-y-1.5 overflow-y-auto">
-          {OPTIONS.map((option) => (
-            <li key={option.name}>
-              <label className="flex cursor-pointer items-center gap-2 rounded-[12px] px-1 py-0.5 hover:bg-wash">
-                <input
-                  type="checkbox"
-                  name="next_steps"
-                  value={option.name}
-                  checked={selected.includes(option.name)}
-                  onChange={(event) =>
-                    toggle(option.name, event.target.checked)
-                  }
-                />
-                <ChoicePill value={option.name} field="next_steps" />
-              </label>
-            </li>
-          ))}
-        </ul>
-      </fieldset>
-    </CaseSectionPanel>
+    <div className="space-y-0">
+      <input type="hidden" name="next_steps" value="" />
+      {selected.map((name) => (
+        <input key={name} type="hidden" name="next_steps" value={name} />
+      ))}
+      <CaseSectionPanel
+        name="Next Steps"
+        anchor="next-steps"
+        open={open}
+        onToggle={() => setOpen((value) => !value)}
+        collapsedSummary={summary}
+      >
+        <fieldset className="space-y-2 px-4 py-3">
+          <legend className="sr-only">Next Steps</legend>
+          <ul className="max-h-64 space-y-1.5 overflow-y-auto">
+            {OPTIONS.map((option) => (
+              <li key={option.name}>
+                <label className="flex cursor-pointer items-center gap-2 rounded-[12px] px-1 py-0.5 hover:bg-wash">
+                  <input
+                    type="checkbox"
+                    checked={selected.includes(option.name)}
+                    onChange={(event) =>
+                      toggle(option.name, event.target.checked)
+                    }
+                  />
+                  <ChoicePill value={option.name} field="next_steps" />
+                </label>
+              </li>
+            ))}
+          </ul>
+        </fieldset>
+      </CaseSectionPanel>
+    </div>
   );
 }
