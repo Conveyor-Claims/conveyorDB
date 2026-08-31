@@ -1,6 +1,8 @@
 import { cache } from "react";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { OVERWRITE_FIELD } from "@/lib/case-concurrency";
 import { casesClient, isCaseId } from "@/lib/cases";
+import type { Database } from "@/lib/database.types";
 import {
   findNextStepByName,
   LOADED_UPDATED_AT_FIELD,
@@ -228,4 +230,44 @@ export async function addNextStepFromForm(
     id: inserted.data.id,
     updatedAt: inserted.data.updated_at,
   };
+}
+
+/**
+ * Insert public.next_steps rows for a new case.
+ * Writes case_id + name only. Skips a name that already exists for the case.
+ */
+export async function insertNextStepRowsForCase(
+  client: SupabaseClient<Database>,
+  caseId: string,
+  names: readonly string[],
+): Promise<{ ok: true } | { ok: false; message: string }> {
+  const unique: string[] = [];
+  const seen = new Set<string>();
+  for (const raw of names) {
+    const name = raw.trim();
+    if (!name || seen.has(name)) continue;
+    seen.add(name);
+    unique.push(name);
+  }
+  if (unique.length === 0) return { ok: true };
+
+  for (const name of unique) {
+    const existing = await findNextStepByName(client, caseId, name);
+    if (existing.error) return { ok: false, message: existing.error };
+    if (existing.row) continue;
+
+    const inserted = await client
+      .from("next_steps")
+      .insert({ case_id: caseId, name })
+      .select("id")
+      .maybeSingle();
+    if (inserted.error) {
+      return { ok: false, message: inserted.error.message };
+    }
+    if (!inserted.data) {
+      return { ok: false, message: "Could not add: next step was not saved." };
+    }
+  }
+
+  return { ok: true };
 }

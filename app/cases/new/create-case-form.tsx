@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import type { CreateCaseState } from "@/lib/case-create";
 import { createCaseAction } from "./actions";
+import { CreateCaseNextSteps } from "./create-case-next-steps";
 
 export function CreateCaseForm() {
   const [state, formAction, pending] = useActionState(
@@ -22,6 +23,8 @@ export function CreateCaseForm() {
           className="w-full rounded-[12px] border border-border bg-background px-3 py-2 text-sm text-foreground"
         />
       </label>
+
+      <CreateCaseNextSteps />
 
       <div className="flex flex-wrap items-center gap-3">
         <button

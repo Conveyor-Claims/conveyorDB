@@ -6,7 +6,50 @@ export type CaseSectionChrome = {
   name: string;
   anchor: string;
   defaultOpen: boolean;
+  collapsedSummary?: ReactNode;
 };
+
+export function CaseSectionPanel({
+  name,
+  anchor,
+  open,
+  onToggle,
+  collapsedSummary,
+  children,
+}: {
+  name: string;
+  anchor?: string;
+  open: boolean;
+  onToggle: () => void;
+  collapsedSummary?: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <section
+      id={anchor}
+      className="scroll-mt-6 overflow-hidden rounded-xl border border-border bg-background"
+    >
+      <h2>
+        <button
+          type="button"
+          aria-expanded={open}
+          onClick={onToggle}
+          className="flex w-full items-center justify-between border-b border-border bg-wash px-4 py-2.5 text-left text-sm font-medium text-foreground"
+        >
+          <span>{name}</span>
+          <span aria-hidden className="text-muted">
+            {open ? "▾" : "▸"}
+          </span>
+        </button>
+      </h2>
+      {open ? (
+        children
+      ) : collapsedSummary ? (
+        <div className="px-4 py-2.5">{collapsedSummary}</div>
+      ) : null}
+    </section>
+  );
+}
 
 export function CaseSections({
   sections,
@@ -61,31 +104,18 @@ export function CaseSections({
       </nav>
 
       <div className="space-y-3">
-        {sections.map((section, index) => {
-          const open = isOpen(section.name);
-          return (
-            <section
-              key={section.anchor}
-              id={section.anchor}
-              className="scroll-mt-6 overflow-hidden rounded-xl border border-border bg-background"
-            >
-              <h2>
-                <button
-                  type="button"
-                  aria-expanded={open}
-                  onClick={() => toggle(section.name)}
-                  className="flex w-full items-center justify-between border-b border-border bg-wash px-4 py-2.5 text-left text-sm font-medium text-foreground"
-                >
-                  <span>{section.name}</span>
-                  <span aria-hidden className="text-muted">
-                    {open ? "▾" : "▸"}
-                  </span>
-                </button>
-              </h2>
-              {open ? panels[index] : null}
-            </section>
-          );
-        })}
+        {sections.map((section, index) => (
+          <CaseSectionPanel
+            key={section.anchor}
+            name={section.name}
+            anchor={section.anchor}
+            open={isOpen(section.name)}
+            onToggle={() => toggle(section.name)}
+            collapsedSummary={section.collapsedSummary}
+          >
+            {panels[index]}
+          </CaseSectionPanel>
+        ))}
       </div>
     </div>
   );

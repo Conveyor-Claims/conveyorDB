@@ -1,7 +1,9 @@
 import { casesClient } from "@/lib/cases";
 import { withComputedCaseNumber } from "@/lib/case-number";
 import type { Database } from "@/lib/database.types";
+import { insertNextStepRowsForCase } from "@/lib/next-steps";
 import { CASE_PIPELINES } from "@/lib/pipelines";
+import { isExistingNextStepName } from "@/lib/select-options";
 import { getSession, isAdmin } from "@/lib/session";
 
 type CasesInsert = Database["public"]["Tables"]["cases"]["Insert"];
@@ -26,6 +28,28 @@ function blankToNull(value: string): string | null {
   return trimmed === "" ? null : trimmed;
 }
 
+export function nextStepNamesFromForm(
+  formData: FormData,
+): { ok: true; names: string[] } | { ok: false; message: string } {
+  const seen = new Set<string>();
+  const names: string[] = [];
+  for (const raw of formData.getAll("next_steps")) {
+    if (typeof raw !== "string") continue;
+    const name = raw.trim();
+    if (!name) continue;
+    if (!isExistingNextStepName(name)) {
+      return {
+        ok: false,
+        message: `Could not create case: "${name}" is not an existing Next Step.`,
+      };
+    }
+    if (seen.has(name)) continue;
+    seen.add(name);
+    names.push(name);
+  }
+  return { ok: true, names };
+}
+
 export function caseInsertFromForm(
   formData: FormData,
 ): { ok: true; row: CasesInsert } | { ok: false; message: string } {
@@ -37,10 +61,14 @@ export function caseInsertFromForm(
     };
   }
 
+  const nextSteps = nextStepNamesFromForm(formData);
+  if (!nextSteps.ok) return nextSteps;
+
   const row: CasesInsert = {
     client_name: clientName,
     case_status: REFERRAL_STATUS,
     airtable_id: null,
+    next_steps: nextSteps.names.length === 0 ? null : nextSteps.names,
   };
 
   return { ok: true, row };
@@ -79,6 +107,19 @@ export async function createCaseFromForm(
   }
   if (!data) {
     return { ok: false, message: "Could not create case: row was not saved." };
+  }
+
+  const names = assigned.patch.next_steps ?? [];
+  if (names.length > 0) {
+    const cabinet = await insertNextStepRowsForCase(client, data.id, names);
+    if (!cabinet.ok) {
+      return {
+        ok: false,
+        message: `Case ${data.case_number ?? data.id} was created, but a Next Steps row was not saved: ${cabinet.message}`,
+        id: data.id,
+        case_number: data.case_number,
+      };
+    }
   }
 
   return {
