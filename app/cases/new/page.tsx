@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getSession, isAdmin } from "@/lib/session";
+import { redirect } from "next/navigation";
+import { getSession, isAdmin, isParalegal } from "@/lib/session";
 import { StaffChrome } from "../../staff-chrome";
 import { CreateCaseForm } from "./create-case-form";
 
@@ -11,7 +12,11 @@ export const metadata = {
 };
 
 export default async function CreateCasePage() {
-  const canCreate = isAdmin(await getSession());
+  const session = await getSession();
+  if (isParalegal(session)) {
+    redirect("/cases");
+  }
+  const canCreate = isAdmin(session);
 
   return (
     <StaffChrome title="Create case">

@@ -1,10 +1,35 @@
 import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
-import { getSession, isAdmin, signOut } from "@/lib/session";
+import {
+  getSession,
+  isAdmin,
+  isSignedIn,
+  signOut,
+  type Session,
+} from "@/lib/session";
 import { StaffNav } from "./staff-nav";
 import { PIPELINE_LIST } from "@/lib/pipelines";
 
-function AccountSlot({ signedIn }: { signedIn: boolean }) {
+function accountLabel(session: Session | null): string {
+  if (session?.role === "admin") return "Temporary admin";
+  if (session?.role === "paralegal") return "Temporary paralegal";
+  return "";
+}
+
+function accountInitials(session: Session | null): string {
+  if (session?.role === "admin") return "TA";
+  if (session?.role === "paralegal") return "TP";
+  return "";
+}
+
+function AccountSlot({
+  session,
+}: {
+  session: Session | null;
+}) {
+  const signedIn = isSignedIn(session);
+  const admin = isAdmin(session);
+
   return (
     <div className="shrink-0 border-t border-border px-3 py-3">
       <div className="flex items-center gap-2 px-1 py-1">
@@ -12,13 +37,23 @@ function AccountSlot({ signedIn }: { signedIn: boolean }) {
           aria-hidden
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-wash text-xs font-medium text-muted"
         >
-          {signedIn ? "TA" : ""}
+          {accountInitials(session)}
         </span>
         {signedIn ? (
-          <p className="truncate text-sm text-foreground">Temporary admin</p>
+          <p className="truncate text-sm text-foreground">
+            {accountLabel(session)}
+          </p>
         ) : null}
       </div>
       <div className="mt-2 flex flex-col gap-1">
+        {admin ? (
+          <Link
+            href="/permissions"
+            className="rounded-[12px] px-3 py-2 text-sm text-muted hover:bg-wash hover:text-accent"
+          >
+            Permissions
+          </Link>
+        ) : null}
         <Link
           href="/preferences"
           className="rounded-[12px] px-3 py-2 text-sm text-muted hover:bg-wash hover:text-accent"
@@ -63,7 +98,7 @@ export async function StaffChrome({
   rail?: ReactNode;
 }) {
   const session = await getSession();
-  const signedIn = isAdmin(session);
+  const admin = isAdmin(session);
 
   return (
     <div className="flex min-h-svh flex-1 bg-background text-foreground">
@@ -83,9 +118,6 @@ export async function StaffChrome({
                 <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
                   All Cases
                 </span>
-                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
-                  Create case
-                </span>
                 {PIPELINE_LIST.map((pipeline) => (
                   <span
                     key={pipeline.href}
@@ -101,10 +133,10 @@ export async function StaffChrome({
               </nav>
             }
           >
-            <StaffNav />
+            <StaffNav showCreateCase={admin} />
           </Suspense>
         </div>
-        <AccountSlot signedIn={signedIn} />
+        <AccountSlot session={session} />
       </aside>
       <div className="flex min-w-0 flex-1 flex-col xl:flex-row">
         <main

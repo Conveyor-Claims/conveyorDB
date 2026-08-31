@@ -18,6 +18,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      case_view_grants: {
+        Row: {
+          case_id: string
+          created_at: string
+          id: string
+          role_type: string
+        }
+        Insert: {
+          case_id: string
+          created_at?: string
+          id?: string
+          role_type: string
+        }
+        Update: {
+          case_id?: string
+          created_at?: string
+          id?: string
+          role_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_view_grants_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_view_grants_role_type_fkey"
+            columns: ["role_type"]
+            isOneToOne: false
+            referencedRelation: "role_permissions"
+            referencedColumns: ["role_type"]
+          },
+        ]
+      }
       cases: {
         Row: {
           accounting_next_steps: string | null
@@ -1986,6 +2022,27 @@ export type Database = {
           property_type?: string | null
           referred_attorney?: string[] | null
           sync_source?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      role_permissions: {
+        Row: {
+          can_view_granted_cases: boolean
+          created_at: string
+          role_type: string
+          updated_at: string
+        }
+        Insert: {
+          can_view_granted_cases?: boolean
+          created_at?: string
+          role_type: string
+          updated_at?: string
+        }
+        Update: {
+          can_view_granted_cases?: boolean
+          created_at?: string
+          role_type?: string
           updated_at?: string
         }
         Relationships: []

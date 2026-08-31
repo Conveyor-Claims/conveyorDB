@@ -47,10 +47,12 @@ export default async function CasePage({ params }: PageProps) {
     notFound();
   }
 
-  const [{ row, error, missingEnv, usingServiceRole }, session] =
-    await Promise.all([getCaseById(id), getSession()]);
+  const [{ row, error, missingEnv }, session] = await Promise.all([
+    getCaseById(id),
+    getSession(),
+  ]);
 
-  if (!row && !error && usingServiceRole) {
+  if (!row && !error && missingEnv.length === 0) {
     notFound();
   }
 

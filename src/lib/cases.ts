@@ -1,8 +1,10 @@
 import { cache } from "react";
+import { connection } from "next/server";
 import { createAdminClient } from "@/lib/clients/admin";
 import { createAnonServerClient } from "@/lib/clients/server";
 import type { Database } from "@/lib/database.types";
 import { missingEnvNames, readAppEnv } from "@/lib/env";
+import { getSession, isParalegal } from "@/lib/session";
 
 type CasesRow = Database["public"]["Tables"]["cases"]["Row"];
 
@@ -100,6 +102,22 @@ export function casesClient() {
   };
 }
 
+/**
+ * Paralegal staff reads use the anon key so RLS hides ungranted cases.
+ * Admin and the service-role API door keep the current bypass.
+ */
+export async function visibleCasesClient() {
+  if (isParalegal(await getSession())) {
+    const env = readAppEnv();
+    return {
+      client: createAnonServerClient(),
+      missingEnv: missingEnvNames(env),
+      usingServiceRole: false,
+    };
+  }
+  return casesClient();
+}
+
 const ALL_CASES_SELECT =
   "id, case_number, client_name, case_status, department, claim_state, date_of_loss, sol_deadline, referred_firm, resolutions_specialist, paralegal, next_steps, cid_due_date, pl_due_date, atty_due_date, euo_date, atty_client_appt, rs_due_date, next_client_comm_due_date, recent_client_comm_date";
 
@@ -107,7 +125,8 @@ export async function listCases(options?: {
   caseStatus?: string | readonly string[];
   dueDateColumn?: DueDateFilterKey;
 }): Promise<AllCasesList> {
-  const { client, missingEnv, usingServiceRole } = casesClient();
+  await connection();
+  const { client, missingEnv, usingServiceRole } = await visibleCasesClient();
 
   if (!client) {
     return {
@@ -165,7 +184,8 @@ export async function listAllCases(): Promise<AllCasesList> {
 }
 
 export const getCaseById = cache(async (id: string): Promise<CaseById> => {
-  const { client, missingEnv, usingServiceRole } = casesClient();
+  await connection();
+  const { client, missingEnv, usingServiceRole } = await visibleCasesClient();
 
   if (!client) {
     return {

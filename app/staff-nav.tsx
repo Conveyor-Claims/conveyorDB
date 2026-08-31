@@ -53,7 +53,11 @@ function NavLink({
   );
 }
 
-export function StaffNav() {
+export function StaffNav({
+  showCreateCase = false,
+}: {
+  showCreateCase?: boolean;
+}) {
   const pathname = usePathname();
 
   return (
@@ -67,6 +71,13 @@ export function StaffNav() {
           caseStatuses={"caseStatuses" in link ? link.caseStatuses : undefined}
         />
       ))}
+      {showCreateCase ? (
+        <NavLink
+          href="/cases/new"
+          label="Create case"
+          active={isActive(pathname, "/cases/new")}
+        />
+      ) : null}
       <div className="mt-3 space-y-1">
         <p className="px-3 pb-1 text-xs text-muted">Due-date</p>
         {DUE_DATE_LINKS.map((link) => (
