@@ -1,11 +1,18 @@
 import Link from "next/link";
-import { getSession, isAdmin, signInTemporaryAdmin, signOut } from "@/lib/session";
+import {
+  getSession,
+  isAdmin,
+  isSignedIn,
+  signOut,
+} from "@/lib/session";
 import { ChoicePill } from "./choice-pill";
 import { StaffChrome } from "./staff-chrome";
 import { PIPELINE_LIST, pipelineStatuses } from "@/lib/pipelines";
 
 export default async function Home() {
-  const signedIn = isAdmin(await getSession());
+  const session = await getSession();
+  const signedIn = isSignedIn(session);
+  const admin = isAdmin(session);
 
   return (
     <StaffChrome title="ConveyorDB">
@@ -14,15 +21,20 @@ export default async function Home() {
         <span className="font-mono text-base">public.cases</span>. Cabinets stay
         blank until rows are copied.
       </p>
-      {signedIn ? (
+      {admin ? (
         <p className="max-w-xl text-sm leading-6 text-muted">
           Signed in as temporary admin. Full access for now, until real user
           levels are set.
         </p>
+      ) : signedIn ? (
+        <p className="max-w-xl text-sm leading-6 text-muted">
+          Signed in as temporary paralegal. Lists show only cases an admin has
+          granted.
+        </p>
       ) : (
         <p className="max-w-xl text-sm leading-6 text-muted">
-          Temporary login. The button signs you in as admin. This is a stub
-          until real user levels are set.
+          Temporary login stubs live on the login page. No passwords. Google
+          sign-in comes later.
         </p>
       )}
       <div className="flex flex-wrap gap-3">
@@ -36,14 +48,12 @@ export default async function Home() {
             </button>
           </form>
         ) : (
-          <form action={signInTemporaryAdmin}>
-            <button
-              type="submit"
-              className="w-fit rounded-[12px] bg-accent px-5 py-2.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
-            >
-              Temporary login
-            </button>
-          </form>
+          <Link
+            href="/login"
+            className="w-fit rounded-[12px] bg-accent px-5 py-2.5 text-sm font-medium text-accent-on hover:bg-accent-hover"
+          >
+            Temporary login
+          </Link>
         )}
         <Link
           href="/cases"
@@ -51,12 +61,14 @@ export default async function Home() {
         >
           All Cases
         </Link>
-        <Link
-          href="/cases/new"
-          className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
-        >
-          Create case
-        </Link>
+        {admin ? (
+          <Link
+            href="/cases/new"
+            className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
+          >
+            Create case
+          </Link>
+        ) : null}
         {PIPELINE_LIST.map((pipeline) => (
           <Link
             key={pipeline.href}

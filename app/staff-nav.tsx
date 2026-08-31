@@ -8,7 +8,6 @@ import { PIPELINE_LIST, pipelineStatuses } from "@/lib/pipelines";
 
 const CASE_LINKS = [
   { href: "/cases", label: "All Cases" },
-  { href: "/cases/new", label: "Create case" },
   ...PIPELINE_LIST.map((pipeline) => ({
     href: pipeline.href,
     label: pipeline.navLabel,
@@ -53,12 +52,31 @@ function NavLink({
   );
 }
 
-export function StaffNav() {
+export function StaffNav({
+  showCreateCase = false,
+}: {
+  showCreateCase?: boolean;
+}) {
   const pathname = usePathname();
 
   return (
     <nav aria-label="Staff" className="flex flex-col gap-1 px-3">
-      {CASE_LINKS.map((link) => (
+      {CASE_LINKS.slice(0, 1).map((link) => (
+        <NavLink
+          key={link.href}
+          href={link.href}
+          label={link.label}
+          active={isActive(pathname, link.href)}
+        />
+      ))}
+      {showCreateCase ? (
+        <NavLink
+          href="/cases/new"
+          label="Create case"
+          active={isActive(pathname, "/cases/new")}
+        />
+      ) : null}
+      {CASE_LINKS.slice(1).map((link) => (
         <NavLink
           key={link.href}
           href={link.href}

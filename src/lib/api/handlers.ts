@@ -28,6 +28,7 @@ import {
   NEXT_STEP_CONFLICT_MESSAGE,
   updateNextStepWithConcurrency,
 } from "@/lib/next-step-concurrency";
+import { revalidateCaseLists } from "@/lib/revalidate-cases";
 
 type AdminClient = SupabaseClient<Database>;
 
@@ -304,6 +305,11 @@ export async function insertCabinet(request: Request, cabinetSlug: string): Prom
         assigned.patch as WritePatch,
       );
       if (error) return supabaseError(error);
+      const insertedId =
+        data && typeof data === "object" && "id" in data && data.id
+          ? String(data.id)
+          : undefined;
+      revalidateCaseLists(insertedId);
       return json(data, 201);
     }
 

@@ -8,6 +8,8 @@ import {
 import { listCasePageDestFields, type CasePageField } from "@/lib/case-page";
 import { casesClient, isCaseId } from "@/lib/cases";
 import type { Database } from "@/lib/database.types";
+import { insertNextStepRowsForCase } from "@/lib/next-steps";
+import { nextStepNamesFromFormData } from "@/lib/select-options";
 
 type CasesUpdate = Database["public"]["Tables"]["cases"]["Update"];
 
@@ -76,6 +78,18 @@ function parseSubmittedField(
       .getAll(field.key)
       .some((value) => value === "true" || value === "on");
     return { ok: true, skip: false, value: checked ? true : null };
+  }
+
+  if (field.key === "next_steps") {
+    const parsed = nextStepNamesFromFormData(formData);
+    if (!parsed.ok) {
+      return { ok: false, message: `Could not save: ${parsed.message}` };
+    }
+    return {
+      ok: true,
+      skip: false,
+      value: parsed.names,
+    };
   }
 
   const raw = submittedString(formData, field.key);
@@ -169,6 +183,18 @@ export async function updateCaseFromForm(
       };
     }
     return { ok: false, message: result.message };
+  }
+
+  const nextSteps = parsed.patch.next_steps;
+  if (Array.isArray(nextSteps) && nextSteps.length > 0) {
+    const cabinet = await insertNextStepRowsForCase(client, parsed.id, nextSteps);
+    if (!cabinet.ok) {
+      return {
+        ok: true,
+        message: `Saved case fields, but a Next Steps row was not saved: ${cabinet.message}`,
+        lastModified: result.row.last_modified,
+      };
+    }
   }
 
   return {

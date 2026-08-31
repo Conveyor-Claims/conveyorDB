@@ -6,20 +6,19 @@ import {
   caseSectionAnchor,
   fileSlotsForSection,
 } from "@/lib/case-page";
-import { getCaseById, isCaseId } from "@/lib/cases";
+import { isCaseId } from "@/lib/cases";
+import { getCaseById } from "@/lib/visible-cases";
 import { listCommentsForCase } from "@/lib/comments";
 import { listContactsForCase } from "@/lib/contacts";
 import { listFilesForCase } from "@/lib/files";
-import { storedNextStepNames } from "@/lib/next-step-concurrency";
-import { listNextStepsForCase } from "@/lib/next-steps";
 import { getSession, isAdmin } from "@/lib/session";
 import { StaffChrome } from "../../staff-chrome";
 import { CaseComments } from "./case-comments";
 import { CaseField } from "./case-field";
 import { CaseFileSlots } from "./case-file-slots";
 import { CaseForm } from "./case-form";
+import { CaseFormNextSteps } from "./case-form-next-steps";
 import { CaseHeaderStrip } from "./case-header-strip";
-import { CaseNextSteps } from "./case-next-steps";
 import { CasePeople } from "./case-people";
 import { CaseSections } from "./case-sections";
 
@@ -47,22 +46,22 @@ export default async function CasePage({ params }: PageProps) {
     notFound();
   }
 
-  const [{ row, error, missingEnv, usingServiceRole }, session] =
-    await Promise.all([getCaseById(id), getSession()]);
+  const [{ row, error, missingEnv }, session] = await Promise.all([
+    getCaseById(id),
+    getSession(),
+  ]);
 
-  if (!row && !error && usingServiceRole) {
+  if (!row && !error && missingEnv.length === 0) {
     notFound();
   }
 
-  const [comments, contacts, files, nextSteps] = row
+  const [comments, contacts, files] = row
     ? await Promise.all([
         listCommentsForCase(row.id),
         listContactsForCase(row.id),
         listFilesForCase(row.id),
-        listNextStepsForCase(row.id),
       ])
     : [
-        { rows: [], error: null },
         { rows: [], error: null },
         { rows: [], error: null },
         { rows: [], error: null },
@@ -102,9 +101,9 @@ export default async function CasePage({ params }: PageProps) {
         can be edited and saved. File slots live on{" "}
         <span className="font-mono">public.files</span> (caller sends{" "}
         <span className="font-mono">slot_name</span>; a filled slot is refused).
-        Next Step claim lives on{" "}
-        <span className="font-mono">public.next_steps</span> and uses the loaded{" "}
-        <span className="font-mono">updated_at</span>. Case Number stays locked.
+        Next Steps live on <span className="font-mono">cases.next_steps</span>{" "}
+        and matching <span className="font-mono">public.next_steps</span> rows.
+        Case Number stays locked.
         Blank fields stay blank. People on this case are{" "}
         <span className="font-mono">public.contacts</span> rows whose{" "}
         <span className="font-mono">associated_cases</span> is this case uuid.
@@ -147,17 +146,8 @@ export default async function CasePage({ params }: PageProps) {
       ) : null}
 
       {row ? (
-        <CaseNextSteps
-          caseId={row.id}
-          rows={nextSteps.rows}
-          storedNames={storedNextStepNames(nextSteps.rows, row.next_steps)}
-          error={nextSteps.error}
-          canEdit={canPost}
-        />
-      ) : null}
-
-      {row ? (
         <CaseForm caseId={row.id} lastModified={row.last_modified}>
+          <CaseFormNextSteps initialSelected={row.next_steps} />
           <CaseSections
             sections={CASE_PAGE_SECTIONS.map((section) => ({
               name: section.name,
@@ -167,14 +157,16 @@ export default async function CasePage({ params }: PageProps) {
           >
             {CASE_PAGE_SECTIONS.map((section) => (
               <dl key={section.name} className="bg-background px-4">
-                {section.fields.map((field) => (
-                  <CaseField
-                    key={field.key}
-                    field={field}
-                    value={row[field.key]}
-                    caseId={row.id}
-                  />
-                ))}
+                {section.fields
+                  .filter((field) => field.key !== "next_steps")
+                  .map((field) => (
+                    <CaseField
+                      key={field.key}
+                      field={field}
+                      value={row[field.key]}
+                      caseId={row.id}
+                    />
+                  ))}
                 <CaseFileSlots
                   caseId={row.id}
                   slotNames={fileSlotsForSection(section.name)}

@@ -22,7 +22,7 @@ import {
   claimNextStepFromForm,
   type NextStepState,
 } from "@/lib/next-steps";
-import { PIPELINE_LIST } from "@/lib/pipelines";
+import { revalidateCaseLists } from "@/lib/revalidate-cases";
 
 export async function updateCaseAction(
   _prev: UpdateCaseState | null,
@@ -32,13 +32,7 @@ export async function updateCaseAction(
   if (result.ok) {
     const idRaw = formData.get("caseRowId");
     const id = typeof idRaw === "string" ? idRaw : "";
-    if (id) {
-      revalidatePath(`/cases/${id}`);
-    }
-    revalidatePath("/cases");
-    for (const pipeline of PIPELINE_LIST) {
-      revalidatePath(pipeline.href);
-    }
+    revalidateCaseLists(id || undefined);
     refresh();
   }
   return result;

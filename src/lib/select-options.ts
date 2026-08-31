@@ -628,6 +628,79 @@ export function isExistingNextStepName(name: string): boolean {
   return CASE_SELECT_OPTIONS.next_steps.some((option) => option.name === name);
 }
 
+/**
+ * Existing next_steps option names only. Empty stored list becomes the
+ * Prepare/Update Claim Summary - CNVR default.
+ */
+export function selectedCreateNextStepNames(
+  stored?: readonly string[] | null,
+): string[] {
+  const names: string[] = [];
+  const seen = new Set<string>();
+  for (const raw of stored ?? []) {
+    const name = raw.trim();
+    if (!name || !isExistingNextStepName(name) || seen.has(name)) continue;
+    seen.add(name);
+    names.push(name);
+  }
+  return names.length > 0 ? names : [defaultCreateNextStepName()];
+}
+
+export function parseExistingNextStepNames(
+  values: readonly unknown[],
+): { ok: true; names: string[] } | { ok: false; message: string } {
+  const seen = new Set<string>();
+  const names: string[] = [];
+  for (const raw of values) {
+    if (typeof raw !== "string") continue;
+    const name = raw.trim();
+    if (!name) continue;
+    if (!isExistingNextStepName(name)) {
+      return {
+        ok: false,
+        message: `"${name}" is not an existing Next Step.`,
+      };
+    }
+    if (seen.has(name)) continue;
+    seen.add(name);
+    names.push(name);
+  }
+  return { ok: true, names };
+}
+
+function withDefaultNextStepNames(
+  parsed: { ok: true; names: string[] } | { ok: false; message: string },
+): { ok: true; names: string[] } | { ok: false; message: string } {
+  if (!parsed.ok) return parsed;
+  return {
+    ok: true,
+    names:
+      parsed.names.length > 0
+        ? parsed.names
+        : [defaultCreateNextStepName()],
+  };
+}
+
+export function nextStepNamesFromFormData(
+  formData: FormData,
+): { ok: true; names: string[] } | { ok: false; message: string } {
+  const jsonRaw = formData.get("next_steps_json");
+  if (typeof jsonRaw === "string" && jsonRaw.length > 0) {
+    try {
+      const parsed: unknown = JSON.parse(jsonRaw);
+      if (!Array.isArray(parsed)) {
+        return { ok: false, message: "Next Steps were not valid." };
+      }
+      return withDefaultNextStepNames(parseExistingNextStepNames(parsed));
+    } catch {
+      return { ok: false, message: "Next Steps were not valid." };
+    }
+  }
+  return withDefaultNextStepNames(
+    parseExistingNextStepNames(formData.getAll("next_steps")),
+  );
+}
+
 export function optionColor(
   key: string,
   name: string,
