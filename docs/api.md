@@ -13,6 +13,7 @@ Thin service-role door for Intake and Coworking. Existing dest columns only. Thi
 
 - **Production:** `https://conveyor-db.vercel.app`
 - **Path prefix:** `/api`
+- **Backup cron** (`/api/cron/backup`) is not a cabinet route. It uses `CRON_SECRET` / the Vercel Cron header. See [`docs/backup.md`](backup.md).
 
 ## URLs
 

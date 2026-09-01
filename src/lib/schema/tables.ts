@@ -33,9 +33,21 @@ export const P12_HIGH_TABLES: readonly SchemaTable[] = [
   { name: "users", columnCount: 18 },
 ] as const;
 
+export const P25_GRANT_TABLES: readonly SchemaTable[] = [
+  { name: "role_permissions", columnCount: 4 },
+  { name: "case_view_grants", columnCount: 4 },
+] as const;
+
 export const ALL_PUBLIC_TABLES: readonly SchemaTable[] = [
   ...P11_CABINETS,
   ...P12_HIGH_TABLES,
+];
+
+/** Every public application table the backup job must refresh, including empty High tables. */
+export const BACKUP_PUBLIC_TABLES: readonly SchemaTable[] = [
+  ...P11_CABINETS,
+  ...P12_HIGH_TABLES,
+  ...P25_GRANT_TABLES,
 ];
 
 export const DEFAULT_STORAGE_BUCKET = "case-files";

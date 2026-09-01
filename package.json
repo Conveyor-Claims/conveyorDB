@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:backup": "npx --yes tsx --test src/lib/backup/refresh.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",
