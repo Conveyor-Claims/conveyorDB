@@ -23,9 +23,14 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 SUPABASE_STORAGE_BUCKET=case-files
+BACKUP_SUPABASE_URL=
+BACKUP_SUPABASE_SERVICE_ROLE_KEY=
+CRON_SECRET=
 ```
 
 Set the same names on the Vercel project. `SUPABASE_SERVICE_ROLE_KEY` is server-only. The private Storage bucket is `case-files`.
+
+Backup replica (every 4 hours, UTC `0 */4 * * *`): `GET`/`POST` `/api/cron/backup` copies public tables from primary into conveyordb-backup. Gate with `Authorization: Bearer <CRON_SECRET>` or the Vercel Cron header. Staff UI and `/api/{cabinet}` stay on primary. See [`docs/backup.md`](docs/backup.md).
 
 ### Scripts
 
