@@ -270,7 +270,7 @@ export async function refreshBackupFromPrimary(
     return fail(startedAt, now, {
       ...empty,
       missingTables,
-      error: `Backup schema is missing tables: ${missingTables.join(", ")}. Apply supabase/migrations to conveyordb-backup, then retry.`,
+      error: `Backup schema is missing tables: ${missingTables.join(", ")}. Schema is applied separately; this job does not create tables.`,
     });
   }
 

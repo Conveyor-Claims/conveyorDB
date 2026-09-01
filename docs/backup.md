@@ -29,15 +29,9 @@ Authorized if:
 
 Unauthenticated calls are `401`.
 
-## One-time schema on backup
+## Schema on backup (separate)
 
-The job does **not** run SQL migrations. It fails clearly if a required public table is missing (`backup.<table>` in `missingTables`).
-
-conveyordb-backup (`tjndmefytlesqlbfqbvk`) already has the public tables from this repo. If a new backup project is empty, apply these files **in order** in the Supabase SQL editor or via Supabase MCP (`apply_migration` / `execute_sql`). Do **not** apply them to primary.
-
-1. `supabase/migrations/20260826043800_p11_empty_cabinets.sql`
-2. `supabase/migrations/20260826044808_p12_empty_high_tables.sql`
-3. `supabase/migrations/20260831170000_p25_paralegal_case_grants.sql`
+The job does **not** apply SQL or invent tables. It copies only existing public application tables from the live typed schema (`src/lib/database.types.ts`). Schema on conveyordb-backup (`tjndmefytlesqlbfqbvk`) is applied separately. If a required table is missing, the job fails with `missingTables` (`backup.<table>` / `primary.<table>`).
 
 ## What is copied
 

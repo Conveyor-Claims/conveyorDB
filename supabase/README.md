@@ -2,8 +2,8 @@
 
 These migrations document the **empty** public schema already applied on **conveyordb-testing**. They are a repo copy only.
 
-- Do **not** apply them to primary / production (`conveyordb-testing`).
-- They **may** be applied once to the backup project (`conveyordb-backup`) if that public schema is empty. The 4-hour backup job does not run SQL; it fails if backup tables are missing. See [`docs/backup.md`](../docs/backup.md).
+- Do **not** apply them to production.
+- Backup schema on conveyordb-backup is applied separately from these files. The 4-hour backup job does not run SQL; it fails if backup tables are missing. See [`docs/backup.md`](../docs/backup.md).
 - Tables are empty. RLS is enabled. `airtable_id` is unique on data tables.
 - File / attachment slots are omitted from `cases` and High tables; PDFs live in `files`.
 - Formulas are nullable `text`. No `field_map` rows are inserted.
