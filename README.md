@@ -40,7 +40,7 @@ npm run dev
 ```
 
 - `/` All Cases after login (same list as `/cases`). Signed-out home is the temporary login landing, not a pipeline chip grid.
-- `/cases` All Cases list from `public.cases` (empty tables render an empty list). Grouped by Referred Firm. Filters: firm, status, next step, assigned.
+- `/cases` All Cases list from `public.cases` (empty tables render an empty list). Grouped by Referred Firm. Toolbar search: case number or client name (resolved display name). Filters: firm, status, next step, assigned.
 - `/cases/new` staff create-case form (temp admin only). Client Name only. Case Number is computed and locked (`C - {autonum zero-padded to 5} - {name}`). Case Status is stored Referral so `/new-cases` lists it. No Airtable write. Hidden from the paralegal stub.
 - `/new-cases` `/referrals` `/pre-lit` `/litigation` — same list filtered to stored `case_status` Referral (New cases is the queue name for that status; `/referrals` stays), Pre-Litigation, Litigation.
 - `/non-responsive` `/appraisal` `/appraisal-lit` `/re-inspection` `/settled` `/settled-paid` `/closed` — same list filtered to stored `case_status` Non-Responsive, Appraisal, Appraisal - Lit, Re-Inspection, Settled, Settled - Paid, and Closed No Service or Closed - New Claim. Settled is exact `Settled` only (other Settled * variants stay on All Cases). There is no dest value named Closed.

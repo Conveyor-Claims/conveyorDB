@@ -122,6 +122,7 @@ export function AllCasesTable({
   );
   const [visible, setVisible] = useState(() => defaultVisibility(columnDefs));
   const [panelOpen, setPanelOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<CaseListFilters>(
     EMPTY_CASE_LIST_FILTERS,
   );
@@ -133,8 +134,8 @@ export function AllCasesTable({
 
   const displayRows = useMemo(() => rows.map(listDisplayRow), [rows]);
   const filteredRows = useMemo(
-    () => filterCaseRows(displayRows, filters),
-    [displayRows, filters],
+    () => filterCaseRows(displayRows, filters, search),
+    [displayRows, filters, search],
   );
   const groups = useMemo(
     () => groupCasesByReferredFirm(filteredRows),
@@ -163,6 +164,7 @@ export function AllCasesTable({
     [displayRows],
   );
 
+  const searchOn = search.trim().length > 0;
   const filtersOn =
     filters.referredFirm.length +
       filters.caseStatus.length +
@@ -170,6 +172,7 @@ export function AllCasesTable({
       filters.resolutionsSpecialist.length +
       filters.paralegal.length >
     0;
+  const listNarrowed = filtersOn || searchOn;
 
   function toggleColumn(key: ListColumn["key"]) {
     setVisible((current) => ({ ...current, [key]: !current[key] }));
@@ -201,14 +204,35 @@ export function AllCasesTable({
     <section className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="space-y-1">
-          <p className="font-mono text-sm text-muted">
+          <p className="font-mono text-sm text-muted" aria-live="polite">
             {filteredRows.length}{" "}
             {filteredRows.length === 1 ? "case" : "cases"}
-            {filtersOn ? ` of ${displayRows.length}` : ""}
+            {listNarrowed ? ` of ${displayRows.length}` : ""}
           </p>
           <p className="text-xs text-muted">Grouped by Referred Firm</p>
         </div>
-        <div className="relative">
+        <div className="flex flex-wrap items-center gap-2">
+          <label className="flex items-center gap-2">
+            <span className="sr-only">Search case number or client name</span>
+            <input
+              type="search"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Case number or client name"
+              autoComplete="off"
+              className="w-56 rounded-[12px] border border-border bg-background px-3 py-1.5 text-sm text-foreground"
+            />
+          </label>
+          {searchOn ? (
+            <button
+              type="button"
+              onClick={() => setSearch("")}
+              className="text-xs text-accent hover:text-accent-hover"
+            >
+              Clear
+            </button>
+          ) : null}
+          <div className="relative">
           <button
             type="button"
             aria-expanded={panelOpen}
@@ -302,6 +326,7 @@ export function AllCasesTable({
               </div>
             </div>
           ) : null}
+        </div>
         </div>
       </div>
 
