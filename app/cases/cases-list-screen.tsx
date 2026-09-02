@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AllCasesTable } from "./all-cases-table";
 import { ChoicePill } from "../choice-pill";
+import { EmptyCasesLine } from "../empty-cases-line";
 import { StaffChrome } from "../staff-chrome";
 import type { AllCasesList } from "@/lib/cases";
 import type { DueDateBoard } from "@/lib/due-date-boards";
@@ -66,13 +67,15 @@ export async function CasesListScreen({
         <p className="rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-100">
           {error}
         </p>
-      ) : null}
-
-      <AllCasesTable
-        rows={rows}
-        hideCaseStatusFilter={Boolean(pipeline)}
-        extraColumns={board?.extraColumns}
-      />
+      ) : rows.length === 0 ? (
+        <EmptyCasesLine showViewAll={Boolean(pipeline || board)} />
+      ) : (
+        <AllCasesTable
+          rows={rows}
+          hideCaseStatusFilter={Boolean(pipeline)}
+          extraColumns={board?.extraColumns}
+        />
+      )}
     </StaffChrome>
   );
 }

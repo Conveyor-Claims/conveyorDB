@@ -20,6 +20,7 @@ import {
   EMPTY_CASE_LIST_FILTERS,
   filterCaseRows,
   groupCasesByReferredFirm,
+  noCasesMatchMessage,
   uniqueNextSteps,
   uniqueStoredValues,
   type CaseListFilters,
@@ -330,6 +331,23 @@ export function AllCasesTable({
         </div>
       </div>
 
+      {filteredRows.length === 0 ? (
+        <p className="text-sm leading-6 text-muted">
+          {noCasesMatchMessage(search)}
+          {searchOn ? (
+            <>
+              {" "}
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="text-accent hover:text-accent-hover"
+              >
+                Clear
+              </button>
+            </>
+          ) : null}
+        </p>
+      ) : (
       <StickyHorizontalScroll
         label="Scroll cases table horizontally"
         className="rounded-xl border border-border bg-background"
@@ -356,19 +374,7 @@ export function AllCasesTable({
               ))}
             </tr>
           </thead>
-          {filteredRows.length === 0 ? (
-            <tbody>
-              <tr>
-                <td
-                  colSpan={columns.length + 1}
-                  className={`${cellRule} py-10 text-center text-muted`}
-                >
-                  No cases.
-                </td>
-              </tr>
-            </tbody>
-          ) : (
-            numberedGroups.map((group) => {
+          {numberedGroups.map((group) => {
               const firmName = hideRecordRefDisplay(group.firm);
               return (
               <tbody key={group.firm || "blank-firm"}>
@@ -426,10 +432,10 @@ export function AllCasesTable({
                 ))}
               </tbody>
               );
-            })
-          )}
+            })}
         </table>
       </StickyHorizontalScroll>
+      )}
     </section>
   );
 }

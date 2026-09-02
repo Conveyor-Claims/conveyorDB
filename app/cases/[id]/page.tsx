@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import {
   CASE_PAGE_SECTIONS,
@@ -13,6 +12,7 @@ import { listContactsForCase } from "@/lib/contacts";
 import { listFilesForCase } from "@/lib/files";
 import { getSession, isAdmin } from "@/lib/session";
 import { StaffChrome } from "../../staff-chrome";
+import { StaffMissingPage } from "../../staff-missing";
 import { CaseComments } from "./case-comments";
 import { CaseField } from "./case-field";
 import { CaseFileSlots } from "./case-file-slots";
@@ -43,7 +43,12 @@ export async function generateMetadata({
 export default async function CasePage({ params }: PageProps) {
   const { id } = await params;
   if (!isCaseId(id)) {
-    notFound();
+    return (
+      <StaffMissingPage
+        title="Case not found"
+        message="This case does not exist."
+      />
+    );
   }
 
   const [{ row, error, missingEnv }, session] = await Promise.all([
@@ -52,7 +57,12 @@ export default async function CasePage({ params }: PageProps) {
   ]);
 
   if (!row && !error && missingEnv.length === 0) {
-    notFound();
+    return (
+      <StaffMissingPage
+        title="Case not found"
+        message="This case does not exist."
+      />
+    );
   }
 
   const [comments, contacts, files] = row

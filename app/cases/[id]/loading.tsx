@@ -1,9 +1,5 @@
-import { StaffChrome } from "../../staff-chrome";
+import { CaseDetailSkeleton } from "../../staff-skeletons";
 
 export default function CaseLoading() {
-  return (
-    <StaffChrome title="">
-      <p className="font-mono text-sm text-muted">Loading case…</p>
-    </StaffChrome>
-  );
+  return <CaseDetailSkeleton />;
 }
