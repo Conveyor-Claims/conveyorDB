@@ -16,11 +16,6 @@ export default async function Home() {
 
   return (
     <StaffChrome title="ConveyorDB">
-      <p className="max-w-xl text-lg leading-7 text-muted">
-        In-house Airtable replacement. All Cases and the pipeline lists read{" "}
-        <span className="font-mono text-base">public.cases</span>. Cabinets stay
-        blank until rows are copied.
-      </p>
       {admin ? (
         <p className="max-w-xl text-sm leading-6 text-muted">
           Signed in as temporary admin. Full access for now, until real user
@@ -85,7 +80,7 @@ export default async function Home() {
           href="/health"
           className="w-fit rounded-[12px] border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground"
         >
-          Schema health
+          Health
         </Link>
       </div>
     </StaffChrome>

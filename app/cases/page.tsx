@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "All Cases · ConveyorDB",
-  description: "Read-only list of public.cases.",
+  description: "All Cases.",
 };
 
 export default async function AllCasesPage() {
