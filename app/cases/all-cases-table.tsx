@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ChoicePill } from "../choice-pill";
+import { StickyHorizontalScroll } from "./sticky-horizontal-scroll";
 import {
   ALL_CASES_COLUMNS,
   displayCaseValue,
@@ -275,7 +276,10 @@ export function AllCasesTable({
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-border bg-background">
+      <StickyHorizontalScroll
+        label="Scroll cases table horizontally"
+        className="rounded-xl border border-border bg-background"
+      >
         <table className="min-w-full border-collapse text-left text-sm">
           <caption className="sr-only">Cases grouped by referred firm</caption>
           <thead className="sticky top-0 z-10 bg-wash">
@@ -368,7 +372,7 @@ export function AllCasesTable({
             ))
           )}
         </table>
-      </div>
+      </StickyHorizontalScroll>
     </section>
   );
 }

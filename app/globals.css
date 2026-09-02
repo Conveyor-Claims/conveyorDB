@@ -42,3 +42,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* One horizontal scroll control, pinned to the top of the cases table. */
+.cases-table-h-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #6b7280 var(--wash);
+}
+
+.cases-table-h-scroll::-webkit-scrollbar {
+  height: 12px;
+}
+
+.cases-table-h-scroll::-webkit-scrollbar-track {
+  background: var(--wash);
+}
+
+.cases-table-h-scroll::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 6px;
+}
+
+.cases-table-h-scroll-body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cases-table-h-scroll-body::-webkit-scrollbar {
+  display: none;
+}
