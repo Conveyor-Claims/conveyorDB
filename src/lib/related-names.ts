@@ -167,3 +167,18 @@ export function hideRecordRefDisplay(value: string): string {
   }
   return text;
 }
+
+/**
+ * Case Number cell link. Blank number uses Client Name, then View case.
+ * Never show row.id or rec….
+ */
+export function caseRowLinkLabel(
+  caseNumber: string | null | undefined,
+  clientName: string | null | undefined,
+): string {
+  const number = displayCaseNumberOnly(caseNumber);
+  if (number) return number;
+  const name = hideRecordRefDisplay(clientName ?? "");
+  if (name) return name;
+  return "View case";
+}
