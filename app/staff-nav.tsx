@@ -71,46 +71,48 @@ export function StaffNav({
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Staff" className="flex flex-col gap-3 px-3 pb-3">
-      <NavGroup label="Pipelines">
-        {PIPELINE_NAV_LINKS.slice(0, 1).map((link) => (
-          <NavLink
-            key={link.href}
-            href={link.href}
-            label={link.label}
-            active={isStaffNavActive(pathname, link.href, signedIn)}
-          />
-        ))}
-        {showCreateCase ? (
-          <NavLink
-            href="/cases/new"
-            label="Create case"
-            active={isStaffNavActive(pathname, "/cases/new", signedIn)}
-          />
-        ) : null}
-        {PIPELINE_NAV_LINKS.slice(1).map((link) => (
-          <NavLink
-            key={link.href}
-            href={link.href}
-            label={link.label}
-            active={isStaffNavActive(pathname, link.href, signedIn)}
-            caseStatuses={link.caseStatuses}
-          />
-        ))}
-      </NavGroup>
+    <nav aria-label="Staff" className="flex min-h-0 flex-1 flex-col">
+      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3">
+        <NavGroup label="Pipelines">
+          {PIPELINE_NAV_LINKS.slice(0, 1).map((link) => (
+            <NavLink
+              key={link.href}
+              href={link.href}
+              label={link.label}
+              active={isStaffNavActive(pathname, link.href, signedIn)}
+            />
+          ))}
+          {showCreateCase ? (
+            <NavLink
+              href="/cases/new"
+              label="Create case"
+              active={isStaffNavActive(pathname, "/cases/new", signedIn)}
+            />
+          ) : null}
+          {PIPELINE_NAV_LINKS.slice(1).map((link) => (
+            <NavLink
+              key={link.href}
+              href={link.href}
+              label={link.label}
+              active={isStaffNavActive(pathname, link.href, signedIn)}
+              caseStatuses={link.caseStatuses}
+            />
+          ))}
+        </NavGroup>
 
-      <NavGroup label="Boards">
-        {BOARD_NAV_LINKS.map((link) => (
-          <NavLink
-            key={link.href}
-            href={link.href}
-            label={link.label}
-            active={isStaffNavActive(pathname, link.href, signedIn)}
-          />
-        ))}
-      </NavGroup>
+        <NavGroup label="Boards">
+          {BOARD_NAV_LINKS.map((link) => (
+            <NavLink
+              key={link.href}
+              href={link.href}
+              label={link.label}
+              active={isStaffNavActive(pathname, link.href, signedIn)}
+            />
+          ))}
+        </NavGroup>
+      </div>
 
-      <div className="space-y-1">
+      <div className="shrink-0 space-y-1 px-3 pt-3">
         <NavLink
           href="/health"
           label="Health"
@@ -118,7 +120,7 @@ export function StaffNav({
         />
       </div>
 
-      <div className="space-y-1 border-t border-border pt-3">
+      <div className="shrink-0 space-y-1 border-t border-border px-3 pb-3 pt-3">
         <div className="flex items-center gap-2 px-1 py-1">
           <span
             aria-hidden
