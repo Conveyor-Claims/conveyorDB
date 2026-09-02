@@ -95,7 +95,19 @@ export default async function HealthPage() {
     <StaffChrome title="Schema health">
       <p className="max-w-2xl text-sm leading-6 text-muted">
         Live check against conveyordb-testing. Tables are listed by name
-        only. Empty tables stay empty.
+        only. Empty tables stay empty. Blank fields stay blank. Cabinets stay
+        blank until rows are copied.
+      </p>
+      <p className="max-w-2xl text-sm leading-6 text-muted">
+        All Cases is a read-only list from{" "}
+        <span className="font-mono">public.cases</span>. Pipeline pages are the
+        same list, filtered to stored{" "}
+        <span className="font-mono">case_status</span>. Due-date boards filter
+        to a stored dest date (non-null), sorted ascending (blanks last).
+        Client Name and Referred Firm resolve from Contact and Partner
+        cabinets; rec ids with no name stay blank. Case Number is the number
+        only. Staff lists and boards show the pipeline or board name plus
+        count — these notes stay here.
       </p>
 
         <dl className="grid gap-3 text-sm sm:grid-cols-2">

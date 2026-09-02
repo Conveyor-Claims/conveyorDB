@@ -4,12 +4,12 @@ import { ChoicePill } from "../choice-pill";
 import { StaffChrome } from "../staff-chrome";
 import type { AllCasesList } from "@/lib/cases";
 import type { DueDateBoard } from "@/lib/due-date-boards";
-import {
-  pipelineStatusLabel,
-  pipelineStatuses,
-  type CasePipeline,
-} from "@/lib/pipelines";
+import { pipelineStatuses, type CasePipeline } from "@/lib/pipelines";
 import { getSession, isAdmin } from "@/lib/session";
+
+function caseCountLabel(count: number) {
+  return `${count} ${count === 1 ? "case" : "cases"}`;
+}
 
 export async function CasesListScreen({
   title,
@@ -24,6 +24,9 @@ export async function CasesListScreen({
 }) {
   const { rows, error, missingEnv } = list;
   const canCreate = isAdmin(await getSession());
+  const subtitle = board
+    ? `${board.title} · ${caseCountLabel(rows.length)}`
+    : `${title} · ${caseCountLabel(rows.length)}`;
 
   return (
     <StaffChrome
@@ -38,40 +41,10 @@ export async function CasesListScreen({
           </span>
         ) : null
       }
+      header={
+        <p className="text-sm leading-6 text-muted">{subtitle}</p>
+      }
     >
-      {pipeline ? (
-        <p className="max-w-2xl text-sm leading-6 text-muted">
-          Same list as All Cases, filtered to stored{" "}
-          <span className="font-mono">case_status</span>{" "}
-          <span className="font-medium text-foreground">
-            {pipelineStatusLabel(pipeline)}
-          </span>
-          . Grouped by Referred Firm. Client Name and firm resolve from
-          Contact and Partner cabinets; rec ids with no name stay blank. Case
-          Number is the number only. Filters: firm, next step, assigned.
-        </p>
-      ) : board ? (
-        <p className="max-w-2xl text-sm leading-6 text-muted">
-          Same list as All Cases, filtered to stored{" "}
-          <span className="font-mono">{board.dateColumn}</span>{" "}
-          <span className="font-medium text-foreground">
-            {board.dateLabel}
-          </span>{" "}
-          (non-null), sorted ascending (blanks last). Grouped by Referred Firm.
-          Client Name and firm resolve from Contact and Partner cabinets; rec
-          ids with no name stay blank. Case Number is the number only. Filters:
-          firm, status, next step, assigned.
-        </p>
-      ) : (
-        <p className="max-w-2xl text-sm leading-6 text-muted">
-          Read-only list from <span className="font-mono">public.cases</span>.
-          Client Name and Referred Firm resolve from Contact and Partner
-          cabinets; rec ids with no name stay blank. Case Number is the number
-          only. Grouped by Referred Firm. Filters: firm, status, next step,
-          assigned.
-        </p>
-      )}
-
       {canCreate ? (
         <p>
           <Link

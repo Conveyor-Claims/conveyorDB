@@ -1,5 +1,5 @@
 import { listCases } from "@/lib/visible-cases";
-import { CASE_PIPELINES, pipelineStatusLabel } from "@/lib/pipelines";
+import { CASE_PIPELINES } from "@/lib/pipelines";
 import { CasesListScreen } from "../cases/cases-list-screen";
 
 export const dynamic = "force-dynamic";
@@ -8,7 +8,7 @@ const pipeline = CASE_PIPELINES.closed;
 
 export const metadata = {
   title: `${pipeline.title} · ConveyorDB`,
-  description: `All Cases filtered to Case Status ${pipelineStatusLabel(pipeline)}.`,
+  description: pipeline.title,
 };
 
 export default async function ClosedPage() {

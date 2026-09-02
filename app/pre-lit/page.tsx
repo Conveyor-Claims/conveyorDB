@@ -8,7 +8,7 @@ const pipeline = CASE_PIPELINES["pre-lit"];
 
 export const metadata = {
   title: `${pipeline.title} · ConveyorDB`,
-  description: `All Cases filtered to Case Status ${pipeline.caseStatus}.`,
+  description: pipeline.title,
 };
 
 export default async function PreLitPage() {

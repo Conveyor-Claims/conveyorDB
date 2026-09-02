@@ -21,7 +21,7 @@ export async function generateMetadata({
   }
   return {
     title: `${board.title} · ConveyorDB`,
-    description: `All Cases filtered to stored ${board.dateColumn}, sorted ascending.`,
+    description: `${board.title} due-date board.`,
   };
 }
 

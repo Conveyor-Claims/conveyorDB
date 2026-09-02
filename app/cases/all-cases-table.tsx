@@ -13,6 +13,7 @@ import {
 import {
   displayCaseNumberOnly,
   hideRecordRefDisplay,
+  caseRowLinkLabel,
 } from "@/lib/related-names";
 import { optionsForDest } from "@/lib/select-options";
 import {
@@ -384,7 +385,7 @@ export function AllCasesTable({
                                 href={`/cases/${row.id}`}
                                 className="text-accent underline-offset-2 hover:text-accent-hover hover:underline"
                               >
-                                {text}
+                                {caseRowLinkLabel(text, row.client_name)}
                               </Link>
                             ) : text &&
                               (isAllCasesPillKey(column.key) ||

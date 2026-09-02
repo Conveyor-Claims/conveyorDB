@@ -4,6 +4,7 @@ import type { AllCasesRow } from "./cases";
 import { groupCasesByReferredFirm } from "./pipelines";
 import {
   applyListRelatedNames,
+  caseRowLinkLabel,
   contactNameMaps,
   displayCaseNumberOnly,
   hideRecordRefDisplay,
@@ -216,5 +217,19 @@ test("hideRecordRefDisplay never surfaces rec… or a bare uuid", () => {
   assert.equal(
     hideRecordRefDisplay("rec0FtQsgki8fwedM, Example Firm"),
     "Example Firm",
+  );
+});
+
+test("blank Case Number link uses Client Name, then View case — never an id", () => {
+  assert.equal(caseRowLinkLabel("C - 02439", "Mary T. Elmore"), "C - 02439");
+  assert.equal(caseRowLinkLabel(null, "Clara Rock Climbing"), "Clara Rock Climbing");
+  assert.equal(caseRowLinkLabel("", ""), "View case");
+  assert.equal(
+    caseRowLinkLabel("reczdQ0AAIr3Z2XFU", "rec6BtDMw270SdSvP"),
+    "View case",
+  );
+  assert.equal(
+    caseRowLinkLabel("17a76057-ccb4-4464-bb4f-b753ac93a847", null),
+    "View case",
   );
 });
