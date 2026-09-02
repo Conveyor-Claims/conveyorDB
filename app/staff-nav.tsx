@@ -2,27 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
 import { StatusDot } from "./choice-pill";
-import { DUE_DATE_BOARD_LIST } from "@/lib/due-date-boards";
-import { PIPELINE_LIST, pipelineStatuses } from "@/lib/pipelines";
-
-const CASE_LINKS = [
-  { href: "/cases", label: "All Cases" },
-  ...PIPELINE_LIST.map((pipeline) => ({
-    href: pipeline.href,
-    label: pipeline.navLabel,
-    caseStatuses: pipelineStatuses(pipeline),
-  })),
-] as const;
-
-const DUE_DATE_LINKS = DUE_DATE_BOARD_LIST.map((board) => ({
-  href: board.href,
-  label: board.navLabel,
-}));
-
-function isActive(pathname: string, href: string) {
-  return pathname === href;
-}
+import { signOut } from "@/lib/session-actions";
+import {
+  BOARD_NAV_LINKS,
+  PIPELINE_NAV_LINKS,
+  isStaffNavActive,
+} from "@/lib/staff-nav";
 
 function NavLink({
   href,
@@ -38,6 +25,7 @@ function NavLink({
   return (
     <Link
       href={href}
+      aria-current={active ? "page" : undefined}
       className={`flex items-center gap-2 rounded-[12px] px-3 py-2 text-sm ${
         active
           ? "bg-wash text-accent"
@@ -52,56 +40,119 @@ function NavLink({
   );
 }
 
+function NavGroup({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="space-y-1">
+      <p className="px-3 pb-1 text-xs text-muted">{label}</p>
+      {children}
+    </div>
+  );
+}
+
 export function StaffNav({
   showCreateCase = false,
+  showPermissions = false,
+  signedIn = false,
+  accountLabel = "",
+  accountInitials = "",
 }: {
   showCreateCase?: boolean;
+  showPermissions?: boolean;
+  signedIn?: boolean;
+  accountLabel?: string;
+  accountInitials?: string;
 }) {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="Staff" className="flex flex-col gap-1 px-3">
-      {CASE_LINKS.slice(0, 1).map((link) => (
-        <NavLink
-          key={link.href}
-          href={link.href}
-          label={link.label}
-          active={isActive(pathname, link.href)}
-        />
-      ))}
-      {showCreateCase ? (
-        <NavLink
-          href="/cases/new"
-          label="Create case"
-          active={isActive(pathname, "/cases/new")}
-        />
-      ) : null}
-      {CASE_LINKS.slice(1).map((link) => (
-        <NavLink
-          key={link.href}
-          href={link.href}
-          label={link.label}
-          active={isActive(pathname, link.href)}
-          caseStatuses={"caseStatuses" in link ? link.caseStatuses : undefined}
-        />
-      ))}
-      <div className="mt-3 space-y-1">
-        <p className="px-3 pb-1 text-xs text-muted">Due-date</p>
-        {DUE_DATE_LINKS.map((link) => (
+    <nav aria-label="Staff" className="flex flex-col gap-3 px-3 pb-3">
+      <NavGroup label="Pipelines">
+        {PIPELINE_NAV_LINKS.slice(0, 1).map((link) => (
           <NavLink
             key={link.href}
             href={link.href}
             label={link.label}
-            active={isActive(pathname, link.href)}
+            active={isStaffNavActive(pathname, link.href)}
           />
         ))}
-      </div>
-      <div className="mt-3">
+        {showCreateCase ? (
+          <NavLink
+            href="/cases/new"
+            label="Create case"
+            active={isStaffNavActive(pathname, "/cases/new")}
+          />
+        ) : null}
+        {PIPELINE_NAV_LINKS.slice(1).map((link) => (
+          <NavLink
+            key={link.href}
+            href={link.href}
+            label={link.label}
+            active={isStaffNavActive(pathname, link.href)}
+            caseStatuses={link.caseStatuses}
+          />
+        ))}
+      </NavGroup>
+
+      <NavGroup label="Boards">
+        {BOARD_NAV_LINKS.map((link) => (
+          <NavLink
+            key={link.href}
+            href={link.href}
+            label={link.label}
+            active={isStaffNavActive(pathname, link.href)}
+          />
+        ))}
+      </NavGroup>
+
+      <div className="space-y-1">
         <NavLink
           href="/health"
           label="Health"
-          active={isActive(pathname, "/health")}
+          active={isStaffNavActive(pathname, "/health")}
         />
+      </div>
+
+      <div className="space-y-1 border-t border-border pt-3">
+        <div className="flex items-center gap-2 px-1 py-1">
+          <span
+            aria-hidden
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-wash text-xs font-medium text-muted"
+          >
+            {accountInitials}
+          </span>
+          {signedIn ? (
+            <p className="truncate text-sm text-foreground">{accountLabel}</p>
+          ) : null}
+        </div>
+        {showPermissions ? (
+          <NavLink
+            href="/permissions"
+            label="Permissions"
+            active={isStaffNavActive(pathname, "/permissions")}
+          />
+        ) : null}
+        {signedIn ? (
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="w-full rounded-[12px] px-3 py-2 text-left text-sm text-muted hover:bg-wash hover:text-accent"
+            >
+              Sign out
+            </button>
+          </form>
+        ) : (
+          <NavLink
+            href="/login"
+            label="Temporary login"
+            active={isStaffNavActive(pathname, "/login")}
+          />
+        )}
       </div>
     </nav>
   );

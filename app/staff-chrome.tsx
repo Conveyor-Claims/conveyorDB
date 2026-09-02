@@ -4,7 +4,6 @@ import {
   getSession,
   isAdmin,
   isSignedIn,
-  signOut,
   type Session,
 } from "@/lib/session";
 import { StaffNav } from "./staff-nav";
@@ -20,66 +19,6 @@ function accountInitials(session: Session | null): string {
   if (session?.role === "admin") return "TA";
   if (session?.role === "paralegal") return "TP";
   return "";
-}
-
-function AccountSlot({
-  session,
-}: {
-  session: Session | null;
-}) {
-  const signedIn = isSignedIn(session);
-  const admin = isAdmin(session);
-
-  return (
-    <div className="shrink-0 border-t border-border px-3 py-3">
-      <div className="flex items-center gap-2 px-1 py-1">
-        <span
-          aria-hidden
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-wash text-xs font-medium text-muted"
-        >
-          {accountInitials(session)}
-        </span>
-        {signedIn ? (
-          <p className="truncate text-sm text-foreground">
-            {accountLabel(session)}
-          </p>
-        ) : null}
-      </div>
-      <div className="mt-2 flex flex-col gap-1">
-        {admin ? (
-          <Link
-            href="/permissions"
-            className="rounded-[12px] px-3 py-2 text-sm text-muted hover:bg-wash hover:text-accent"
-          >
-            Permissions
-          </Link>
-        ) : null}
-        <Link
-          href="/preferences"
-          className="rounded-[12px] px-3 py-2 text-sm text-muted hover:bg-wash hover:text-accent"
-        >
-          Preferences
-        </Link>
-        {signedIn ? (
-          <form action={signOut}>
-            <button
-              type="submit"
-              className="w-full rounded-[12px] px-3 py-2 text-left text-sm text-muted hover:bg-wash hover:text-accent"
-            >
-              Sign out
-            </button>
-          </form>
-        ) : (
-          <Link
-            href="/login"
-            className="rounded-[12px] px-3 py-2 text-sm text-muted hover:bg-wash hover:text-accent"
-          >
-            Temporary login
-          </Link>
-        )}
-      </div>
-    </div>
-  );
 }
 
 export async function StaffChrome({
@@ -99,10 +38,11 @@ export async function StaffChrome({
 }) {
   const session = await getSession();
   const admin = isAdmin(session);
+  const signedIn = isSignedIn(session);
 
   return (
     <div className="flex min-h-svh flex-1 bg-background text-foreground">
-      <aside className="sticky top-0 flex h-dvh w-56 shrink-0 flex-col overflow-hidden border-r border-border bg-background pb-2">
+      <aside className="sticky top-0 flex h-dvh w-56 shrink-0 flex-col overflow-y-auto border-r border-border bg-background pb-2">
         <div className="px-4 py-4">
           <Link
             href="/"
@@ -111,10 +51,11 @@ export async function StaffChrome({
             Conveyor Claims
           </Link>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto">
-          <Suspense
-            fallback={
-              <nav aria-label="Staff" className="flex flex-col gap-1 px-3">
+        <Suspense
+          fallback={
+            <nav aria-label="Staff" className="flex flex-col gap-3 px-3 pb-3">
+              <div className="space-y-1">
+                <p className="px-3 pb-1 text-xs text-muted">Pipelines</p>
                 <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
                   All Cases
                 </span>
@@ -126,17 +67,21 @@ export async function StaffChrome({
                     {pipeline.navLabel}
                   </span>
                 ))}
-                <span className="px-3 pt-2 text-xs text-muted">Due-date</span>
-                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
-                  Health
-                </span>
-              </nav>
-            }
-          >
-            <StaffNav showCreateCase={admin} />
-          </Suspense>
-        </div>
-        <AccountSlot session={session} />
+              </div>
+              <div className="space-y-1">
+                <p className="px-3 pb-1 text-xs text-muted">Boards</p>
+              </div>
+            </nav>
+          }
+        >
+          <StaffNav
+            showCreateCase={admin}
+            showPermissions={admin}
+            signedIn={signedIn}
+            accountLabel={accountLabel(session)}
+            accountInitials={accountInitials(session)}
+          />
+        </Suspense>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col xl:flex-row">
         <main

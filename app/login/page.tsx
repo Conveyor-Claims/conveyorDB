@@ -15,7 +15,7 @@ export const metadata = {
 
 export default async function LoginPage() {
   if (isSignedIn(await getSession())) {
-    redirect("/cases");
+    redirect("/");
   }
 
   return (

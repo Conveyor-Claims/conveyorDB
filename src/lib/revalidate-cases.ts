@@ -4,6 +4,7 @@ import { PIPELINE_LIST } from "@/lib/pipelines";
 
 /** Lists that read public.cases. Grouping keeps blank referred_firm. */
 export function revalidateCaseLists(caseId?: string) {
+  revalidatePath("/");
   revalidatePath("/cases");
   for (const pipeline of PIPELINE_LIST) {
     revalidatePath(pipeline.href);
