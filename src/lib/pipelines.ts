@@ -1,4 +1,8 @@
 import type { AllCasesRow } from "@/lib/cases";
+import {
+  displayCaseNumberOnly,
+  hideRecordRefDisplay,
+} from "@/lib/related-names";
 
 /**
  * Pipeline pages are All Cases filtered by stored case_status.
@@ -149,11 +153,49 @@ function hasAny(selected: string[], value: string): boolean {
   return selected.length === 0 || selected.includes(value);
 }
 
+function compactSearchText(value: string): string {
+  return value.toLowerCase().replace(/[\s-]+/g, "");
+}
+
+/**
+ * Toolbar find: resolved Case Number and Client Name only.
+ * Rec ids / uuids are not searchable. Compact so `C-02895` matches `C - 02895`.
+ */
+export function caseRowMatchesSearch(
+  row: Pick<AllCasesRow, "case_number" | "client_name">,
+  query: string,
+): boolean {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return true;
+
+  const caseNumber = displayCaseNumberOnly(row.case_number);
+  const clientName = hideRecordRefDisplay(row.client_name ?? "");
+
+  if (
+    caseNumber.toLowerCase().includes(needle) ||
+    clientName.toLowerCase().includes(needle)
+  ) {
+    return true;
+  }
+
+  const compactNeedle = compactSearchText(needle);
+  if (!compactNeedle) return true;
+
+  return (
+    compactSearchText(caseNumber).includes(compactNeedle) ||
+    compactSearchText(clientName).includes(compactNeedle)
+  );
+}
+
 export function filterCaseRows(
   rows: AllCasesRow[],
   filters: CaseListFilters,
+  search = "",
 ): AllCasesRow[] {
   return rows.filter((row) => {
+    if (!caseRowMatchesSearch(row, search)) {
+      return false;
+    }
     if (!hasAny(filters.referredFirm, storedText(row.referred_firm))) {
       return false;
     }

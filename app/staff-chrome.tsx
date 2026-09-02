@@ -42,8 +42,8 @@ export async function StaffChrome({
 
   return (
     <div className="flex min-h-svh flex-1 bg-background text-foreground">
-      <aside className="sticky top-0 flex h-dvh w-56 shrink-0 flex-col overflow-y-auto border-r border-border bg-background pb-2">
-        <div className="px-4 py-4">
+      <aside className="sticky top-0 flex h-dvh w-56 shrink-0 flex-col overflow-hidden border-r border-border bg-background">
+        <div className="shrink-0 px-4 py-4">
           <Link
             href="/"
             className="font-mono text-sm tracking-wide text-muted uppercase hover:text-foreground"
@@ -51,37 +51,44 @@ export async function StaffChrome({
             Conveyor Claims
           </Link>
         </div>
-        <Suspense
-          fallback={
-            <nav aria-label="Staff" className="flex flex-col gap-3 px-3 pb-3">
-              <div className="space-y-1">
-                <p className="px-3 pb-1 text-xs text-muted">Pipelines</p>
-                <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
-                  All Cases
-                </span>
-                {PIPELINE_LIST.map((pipeline) => (
-                  <span
-                    key={pipeline.href}
-                    className="rounded-[12px] px-3 py-2 text-sm text-muted"
-                  >
-                    {pipeline.navLabel}
-                  </span>
-                ))}
-              </div>
-              <div className="space-y-1">
-                <p className="px-3 pb-1 text-xs text-muted">Boards</p>
-              </div>
-            </nav>
-          }
-        >
-          <StaffNav
-            showCreateCase={admin}
-            showPermissions={admin}
-            signedIn={signedIn}
-            accountLabel={accountLabel(session)}
-            accountInitials={accountInitials(session)}
-          />
-        </Suspense>
+        <div className="flex min-h-0 flex-1 flex-col">
+          <Suspense
+            fallback={
+              <nav
+                aria-label="Staff"
+                className="flex min-h-0 flex-1 flex-col"
+              >
+                <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-3">
+                  <div className="space-y-1">
+                    <p className="px-3 pb-1 text-xs text-muted">Pipelines</p>
+                    <span className="rounded-[12px] px-3 py-2 text-sm text-muted">
+                      All Cases
+                    </span>
+                    {PIPELINE_LIST.map((pipeline) => (
+                      <span
+                        key={pipeline.href}
+                        className="rounded-[12px] px-3 py-2 text-sm text-muted"
+                      >
+                        {pipeline.navLabel}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="space-y-1">
+                    <p className="px-3 pb-1 text-xs text-muted">Boards</p>
+                  </div>
+                </div>
+              </nav>
+            }
+          >
+            <StaffNav
+              showCreateCase={admin}
+              showPermissions={admin}
+              signedIn={signedIn}
+              accountLabel={accountLabel(session)}
+              accountInitials={accountInitials(session)}
+            />
+          </Suspense>
+        </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col xl:flex-row">
         <main

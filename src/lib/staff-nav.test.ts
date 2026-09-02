@@ -16,6 +16,14 @@ test("sidebar groups pipelines before boards", () => {
     BOARD_NAV_LINKS.some((link) => link.href.includes("appraisal-client")),
     false,
   );
+  assert.equal(
+    PIPELINE_NAV_LINKS.some((link) => link.href === "/health"),
+    false,
+  );
+  assert.equal(
+    BOARD_NAV_LINKS.some((link) => link.href === "/health"),
+    false,
+  );
 });
 
 test("All Cases is current on /cases, and on / only after login", () => {
