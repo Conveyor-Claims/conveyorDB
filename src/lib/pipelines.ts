@@ -158,6 +158,15 @@ function compactSearchText(value: string): string {
 }
 
 /**
+ * Search miss copy. Distinct from empty-pipeline “No cases in this list.”
+ */
+export function noCasesMatchMessage(query: string): string {
+  const trimmed = query.trim();
+  if (!trimmed) return "No cases match.";
+  return `No cases match ${trimmed}.`;
+}
+
+/**
  * Toolbar find: resolved Case Number and Client Name only.
  * Rec ids / uuids are not searchable. Compact so `C-02895` matches `C - 02895`.
  */

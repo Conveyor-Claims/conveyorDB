@@ -20,6 +20,7 @@ import {
   EMPTY_CASE_LIST_FILTERS,
   filterCaseRows,
   groupCasesByReferredFirm,
+  noCasesMatchMessage,
   uniqueNextSteps,
   uniqueStoredValues,
   type CaseListFilters,
@@ -331,7 +332,21 @@ export function AllCasesTable({
       </div>
 
       {filteredRows.length === 0 ? (
-        <p className="text-sm leading-6 text-muted">No cases match.</p>
+        <p className="text-sm leading-6 text-muted">
+          {noCasesMatchMessage(search)}
+          {searchOn ? (
+            <>
+              {" "}
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="text-accent hover:text-accent-hover"
+              >
+                Clear
+              </button>
+            </>
+          ) : null}
+        </p>
       ) : (
       <StickyHorizontalScroll
         label="Scroll cases table horizontally"

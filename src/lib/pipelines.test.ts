@@ -5,6 +5,7 @@ import {
   EMPTY_CASE_LIST_FILTERS,
   caseRowMatchesSearch,
   filterCaseRows,
+  noCasesMatchMessage,
 } from "./pipelines";
 
 function listRow(
@@ -81,6 +82,16 @@ test("search matches resolved client name, not rec ids", () => {
       }),
       "recPYFhETjylMoidI",
     ),
+    false,
+  );
+});
+
+test("search miss copy includes the query and is not the empty-pipeline line", () => {
+  assert.equal(noCasesMatchMessage("nope"), "No cases match nope.");
+  assert.equal(noCasesMatchMessage("  zzxyz  "), "No cases match zzxyz.");
+  assert.equal(noCasesMatchMessage(""), "No cases match.");
+  assert.equal(
+    noCasesMatchMessage("nope").includes("No cases in this list"),
     false,
   );
 });
