@@ -46,8 +46,9 @@ export async function CasesListScreen({
           <span className="font-medium text-foreground">
             {pipelineStatusLabel(pipeline)}
           </span>
-          . Grouped by Referred Firm. Filters: firm, next step, assigned.
-          Blank fields stay blank.
+          . Grouped by Referred Firm. Client Name and firm resolve from
+          Contact and Partner cabinets; rec ids with no name stay blank. Case
+          Number is the number only. Filters: firm, next step, assigned.
         </p>
       ) : board ? (
         <p className="max-w-2xl text-sm leading-6 text-muted">
@@ -57,13 +58,17 @@ export async function CasesListScreen({
             {board.dateLabel}
           </span>{" "}
           (non-null), sorted ascending (blanks last). Grouped by Referred Firm.
-          Filters: firm, status, next step, assigned. Blank fields stay blank.
+          Client Name and firm resolve from Contact and Partner cabinets; rec
+          ids with no name stay blank. Case Number is the number only. Filters:
+          firm, status, next step, assigned.
         </p>
       ) : (
         <p className="max-w-2xl text-sm leading-6 text-muted">
           Read-only list from <span className="font-mono">public.cases</span>.
-          Stored values only. Grouped by Referred Firm. Filters: firm, status,
-          next step, assigned. Blank fields stay blank.
+          Client Name and Referred Firm resolve from Contact and Partner
+          cabinets; rec ids with no name stay blank. Case Number is the number
+          only. Grouped by Referred Firm. Filters: firm, status, next step,
+          assigned.
         </p>
       )}
 
