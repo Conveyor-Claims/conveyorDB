@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { SESSION_COOKIE } from "@/lib/session-cookie";
 
-export const SESSION_COOKIE = "conveyordb_session";
+export { SESSION_COOKIE };
 const ADMIN_VALUE = "admin";
 const PARALEGAL_VALUE = "paralegal";
 
@@ -44,13 +45,13 @@ async function setSessionCookie(value: string) {
 export async function signInTemporaryAdmin() {
   "use server";
   await setSessionCookie(ADMIN_VALUE);
-  redirect("/cases");
+  redirect("/");
 }
 
 export async function signInTemporaryParalegal() {
   "use server";
   await setSessionCookie(PARALEGAL_VALUE);
-  redirect("/cases");
+  redirect("/");
 }
 
 export async function signOut() {

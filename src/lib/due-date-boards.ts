@@ -1,12 +1,40 @@
 import type { AllCasesRow, DueDateFilterKey } from "@/lib/cases";
+import { DUE_DATE_SELECT_KEYS } from "@/lib/cases";
 
 /**
- * P23 due-date boards: All Cases filtered/sorted by an existing dest date.
- * Labels match docs/catalog/fields.csv. Do not invent dest columns.
- * Appraisal Client is skipped — no appraisal_client_date / appraisal_client_due_date.
+ * Dest date columns that exist on public.cases.
+ * Do not invent dest columns. Appraisal Client has none.
  */
-export const DUE_DATE_BOARDS = {
-  cid: {
+export const DUE_DATE_DEST_COLUMNS = [
+  ...DUE_DATE_SELECT_KEYS,
+  "sol_deadline",
+] as const satisfies ReadonlyArray<DueDateFilterKey>;
+
+const DEST_DATE_COLUMN_SET = new Set<string>(DUE_DATE_DEST_COLUMNS);
+
+export function destDateColumnExists(
+  column: string | null | undefined,
+): column is DueDateFilterKey {
+  return Boolean(column && DEST_DATE_COLUMN_SET.has(column));
+}
+
+type DueDateBoardDef = {
+  slug: string;
+  href: string;
+  title: string;
+  navLabel: string;
+  dateColumn: DueDateFilterKey | null;
+  dateLabel: string;
+  extraColumns: ReadonlyArray<{ key: keyof AllCasesRow; label: string }>;
+};
+
+/**
+ * Intended due-date boards, including those with no dest column.
+ * Appraisal Client is listed so it can be skipped — there is no
+ * appraisal_client_date / appraisal_client_due_date.
+ */
+const DUE_DATE_BOARD_CANDIDATES = [
+  {
     slug: "cid",
     href: "/boards/cid",
     title: "CID",
@@ -15,7 +43,7 @@ export const DUE_DATE_BOARDS = {
     dateLabel: "CID Due Date",
     extraColumns: [{ key: "cid_due_date", label: "CID Due Date" }],
   },
-  pl: {
+  {
     slug: "pl",
     href: "/boards/pl",
     title: "PL",
@@ -24,7 +52,7 @@ export const DUE_DATE_BOARDS = {
     dateLabel: "PL Due Date",
     extraColumns: [{ key: "pl_due_date", label: "PL Due Date" }],
   },
-  litigation: {
+  {
     slug: "litigation",
     href: "/boards/litigation",
     title: "Litigation due",
@@ -33,7 +61,7 @@ export const DUE_DATE_BOARDS = {
     dateLabel: "Atty Due Date",
     extraColumns: [{ key: "atty_due_date", label: "Atty Due Date" }],
   },
-  euo: {
+  {
     slug: "euo",
     href: "/boards/euo",
     title: "EUO",
@@ -42,7 +70,7 @@ export const DUE_DATE_BOARDS = {
     dateLabel: "EUO Date",
     extraColumns: [{ key: "euo_date", label: "EUO Date" }],
   },
-  "atty-client-appt": {
+  {
     slug: "atty-client-appt",
     href: "/boards/atty-client-appt",
     title: "Atty Client Appt",
@@ -51,7 +79,7 @@ export const DUE_DATE_BOARDS = {
     dateLabel: "Atty Client Appt",
     extraColumns: [{ key: "atty_client_appt", label: "Atty Client Appt" }],
   },
-  rs: {
+  {
     slug: "rs",
     href: "/boards/rs",
     title: "RS",
@@ -60,7 +88,7 @@ export const DUE_DATE_BOARDS = {
     dateLabel: "RS Due Date",
     extraColumns: [{ key: "rs_due_date", label: "RS Due Date" }],
   },
-  "client-comm": {
+  {
     slug: "client-comm",
     href: "/boards/client-comm",
     title: "Client Comm",
@@ -72,7 +100,7 @@ export const DUE_DATE_BOARDS = {
       { key: "recent_client_comm_date", label: "Recent Client Comm Date" },
     ],
   },
-  sol: {
+  {
     slug: "sol",
     href: "/boards/sol",
     title: "SOL",
@@ -81,33 +109,45 @@ export const DUE_DATE_BOARDS = {
     dateLabel: "SOL Deadline",
     extraColumns: [],
   },
-} as const satisfies Record<
-  string,
   {
-    slug: string;
-    href: string;
-    title: string;
-    navLabel: string;
-    dateColumn: DueDateFilterKey;
-    dateLabel: string;
-    extraColumns: ReadonlyArray<{ key: keyof AllCasesRow; label: string }>;
-  }
+    slug: "appraisal-client",
+    href: "/boards/appraisal-client",
+    title: "Appraisal Client",
+    navLabel: "Appraisal Client",
+    dateColumn: null,
+    dateLabel: "Appraisal Client",
+    extraColumns: [],
+  },
+] as const satisfies ReadonlyArray<DueDateBoardDef>;
+
+export type DueDateBoard = Extract<
+  (typeof DUE_DATE_BOARD_CANDIDATES)[number],
+  { dateColumn: DueDateFilterKey }
 >;
 
-export type DueDateBoardSlug = keyof typeof DUE_DATE_BOARDS;
-export type DueDateBoard = (typeof DUE_DATE_BOARDS)[DueDateBoardSlug];
+export type DueDateBoardSlug = DueDateBoard["slug"];
 
-export const DUE_DATE_BOARD_LIST = [
-  DUE_DATE_BOARDS.cid,
-  DUE_DATE_BOARDS.pl,
-  DUE_DATE_BOARDS.litigation,
-  DUE_DATE_BOARDS.euo,
-  DUE_DATE_BOARDS["atty-client-appt"],
-  DUE_DATE_BOARDS.rs,
-  DUE_DATE_BOARDS["client-comm"],
-  DUE_DATE_BOARDS.sol,
-] as const;
+export function boardHasDestColumn(
+  board: DueDateBoardDef,
+): board is DueDateBoard {
+  return destDateColumnExists(board.dateColumn);
+}
+
+/** Boards staff can open. Skips any candidate with no dest column. */
+export const DUE_DATE_BOARD_LIST = DUE_DATE_BOARD_CANDIDATES.filter(
+  boardHasDestColumn,
+);
+
+export const DUE_DATE_BOARDS = Object.fromEntries(
+  DUE_DATE_BOARD_LIST.map((board) => [board.slug, board]),
+) as { [K in DueDateBoardSlug]: Extract<DueDateBoard, { slug: K }> };
 
 export function dueDateBoardBySlug(slug: string): DueDateBoard | undefined {
   return DUE_DATE_BOARD_LIST.find((board) => board.slug === slug);
+}
+
+export function isSkippedDueDateBoardSlug(slug: string): boolean {
+  return DUE_DATE_BOARD_CANDIDATES.some(
+    (board) => board.slug === slug && !boardHasDestColumn(board),
+  );
 }

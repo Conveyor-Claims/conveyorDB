@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test:backup": "npx --yes tsx --test src/lib/backup/refresh.test.ts",
-    "test:related-names": "npx --yes tsx --test src/lib/related-names.test.ts"
+    "test:related-names": "npx --yes tsx --test src/lib/related-names.test.ts",
+    "test:staff-nav": "npx --yes tsx --test src/lib/staff-nav.test.ts src/lib/due-date-boards.test.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",

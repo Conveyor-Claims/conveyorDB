@@ -1,7 +1,11 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { CasesListScreen } from "../../cases/cases-list-screen";
 import { listCases } from "@/lib/visible-cases";
-import { DUE_DATE_BOARD_LIST, dueDateBoardBySlug } from "@/lib/due-date-boards";
+import {
+  DUE_DATE_BOARD_LIST,
+  dueDateBoardBySlug,
+  isSkippedDueDateBoardSlug,
+} from "@/lib/due-date-boards";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +19,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (isSkippedDueDateBoardSlug(slug)) {
+    return { title: "All Cases · ConveyorDB" };
+  }
   const board = dueDateBoardBySlug(slug);
   if (!board) {
     return { title: "Due-date · ConveyorDB" };
@@ -31,6 +38,9 @@ export default async function DueDateBoardPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  if (isSkippedDueDateBoardSlug(slug)) {
+    redirect("/cases");
+  }
   const board = dueDateBoardBySlug(slug);
   if (!board) notFound();
 
