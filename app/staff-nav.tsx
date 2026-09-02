@@ -78,14 +78,14 @@ export function StaffNav({
             key={link.href}
             href={link.href}
             label={link.label}
-            active={isStaffNavActive(pathname, link.href)}
+            active={isStaffNavActive(pathname, link.href, signedIn)}
           />
         ))}
         {showCreateCase ? (
           <NavLink
             href="/cases/new"
             label="Create case"
-            active={isStaffNavActive(pathname, "/cases/new")}
+            active={isStaffNavActive(pathname, "/cases/new", signedIn)}
           />
         ) : null}
         {PIPELINE_NAV_LINKS.slice(1).map((link) => (
@@ -93,7 +93,7 @@ export function StaffNav({
             key={link.href}
             href={link.href}
             label={link.label}
-            active={isStaffNavActive(pathname, link.href)}
+            active={isStaffNavActive(pathname, link.href, signedIn)}
             caseStatuses={link.caseStatuses}
           />
         ))}
@@ -105,7 +105,7 @@ export function StaffNav({
             key={link.href}
             href={link.href}
             label={link.label}
-            active={isStaffNavActive(pathname, link.href)}
+            active={isStaffNavActive(pathname, link.href, signedIn)}
           />
         ))}
       </NavGroup>
@@ -114,7 +114,7 @@ export function StaffNav({
         <NavLink
           href="/health"
           label="Health"
-          active={isStaffNavActive(pathname, "/health")}
+          active={isStaffNavActive(pathname, "/health", signedIn)}
         />
       </div>
 
@@ -134,7 +134,7 @@ export function StaffNav({
           <NavLink
             href="/permissions"
             label="Permissions"
-            active={isStaffNavActive(pathname, "/permissions")}
+            active={isStaffNavActive(pathname, "/permissions", signedIn)}
           />
         ) : null}
         {signedIn ? (
@@ -150,7 +150,7 @@ export function StaffNav({
           <NavLink
             href="/login"
             label="Temporary login"
-            active={isStaffNavActive(pathname, "/login")}
+            active={isStaffNavActive(pathname, "/login", signedIn)}
           />
         )}
       </div>

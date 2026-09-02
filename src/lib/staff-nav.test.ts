@@ -18,11 +18,13 @@ test("sidebar groups pipelines before boards", () => {
   );
 });
 
-test("All Cases is current on / and /cases, not on a case file", () => {
-  assert.equal(isAllCasesPath("/"), true);
+test("All Cases is current on /cases, and on / only after login", () => {
+  assert.equal(isAllCasesPath("/"), false);
+  assert.equal(isAllCasesPath("/", true), true);
   assert.equal(isAllCasesPath("/cases"), true);
   assert.equal(isAllCasesPath("/cases/new"), false);
-  assert.equal(isStaffNavActive("/", ALL_CASES_HREF), true);
+  assert.equal(isStaffNavActive("/", ALL_CASES_HREF), false);
+  assert.equal(isStaffNavActive("/", ALL_CASES_HREF, true), true);
   assert.equal(isStaffNavActive("/cases", ALL_CASES_HREF), true);
   assert.equal(isStaffNavActive("/referrals", ALL_CASES_HREF), false);
   assert.equal(isStaffNavActive("/cases/abc", ALL_CASES_HREF), false);

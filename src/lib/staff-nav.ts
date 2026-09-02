@@ -27,14 +27,18 @@ export const BOARD_NAV_LINKS: readonly StaffNavLink[] =
     label: board.navLabel,
   }));
 
-/** All Cases lives at `/` after login and at `/cases`. */
-export function isAllCasesPath(pathname: string): boolean {
-  return pathname === "/" || pathname === ALL_CASES_HREF;
+/** After login, `/` is All Cases. Signed-out `/` is the login landing. */
+export function isAllCasesPath(pathname: string, signedIn = false): boolean {
+  return pathname === ALL_CASES_HREF || (signedIn && pathname === "/");
 }
 
-export function isStaffNavActive(pathname: string, href: string): boolean {
+export function isStaffNavActive(
+  pathname: string,
+  href: string,
+  signedIn = false,
+): boolean {
   if (href === ALL_CASES_HREF) {
-    return isAllCasesPath(pathname);
+    return isAllCasesPath(pathname, signedIn);
   }
   return pathname === href;
 }
