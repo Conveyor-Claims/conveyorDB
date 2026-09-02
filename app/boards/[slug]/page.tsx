@@ -1,5 +1,6 @@
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { CasesListScreen } from "../../cases/cases-list-screen";
+import { StaffMissingPage } from "../../staff-missing";
 import { listCases } from "@/lib/visible-cases";
 import {
   DUE_DATE_BOARD_LIST,
@@ -42,7 +43,14 @@ export default async function DueDateBoardPage({
     redirect("/cases");
   }
   const board = dueDateBoardBySlug(slug);
-  if (!board) notFound();
+  if (!board) {
+    return (
+      <StaffMissingPage
+        title="Board not found"
+        message="No due-date board at this URL."
+      />
+    );
+  }
 
   const list = await listCases({ dueDateColumn: board.dateColumn });
   return <CasesListScreen title={board.title} list={list} board={board} />;

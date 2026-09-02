@@ -1,4 +1,5 @@
-import { StaffChrome } from "./staff-chrome";
+import { StaffNav } from "./staff-nav";
+import { StaffShell } from "./staff-shell";
 
 function Bone({ className }: { className: string }) {
   return (
@@ -29,15 +30,15 @@ function ListBones() {
 
 export function CasesListSkeleton({ title }: { title: string }) {
   return (
-    <StaffChrome title={title} wide>
+    <StaffShell title={title} wide nav={<StaffNav />}>
       <ListBones />
-    </StaffChrome>
+    </StaffShell>
   );
 }
 
 export function CaseDetailSkeleton() {
   return (
-    <StaffChrome title="">
+    <StaffShell title="" nav={<StaffNav />}>
       <div className="space-y-4" aria-busy="true" aria-live="polite">
         <span className="sr-only">Loading case…</span>
         <Bone className="h-8 w-64" />
@@ -55,6 +56,6 @@ export function CaseDetailSkeleton() {
           ))}
         </div>
       </div>
-    </StaffChrome>
+    </StaffShell>
   );
 }
