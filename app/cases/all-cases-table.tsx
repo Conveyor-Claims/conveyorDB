@@ -10,6 +10,10 @@ import {
   isAllCasesPillKey,
   type AllCasesRow,
 } from "@/lib/cases";
+import {
+  displayCaseNumberOnly,
+  hideRecordRefDisplay,
+} from "@/lib/related-names";
 import { optionsForDest } from "@/lib/select-options";
 import {
   EMPTY_CASE_LIST_FILTERS,
@@ -37,6 +41,25 @@ function toggleValue(current: string[], value: string): string[] {
   return current.includes(value)
     ? current.filter((item) => item !== value)
     : [...current, value];
+}
+
+function listCellText(key: keyof AllCasesRow, value: unknown): string {
+  if (key === "case_number") {
+    return displayCaseNumberOnly(displayCaseValue(value));
+  }
+  if (key === "client_name" || key === "referred_firm") {
+    return hideRecordRefDisplay(displayCaseValue(value));
+  }
+  return displayCaseValue(value);
+}
+
+function listDisplayRow(row: AllCasesRow): AllCasesRow {
+  return {
+    ...row,
+    case_number: displayCaseNumberOnly(row.case_number) || null,
+    client_name: hideRecordRefDisplay(row.client_name ?? "") || null,
+    referred_firm: hideRecordRefDisplay(row.referred_firm ?? "") || null,
+  };
 }
 
 function FilterChoices({
@@ -107,9 +130,10 @@ export function AllCasesTable({
     [columnDefs, visible],
   );
 
+  const displayRows = useMemo(() => rows.map(listDisplayRow), [rows]);
   const filteredRows = useMemo(
-    () => filterCaseRows(rows, filters),
-    [rows, filters],
+    () => filterCaseRows(displayRows, filters),
+    [displayRows, filters],
   );
   const groups = useMemo(
     () => groupCasesByReferredFirm(filteredRows),
@@ -117,21 +141,25 @@ export function AllCasesTable({
   );
 
   const firmChoices = useMemo(
-    () => uniqueStoredValues(rows.map((row) => row.referred_firm)),
-    [rows],
+    () => uniqueStoredValues(displayRows.map((row) => row.referred_firm)),
+    [displayRows],
   );
   const statusChoices = useMemo(
-    () => uniqueStoredValues(rows.map((row) => row.case_status)),
-    [rows],
+    () => uniqueStoredValues(displayRows.map((row) => row.case_status)),
+    [displayRows],
   );
-  const nextStepChoices = useMemo(() => uniqueNextSteps(rows), [rows]);
+  const nextStepChoices = useMemo(
+    () => uniqueNextSteps(displayRows),
+    [displayRows],
+  );
   const specialistChoices = useMemo(
-    () => uniqueStoredValues(rows.map((row) => row.resolutions_specialist)),
-    [rows],
+    () =>
+      uniqueStoredValues(displayRows.map((row) => row.resolutions_specialist)),
+    [displayRows],
   );
   const paralegalChoices = useMemo(
-    () => uniqueStoredValues(rows.map((row) => row.paralegal)),
-    [rows],
+    () => uniqueStoredValues(displayRows.map((row) => row.paralegal)),
+    [displayRows],
   );
 
   const filtersOn =
@@ -175,7 +203,7 @@ export function AllCasesTable({
           <p className="font-mono text-sm text-muted">
             {filteredRows.length}{" "}
             {filteredRows.length === 1 ? "case" : "cases"}
-            {filtersOn ? ` of ${rows.length}` : ""}
+            {filtersOn ? ` of ${displayRows.length}` : ""}
           </p>
           <p className="text-xs text-muted">Grouped by Referred Firm</p>
         </div>
@@ -314,20 +342,22 @@ export function AllCasesTable({
               </tr>
             </tbody>
           ) : (
-            numberedGroups.map((group) => (
+            numberedGroups.map((group) => {
+              const firmName = hideRecordRefDisplay(group.firm);
+              return (
               <tbody key={group.firm || "blank-firm"}>
                 <tr className="border-t border-border bg-wash">
                   <th
                     scope="colgroup"
                     colSpan={columns.length + 1}
                     aria-label={
-                      group.firm ? undefined : "Blank referred firm"
+                      firmName ? undefined : "Blank referred firm"
                     }
                     className={`${cellRule} text-left font-medium text-foreground`}
                   >
-                    {group.firm ? (
+                    {firmName ? (
                       <span className="inline-flex max-w-full items-center truncate rounded-full border border-border bg-background px-2 py-0.5 text-xs">
-                        {group.firm}
+                        {firmName}
                       </span>
                     ) : null}
                     <span className="ml-2 font-mono text-xs font-normal text-muted">
@@ -343,7 +373,7 @@ export function AllCasesTable({
                         {number}
                       </td>
                       {columns.map((column) => {
-                        const text = displayCaseValue(row[column.key]);
+                        const text = listCellText(column.key, row[column.key]);
                         return (
                           <td
                             key={column.key}
@@ -354,7 +384,7 @@ export function AllCasesTable({
                                 href={`/cases/${row.id}`}
                                 className="text-accent underline-offset-2 hover:text-accent-hover hover:underline"
                               >
-                                {text || row.id}
+                                {text}
                               </Link>
                             ) : text &&
                               (isAllCasesPillKey(column.key) ||
@@ -369,7 +399,8 @@ export function AllCasesTable({
                     </tr>
                 ))}
               </tbody>
-            ))
+              );
+            })
           )}
         </table>
       </StickyHorizontalScroll>

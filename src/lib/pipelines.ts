@@ -186,7 +186,7 @@ export type ReferredFirmGroup = {
   rows: AllCasesRow[];
 };
 
-/** Group by stored referred_firm. Blank stays blank. Blank groups sort last. */
+/** Group by referred_firm display name (resolved before list). Blank stays blank. */
 export function groupCasesByReferredFirm(
   rows: AllCasesRow[],
 ): ReferredFirmGroup[] {
