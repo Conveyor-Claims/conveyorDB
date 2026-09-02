@@ -47,7 +47,7 @@ body {
 .cases-table-h-scroll {
   overflow-x: auto;
   scrollbar-width: thin;
-  scrollbar-color: #c5c7cc var(--wash);
+  scrollbar-color: #6b7280 var(--wash);
 }
 
 .cases-table-h-scroll::-webkit-scrollbar {
@@ -59,7 +59,7 @@ body {
 }
 
 .cases-table-h-scroll::-webkit-scrollbar-thumb {
-  background: #c5c7cc;
+  background: #6b7280;
   border-radius: 6px;
 }
 

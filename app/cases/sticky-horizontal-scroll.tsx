@@ -69,7 +69,7 @@ export function StickyHorizontalScroll({
         aria-label={label}
         className={
           overflows
-            ? "cases-table-h-scroll sticky top-0 z-20 min-h-3 rounded-t-xl bg-background"
+            ? "cases-table-h-scroll sticky top-0 z-20 min-h-3 border-b border-border bg-background"
             : "invisible h-0 overflow-hidden"
         }
       >
