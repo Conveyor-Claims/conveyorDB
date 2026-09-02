@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getSession, isSignedIn } from "@/lib/session";
 import {
-  getSession,
-  isSignedIn,
   signInTemporaryAdmin,
   signInTemporaryParalegal,
-} from "@/lib/session";
+} from "@/lib/session-actions";
 import { StaffChrome } from "../staff-chrome";
 
 export const metadata = {

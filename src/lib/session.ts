@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { SESSION_COOKIE } from "@/lib/session-cookie";
 
 export { SESSION_COOKIE };
+
 const ADMIN_VALUE = "admin";
 const PARALEGAL_VALUE = "paralegal";
 
@@ -30,33 +30,4 @@ export function isAdmin(session: Session | null): boolean {
 
 export function isParalegal(session: Session | null): boolean {
   return session?.role === "paralegal";
-}
-
-async function setSessionCookie(value: string) {
-  const store = await cookies();
-  store.set(SESSION_COOKIE, value, {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    secure: process.env.NODE_ENV === "production",
-  });
-}
-
-export async function signInTemporaryAdmin() {
-  "use server";
-  await setSessionCookie(ADMIN_VALUE);
-  redirect("/");
-}
-
-export async function signInTemporaryParalegal() {
-  "use server";
-  await setSessionCookie(PARALEGAL_VALUE);
-  redirect("/");
-}
-
-export async function signOut() {
-  "use server";
-  const store = await cookies();
-  store.delete(SESSION_COOKIE);
-  redirect("/");
 }
