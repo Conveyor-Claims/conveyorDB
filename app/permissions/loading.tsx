@@ -1,9 +1,5 @@
-import { StaffChrome } from "../staff-chrome";
+import { CasesListSkeleton } from "../staff-skeletons";
 
 export default function PermissionsLoading() {
-  return (
-    <StaffChrome title="Permissions" wide>
-      <p className="text-sm text-muted">Loading…</p>
-    </StaffChrome>
-  );
+  return <CasesListSkeleton title="Permissions" />;
 }

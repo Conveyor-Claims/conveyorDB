@@ -1,9 +1,5 @@
-import { StaffChrome } from "../staff-chrome";
+import { CasesListSkeleton } from "../staff-skeletons";
 
 export default function ReInspectionLoading() {
-  return (
-    <StaffChrome title="Re-Inspection" wide>
-      <p className="font-mono text-sm text-muted">Loading cases…</p>
-    </StaffChrome>
-  );
+  return <CasesListSkeleton title="Re-Inspection" />;
 }
