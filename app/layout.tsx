@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ConveyorDB",
-  description: "In-house Airtable replacement for Conveyor Claims.",
+  description: "Conveyor Claims case lists and boards.",
 };
 
 export default function RootLayout({
