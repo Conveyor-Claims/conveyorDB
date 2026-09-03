@@ -71,3 +71,27 @@ body {
 .cases-table-h-scroll-body::-webkit-scrollbar {
   display: none;
 }
+
+/* Case Number and Client Name stay visible while the wide list scrolls. */
+.cases-table-freeze {
+  position: sticky;
+  z-index: 2;
+  background-color: var(--background);
+}
+
+.cases-table-freeze-0 {
+  left: var(--cases-freeze-left-0, 0px);
+}
+
+.cases-table-freeze-1 {
+  left: var(--cases-freeze-left-1, 0px);
+}
+
+.cases-table-freeze-2 {
+  left: var(--cases-freeze-left-2, 0px);
+}
+
+thead .cases-table-freeze {
+  z-index: 11;
+  background-color: var(--wash);
+}

@@ -1,13 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ChoicePill } from "../choice-pill";
 import { StickyHorizontalScroll } from "./sticky-horizontal-scroll";
+import { useFrozenColumnOffsets } from "./use-frozen-column-offsets";
 import {
   ALL_CASES_COLUMNS,
   displayCaseValue,
+  frozenAllCasesSlot,
   isAllCasesPillKey,
+  isFrozenAllCasesColumn,
   type AllCasesRow,
 } from "@/lib/cases";
 import {
@@ -37,7 +40,12 @@ function defaultVisibility(
   return Object.fromEntries(columns.map((column) => [column.key, true]));
 }
 
-const cellRule = "border-x border-border px-4 py-3";
+const cellRule = "border-x border-t border-border px-4 py-3";
+
+function freezeCellClass(slot: number | null): string {
+  if (slot === null) return cellRule;
+  return `${cellRule} cases-table-freeze cases-table-freeze-${slot}`;
+}
 
 function toggleValue(current: string[], value: string): string[] {
   return current.includes(value)
@@ -132,6 +140,13 @@ export function AllCasesTable({
     () => columnDefs.filter((column) => visible[column.key]),
     [columnDefs, visible],
   );
+  const visibleKeys = useMemo(
+    () => columns.map((column) => column.key),
+    [columns],
+  );
+  const freezeCount = 1 + visibleKeys.filter(isFrozenAllCasesColumn).length;
+  const tableRef = useRef<HTMLTableElement>(null);
+  useFrozenColumnOffsets(tableRef, freezeCount);
 
   const displayRows = useMemo(() => rows.map(listDisplayRow), [rows]);
   const filteredRows = useMemo(
@@ -352,14 +367,17 @@ export function AllCasesTable({
         label="Scroll cases table horizontally"
         className="rounded-xl border border-border bg-background"
       >
-        <table className="min-w-full border-collapse text-left text-sm">
+        <table
+          ref={tableRef}
+          className="min-w-full border-separate border-spacing-0 text-left text-sm"
+        >
           <caption className="sr-only">Cases grouped by referred firm</caption>
           <thead className="sticky top-0 z-10 bg-wash">
             <tr>
               <th
                 scope="col"
                 aria-label="Row number"
-                className={`${cellRule} w-12 whitespace-nowrap text-center font-medium text-muted`}
+                className={`${freezeCellClass(0)} w-12 whitespace-nowrap text-center font-medium text-muted`}
               >
                 #
               </th>
@@ -367,7 +385,7 @@ export function AllCasesTable({
                 <th
                   key={column.key}
                   scope="col"
-                  className={`${cellRule} whitespace-nowrap font-medium text-muted`}
+                  className={`${freezeCellClass(frozenAllCasesSlot(column.key, visibleKeys))} whitespace-nowrap font-medium text-muted`}
                 >
                   {column.label}
                 </th>
@@ -400,7 +418,7 @@ export function AllCasesTable({
                 {group.rows.map(({ row, number }) => (
                     <tr key={row.id} className="border-t border-border">
                       <td
-                        className={`${cellRule} text-center align-top font-mono text-xs text-muted`}
+                        className={`${freezeCellClass(0)} text-center align-top font-mono text-xs text-muted`}
                       >
                         {number}
                       </td>
@@ -409,7 +427,7 @@ export function AllCasesTable({
                         return (
                           <td
                             key={column.key}
-                            className={`${cellRule} whitespace-nowrap align-top text-foreground`}
+                            className={`${freezeCellClass(frozenAllCasesSlot(column.key, visibleKeys))} whitespace-nowrap align-top text-foreground`}
                           >
                             {column.key === "case_number" ? (
                               <Link

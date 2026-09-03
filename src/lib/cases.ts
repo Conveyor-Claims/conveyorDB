@@ -28,6 +28,37 @@ export const ALL_CASES_COLUMNS = [
 export type AllCasesColumnKey = (typeof ALL_CASES_COLUMNS)[number]["key"];
 
 /**
+ * Identity columns stay on screen while the rest of the wide list
+ * scrolls horizontally. They are already the first two All Cases columns.
+ */
+export const FROZEN_ALL_CASES_COLUMN_KEYS = [
+  "case_number",
+  "client_name",
+] as const satisfies ReadonlyArray<AllCasesColumnKey>;
+
+export type FrozenAllCasesColumnKey =
+  (typeof FROZEN_ALL_CASES_COLUMN_KEYS)[number];
+
+export function isFrozenAllCasesColumn(
+  key: string,
+): key is FrozenAllCasesColumnKey {
+  return (FROZEN_ALL_CASES_COLUMN_KEYS as readonly string[]).includes(key);
+}
+
+/**
+ * Sticky-left slot for a list cell. `#` is always 0; then visible
+ * Case Number / Client Name in list order. Other columns are not frozen.
+ */
+export function frozenAllCasesSlot(
+  key: "row_number" | string,
+  visibleKeys: readonly string[],
+): number | null {
+  if (key === "row_number") return 0;
+  if (!isFrozenAllCasesColumn(key) || !visibleKeys.includes(key)) return null;
+  return visibleKeys.filter(isFrozenAllCasesColumn).indexOf(key) + 1;
+}
+
+/**
  * Dest date columns used by P23 due-date boards.
  * Selected on the list query; not added to the default 10 All Cases columns.
  * sol_deadline is already one of those 10.
