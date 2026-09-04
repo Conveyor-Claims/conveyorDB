@@ -76,6 +76,8 @@ export async function uploadFileToSlot(
     return { ok: false, status: 400, message: "slot_name is required." };
   }
 
+  // Filled slot = same case_id + slot_name with a storage_path. 409 and keep
+  // the first case-files object. No unique on (case_id, slot_name) — do not add one.
   const filled = await listFilledFilesForSlot(admin, caseId, slotName);
   if (filled.error) {
     return { ok: false, status: 500, message: filled.error };
