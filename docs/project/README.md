@@ -2,7 +2,15 @@
 
 ConveyorDB is Conveyor Claims’ in-house replacement for Airtable. Staff work cases in a Next.js app on Vercel (`conveyor-db` / [conveyor-db.vercel.app](https://conveyor-db.vercel.app)). Sister apps (Intake, Coworking) read and write the same rows through a service-role HTTP API.
 
-This page is the one-page map of the **current** repo. It does not invent screens, tables, or columns. Deeper pages live under [modules/](modules/README.md). The picture is in [architecture.md](architecture.md).
+This page is the one-page map of the **current** repo. It does not invent screens, tables, or columns. Deeper pages live under [modules/](modules/README.md). The picture is in [architecture.md](architecture.md) — Excalidraw PNG plus Mermaid.
+
+## Picture
+
+Highest-level system context (white background). Open the `.excalidraw` file on [excalidraw.com](https://excalidraw.com) to edit.
+
+[![ConveyorDB system context](diagrams/conveyordb-system-context.png)](diagrams/conveyordb-system-context.png)
+
+Source: [`diagrams/conveyordb-system-context.excalidraw`](diagrams/conveyordb-system-context.excalidraw)
 
 ## What it stores (five cabinets)
 

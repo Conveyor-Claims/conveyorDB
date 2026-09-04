@@ -4,7 +4,16 @@ Boxes are **modules that exist in this repo**. Arrows are control or data flow a
 
 White / light fills so the chart stays readable on GitHub’s default background.
 
-## System context
+## Excalidraw (system context)
+
+Clean white-background export for non-engineers. Same highest-level flow as the Mermaid below: staff cookie vs sister-app Bearer, five cabinets on primary, files in `case-files`, backup replica of tables only.
+
+[![ConveyorDB system context](diagrams/conveyordb-system-context.png)](diagrams/conveyordb-system-context.png)
+
+- PNG: [`diagrams/conveyordb-system-context.png`](diagrams/conveyordb-system-context.png)
+- Editable scene (Excalidraw v2, roughness 0): [`diagrams/conveyordb-system-context.excalidraw`](diagrams/conveyordb-system-context.excalidraw)
+
+## System context (Mermaid)
 
 ```mermaid
 flowchart TB
