@@ -2,6 +2,8 @@
 
 In-house Airtable replacement for Conveyor Claims.
 
+**Project documentation (start here):** [`docs/project/README.md`](docs/project/README.md) — one-page map of the system, modules, and architecture. Setup and API notes below stay the source for day-to-day commands.
+
 P11: empty five cabinets (Case, Contact, Partner, Next Step, File).
 
 ## App
